@@ -50,6 +50,8 @@ ThemeData _buildTrackTheme() {
     primaryTextTheme: _buildTrackTextTheme(base.primaryTextTheme),
     accentTextTheme: _buildTrackTextTheme(base.accentTextTheme),
     inputDecorationTheme: InputDecorationTheme(
+      // filled: true,
+      //   fillColor: backBlue,
         enabledBorder: UnderlineInputBorder(
           borderSide: BorderSide(color: newBlueAccent),
         ),
