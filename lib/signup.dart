@@ -193,7 +193,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     }
 
                     if(error == false){
-                      User newUser = User();
+                      //User newUser = User();
                       Navigator.pop(context);
                       Navigator.push(
                         context,

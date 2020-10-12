@@ -1,3 +1,6 @@
+User sampleU = new User('Thomas','Jones',new DateTime.now(),'k1816028@gmail.com','savannah23');
+
+
 class User{
   String firstName;
   String lastName;
@@ -5,8 +8,7 @@ class User{
   String email;
   String password;
 
-  User();
-  userFull(String fn, String ln, DateTime d, String e, String p){
+  User(String fn, String ln, DateTime d, String e, String p){
     this.firstName = fn;
     this.lastName = ln;
     this.dob = d;
