@@ -3,7 +3,11 @@ import 'package:tracker/colors.dart';
 
 class LogComment extends StatelessWidget {
   final _commentController = TextEditingController();
+  final dateNow = new DateTime.now();
+  var sDate = '';
+
   Widget build(BuildContext context) {
+    sDate = dateNow.day.toString() + '-' + dateNow.month.toString() + '-' + dateNow.year.toString();
     return Scaffold(
         appBar: AppBar(
           backgroundColor: newBlue,
@@ -29,8 +33,9 @@ class LogComment extends StatelessWidget {
               ),
               SizedBox(height: 10,),
               Row(
-                mainAxisAlignment: MainAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
+                  Text(sDate),
                   RaisedButton(
                       elevation: 8.0,
                       child: Text('Submit'),
