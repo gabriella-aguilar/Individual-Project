@@ -7,7 +7,7 @@ class LogComment extends StatelessWidget {
   var sDate = '';
 
   Widget build(BuildContext context) {
-    sDate = dateNow.day.toString() + '-' + dateNow.month.toString() + '-' + dateNow.year.toString();
+    sDate = dateNow.day.toString() + ' - ' + dateNow.month.toString() + ' - ' + dateNow.year.toString();
     return Scaffold(
         appBar: AppBar(
           backgroundColor: newBlue,
@@ -35,7 +35,7 @@ class LogComment extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(sDate),
+                  Text(sDate, style: basicText,),
                   RaisedButton(
                       elevation: 8.0,
                       child: Text('Submit'),
