@@ -12,6 +12,12 @@ class SignUpPage extends StatefulWidget {
 class _SignUpPageState extends State<SignUpPage> {
   @override
   Widget build(BuildContext context) {
+    var dateNow = new DateTime.now();
+    String sDate = dateNow.day.toString() +
+        ' - ' +
+        dateNow.month.toString() +
+        ' - ' +
+        dateNow.year.toString();
     final _firstNameController = TextEditingController();
     final _lastNameController = TextEditingController();
     final _dobController = TextEditingController();
@@ -70,27 +76,29 @@ class _SignUpPageState extends State<SignUpPage> {
                   cursorColor: newBlueAccent,
                 ),
                 SizedBox(height: 12.0),
-                GestureDetector(
-                  onTap: (){
-                    DateTime selectedDate = DateTime.now();
-
-                    Future<Null> _selectDate(BuildContext context) async {
-                      final DateTime picked = await showDatePicker(
+                Row(
+                  //crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('DOB'),
+                    SizedBox(width:10),
+                    FlatButton(
+                      //elevation: 8.0,
+                      child: Text(sDate),
+                      textColor: Colors.white,
+                      color: newBlue,
+                      onPressed: () {
+                        showDatePicker(
                           context: context,
-                          initialDate: selectedDate,
-                          firstDate: DateTime(2015, 8),
-                          lastDate: DateTime(2101));
-                      if (picked != null && picked != selectedDate)
-                        setState(() {
-                          selectedDate = picked;
-                          dob = selectedDate.toString();
-                        });
-                    }
-                    //_dobController.text = _selected.toString();
-                  },
-                  child: Text(
-                      dob
-                  ),
+                          initialDate: DateTime.now(),
+                          firstDate: DateTime(1900),
+                          lastDate: DateTime.now(),
+                          errorFormatText: 'Enter valid date',
+                          errorInvalidText: 'Enter date in valid range',
+
+                        );
+                      },
+                    ),
+                  ],
                 ),
                 SizedBox(height: 12.0),
                 TextField(
@@ -126,7 +134,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   cursorColor: newBlueAccent,
                   obscureText: true,
                 ),
-                SizedBox(height:20.0),
+                SizedBox(height: 20.0),
                 RaisedButton(
                   elevation: 8.0,
                   child: Text('Sign Up'),
@@ -150,63 +158,72 @@ class _SignUpPageState extends State<SignUpPage> {
                     // 7 password1 empty
                     //8 password2 empty
                     //9 email invalid
-                    List<bool> errorNums = [false,false];
-                    if(_passwordController.text.toLowerCase().trim() == _passwordControllerConfirm.text.toLowerCase().trim()){
+                    List<bool> errorNums = [false, false];
+                    if (_passwordController.text.toLowerCase().trim() ==
+                        _passwordControllerConfirm.text.toLowerCase().trim()) {
                       error = true;
                       errorNums[0] = true;
                     }
-                    if(_emailController.text.toLowerCase().trim() == _emailControllerConfirm.text.toLowerCase().trim()){
+                    if (_emailController.text.toLowerCase().trim() ==
+                        _emailControllerConfirm.text.toLowerCase().trim()) {
                       error = true;
                       errorNums[1] = true;
                     }
-                    if(_firstNameController.text.isEmpty || _firstNameController.text == ""){
+                    if (_firstNameController.text.isEmpty ||
+                        _firstNameController.text == "") {
                       error = true;
                       errorNums[2] = true;
                     }
-                    if(_lastNameController.text.isEmpty || _lastNameController.text == ""){
+                    if (_lastNameController.text.isEmpty ||
+                        _lastNameController.text == "") {
                       error = true;
                       errorNums[3] = true;
                     }
-                    if(_dobController.text.isEmpty || _dobController.text == ""){ //TODO: Needs to be fixed for datetime
+                    if (_dobController.text.isEmpty ||
+                        _dobController.text == "") {
+                      //TODO: Needs to be fixed for datetime
                       error = true;
                       errorNums[4] = true;
                     }
-                    if(_emailController.text.isEmpty || _emailController.text == ""){
+                    if (_emailController.text.isEmpty ||
+                        _emailController.text == "") {
                       error = true;
                       errorNums[5] = true;
                     }
-                    if(_emailControllerConfirm.text.isEmpty || _emailControllerConfirm.text == ""){
+                    if (_emailControllerConfirm.text.isEmpty ||
+                        _emailControllerConfirm.text == "") {
                       error = true;
                       errorNums[6] = true;
                     }
-                    if(_passwordController.text.isEmpty || _passwordController.text == ""){
+                    if (_passwordController.text.isEmpty ||
+                        _passwordController.text == "") {
                       error = true;
                       errorNums[7] = true;
                     }
-                    if(_passwordControllerConfirm.text.isEmpty || _passwordControllerConfirm.text == ""){
+                    if (_passwordControllerConfirm.text.isEmpty ||
+                        _passwordControllerConfirm.text == "") {
                       error = true;
                       errorNums[8] = true;
                     }
-                    if(_emailController.text.contains('@')){
+                    if (_emailController.text.contains('@')) {
                       error = true;
                       errorNums[9] = true;
                     }
 
-                    if(error == false){
+                    if (error == false) {
                       //User newUser = User();
                       Navigator.pop(context);
                       Navigator.push(
                         context,
                         MaterialPageRoute(builder: (context) => HomePage()),
                       );
-                    }
-                    else{
+                    } else {
                       //TODO:need trigger for error labels
 
                     }
                   },
                 ),
-                SizedBox(height:50.0),
+                SizedBox(height: 50.0),
               ],
             ),
           ],

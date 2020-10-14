@@ -44,7 +44,12 @@ final ThemeData _trackData = _buildTrackTheme();
 ThemeData _buildTrackTheme() {
   final ThemeData base = ThemeData.light();
   return base.copyWith(
-
+    // primaryColor: backBlue,
+    // backgroundColor: backBlue,
+    // accentColor: newBlueAccent,
+    // cardColor: backBlue,
+    // splashColor: newBlueAccent,
+    // highlightColor: newBlueAccent,
     scaffoldBackgroundColor: backBlue,
     textTheme: _buildTrackTextTheme(base.textTheme),
     primaryTextTheme: _buildTrackTextTheme(base.primaryTextTheme),
