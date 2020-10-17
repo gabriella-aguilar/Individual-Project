@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:tracker/colors.dart';
 import 'package:tracker/home.dart';
 import 'package:tracker/signup.dart';
+import 'package:tracker/user.dart';
+import 'package:tracker/forgotPassword.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -62,6 +64,18 @@ class _LoginPageState extends State<LoginPage> {
             ButtonBar(
               children: <Widget>[
                 FlatButton(
+                  child: Text(
+                    'Forgot Password',
+                    style: TextStyle(color: newBlue),
+                  ),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => ForgotPasswordPage()),
+                    );
+                  },
+                ),
+                FlatButton(
                     onPressed: () {
                       Navigator.push(
                         context,
@@ -69,26 +83,19 @@ class _LoginPageState extends State<LoginPage> {
                       );
                     },
                     child: Text('Sign Up', style: TextStyle(color: newBlue))),
-                FlatButton(
-                  child: Text(
-                    'Cancel',
-                    style: TextStyle(color: newBlue),
-                  ),
-                  onPressed: () {
-                    _passwordController.clear();
-                    _usernameController.clear();
-                  },
-                ),
                 RaisedButton(
                   elevation: 8.0,
                   child: Text('Next'),
                   textColor: Colors.white,
                   color: newBlue,
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => HomePage()),
-                    );
+                    if(_usernameController.text.trim() == sampleU.getEmail() && _passwordController.text.trim()==sampleU.getPassword()){
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()),);
+
+                    }
+                    else{
+                      _showInvalidLogin();
+                    }
                   },
                 ),
               ],
@@ -96,6 +103,34 @@ class _LoginPageState extends State<LoginPage> {
           ],
         ),
       ),
+    );
+  }
+
+  Future<void> _showInvalidLogin() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Invalid Credentials'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text('Your username or password is incorrect.'),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            RaisedButton(
+              elevation: 8,
+              child: Text('Try Again'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }
