@@ -10,6 +10,7 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
+  final _dobController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     var dateNow = new DateTime.now();
@@ -20,7 +21,8 @@ class _SignUpPageState extends State<SignUpPage> {
         dateNow.year.toString();
     final _firstNameController = TextEditingController();
     final _lastNameController = TextEditingController();
-    final _dobController = TextEditingController();
+
+    _dobController.text= sDate;
     final _emailController = TextEditingController();
     final _passwordController = TextEditingController();
     final _emailControllerConfirm = TextEditingController();
@@ -83,20 +85,21 @@ class _SignUpPageState extends State<SignUpPage> {
                     SizedBox(width: 10),
                     FlatButton(
                       //elevation: 8.0,
-                      child: Text(sDate),
+                      child: Text(_dobController.text),
                       textColor: Colors.white,
                       color: newBlue,
-                      onPressed: () {
-                        showDatePicker(
-                          context: context,
-                          initialDate: DateTime.now(),
-                          firstDate: DateTime(1900),
-                          lastDate: DateTime.now(),
-                          errorFormatText: 'Enter valid date',
-                          errorInvalidText: 'Enter date in valid range',
-
-                        );
-                      },
+                      onPressed: () => _selectDate(context, dateNow)
+                      // { 
+                      //   // showDatePicker(
+                      //   //   context: context,
+                      //   //   initialDate: DateTime.now(),
+                      //   //   firstDate: DateTime(1900),
+                      //   //   lastDate: DateTime.now(),
+                      //   //   errorFormatText: 'Enter valid date',
+                      //   //   errorInvalidText: 'Enter date in valid range',
+                      //   //
+                      //   // );
+                      // },
                     ),
                   ],
                 ),
@@ -151,5 +154,23 @@ class _SignUpPageState extends State<SignUpPage> {
         ),
       ),
     );
+  }
+
+   Future<String>_selectDate(BuildContext context, DateTime dateNow) async {
+    final DateTime picked = await showDatePicker(
+      context: context,
+      initialDate: dateNow, // Refer step 1
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2025),
+    );
+    if (picked != null && picked != dateNow){
+      String sDate = dateNow.day.toString() +
+          ' - ' +
+          dateNow.month.toString() +
+          ' - ' +
+          dateNow.year.toString();
+      setState(() {
+        _dobController.text = sDate;
+      });}
   }
 }
