@@ -8,7 +8,7 @@ import 'package:tracker/calendar.dart';
 class ProfilePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final _currentUser = sampleU;
-    var dateNow = _currentUser.dob;
+    var dateNow = _currentUser.getDob();
     String sDate = dateNow.day.toString() +
         ' - ' +
         dateNow.month.toString() +
@@ -51,16 +51,16 @@ class ProfilePage extends StatelessWidget {
                       ),
                       Text(
                         'Name: ' +
-                            _currentUser.firstName +
+                            _currentUser.getFirstName() +
                             ' ' +
-                            _currentUser.lastName,
+                            _currentUser.getLastName(),
                         style: basicText,
                       ),
                       SizedBox(
                         height: 10,
                       ),
                       Text(
-                        'Email: ' + _currentUser.email,
+                        'Email: ' + _currentUser.getEmail(),
                         style: basicText,
                       ),
                       SizedBox(

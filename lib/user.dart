@@ -2,32 +2,32 @@ User sampleU = new User('Thomas','Jones',new DateTime.now(),'k1816028@gmail.com'
 
 
 class User{
-  String firstName;
-  String lastName;
-  DateTime dob;
-  String email;
-  String password;
+  String _firstName;
+  String _lastName;
+  DateTime _dob;
+  String _email;
+  String _password;
 
   User(String fn, String ln, DateTime d, String e, String p){
-    this.firstName = fn;
-    this.lastName = ln;
-    this.dob = d;
-    this.email = e;
-    this.password = p;
+    this._firstName = fn;
+    this._lastName = ln;
+    this._dob = d;
+    this._email = e;
+    this._password = p;
   }
 
-  String getFirstName(){return this.firstName;}
-  void setFirstName(String fn){this.firstName = fn;}
+  String getFirstName(){return this._firstName;}
+  void setFirstName(String fn){this._firstName = fn;}
 
-  String getLastName(){return this.lastName;}
-  void setLastName(String ln){this.lastName = ln;}
+  String getLastName(){return this._lastName;}
+  void setLastName(String ln){this._lastName = ln;}
 
-  DateTime getDob() {return this.dob;}
-  void setDob(DateTime d) {this.dob = d;}
+  DateTime getDob() {return this._dob;}
+  void setDob(DateTime d) {this._dob = d;}
 
-  String getEmail(){return this.email;}
-  void setEmail(String e){this.email = e;}
+  String getEmail(){return this._email;}
+  void setEmail(String e){this._email = e;}
 
-  String getPassword(){return this.password;}
-  void setPassword(String p){this.password = p;}
+  String getPassword(){return this._password;}
+  void setPassword(String p){this._password = p;}
 }
