@@ -60,7 +60,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
       barrierDismissible: false, // user must tap button!
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Invalid Credentials'),
+          title: Text("We'll get back to you!"),
           content: SingleChildScrollView(
             child: ListBody(
               children: <Widget>[
