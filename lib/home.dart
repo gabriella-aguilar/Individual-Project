@@ -11,6 +11,7 @@ import 'package:tracker/calendar.dart';
 class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       backgroundColor: backBlue,
       bottomNavigationBar: BottomAppBar(
@@ -73,128 +74,143 @@ class HomePage extends StatelessWidget {
           style: TextStyle(color: Colors.white),
         ),
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
+      body: ListView(
+        //padding: EdgeInsets.symmetric( vertical: 24),
+        //mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: <Widget>[
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => LogMeal()),
-                      );
-                    },
-                    child: Card(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: <Widget>[
-                          Icon(
-                            Icons.fastfood,
-                            size: 100,
-                            color: newBlueAccent,
-                            semanticLabel: 'food',
-                          ),
-                          Text(
-                            'Log A Meal',
-                            style: TextStyle(fontSize: 20),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => LogActivity()),
-                      );
-                    },
-                    child: Card(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: <Widget>[
-                          Icon(
-                            Icons.fitness_center,
-                            size: 100,
-                            color: newBlueAccent,
-                            semanticLabel: 'exercise',
-                          ),
-                          Text(
-                            'Log An Activity',
-                            style: TextStyle(fontSize: 20),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
+          GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => LogMeal()),
+              );
+            },
+            child:Container(
+              decoration: BoxDecoration(
+                color: backBlue,
+                border: Border(
+                  bottom: BorderSide(width: 1.0, color: newBlueAccent),
+                ),
               ),
-              SizedBox(height: 50),
+              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+              //color: Colors.white,
+              child:
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => LogPain()),
-                      );
-                    },
-
-                      child: Card(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: <Widget>[
-                            Icon(
-                              Icons.healing,
-                              size: 100,
-                              color: newBlueAccent,
-                              semanticLabel: 'pain',
-                            ),
-                            Text(
-                              'Log A Pain',
-                              style: TextStyle(fontSize: 20),
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => LogComment()),
-                      );
-                    },
-                    child: Card(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: <Widget>[
-                          Icon(
-                            Icons.insert_comment,
-                            size: 100,
-                            color: newBlueAccent,
-                            semanticLabel: 'comment',
-                          ),
-                          Text(
-                            'Log A Comment',
-                            style: TextStyle(fontSize: 20),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ],
+                Icon(
+                  Icons.fastfood,
+                  size: 75,
+                  color: newBlueAccent,
+                  semanticLabel: 'food',
+                ),
+                Text(
+                  'Log A Meal',
+                  style: TextStyle(fontSize: 20),
+                )
+              ],)
+            )
           ),
+          GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => LogActivity()),
+                );
+              },
+              child:Container(
+                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                  decoration: BoxDecoration(
+                    color:backBlue,
+                    border: Border(
+                      bottom: BorderSide(width: 1.0, color: newBlueAccent),
+                    ),
+                  ),
+                  child:
+                  Row(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Icon(
+                        Icons.fitness_center,
+                        size: 100,
+                        color: newBlueAccent,
+                        semanticLabel: 'exercise',
+                      ),
+                      Text(
+                        'Log An Activity',
+                        style: TextStyle(fontSize: 20),
+                      )
+                    ],)
+              )
+          ),
+          GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => LogPain()),
+                );
+              },
+              child:Container(
+                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                  decoration: BoxDecoration(
+                    color: backBlue,
+                    border: Border(
+                      bottom: BorderSide(width: 1.0, color: newBlueAccent),
+                    ),
+                  ),
+                  child:
+                  Row(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Icon(
+                        Icons.healing,
+                        size: 100,
+                        color: newBlueAccent,
+                        semanticLabel: 'pain',
+                      ),
+                      Text(
+                        'Log A Pain',
+                        style: TextStyle(fontSize: 20),
+                      )
+                    ],)
+              )
+          ),
+          GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => LogComment()),
+                );
+              },
+              child:Container(
+                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                  decoration: BoxDecoration(
+                    color: backBlue,
+                    border: Border(
+                      bottom: BorderSide(width: 1.0, color: newBlueAccent),
+                    ),
+                  ),
+                  child:
+                  Row(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Icon(
+                        Icons.insert_comment,
+                        size: 100,
+                        color: newBlueAccent,
+                        semanticLabel: 'comment',
+                      ),
+                      Text(
+                        'Log A Comment',
+                        style: TextStyle(fontSize: 20),
+                      )
+                    ],)
+              )
+          )
         ],
       ),
     );
