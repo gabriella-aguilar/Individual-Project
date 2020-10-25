@@ -19,7 +19,7 @@ class _LoginPageState extends State<LoginPage> {
       appBar: AppBar(
         title: const Text(
           'Symptom Tracker',
-          style: TextStyle(color: Colors.white),
+          style: TextStyle(color: backBlue),
         ),
         automaticallyImplyLeading: false,
         centerTitle: true,

@@ -8,8 +8,17 @@ class LogMeal extends StatelessWidget{
       body: Column(
         children: <Widget>[
           AppBar(
+            leading: Builder(
+              builder: (BuildContext context) {
+                return IconButton(
+                  icon: const Icon(Icons.arrow_back,color: backBlue,),
+                  onPressed: () { Navigator.pop(context); },
+
+                );
+              },
+            ),
             backgroundColor: newBlue,
-            title: Text('Log a Meal',style: TextStyle(color: Colors.white),),
+            title: Text('Log a Meal',style: TextStyle(color: backBlue),),
           ),
         ],
       ),

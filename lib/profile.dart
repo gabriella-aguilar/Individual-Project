@@ -16,14 +16,23 @@ class ProfilePage extends StatelessWidget {
         dateNow.year.toString();
     return Scaffold(
         appBar: AppBar(
+          leading: Builder(
+            builder: (BuildContext context) {
+              return IconButton(
+                icon: const Icon(Icons.arrow_back,color: backBlue,),
+                onPressed: () { Navigator.pop(context); },
+
+              );
+            },
+          ),
           backgroundColor: newBlue,
           title: Text(
             'Profile Page',
-            style: TextStyle(color: Colors.white),
+            style: TextStyle(color: backBlue),
           ),
         ),
         bottomNavigationBar: BottomAppBar(
-          color: Colors.white,
+          color: newBlue,
           elevation: 2,
           child:ButtonBar(
             alignment: MainAxisAlignment.spaceAround,
@@ -33,7 +42,7 @@ class ProfilePage extends StatelessWidget {
                 child: Icon(
                   Icons.home,
                   size: 35,
-                  color: newBlue,
+                  color: newBlueAccent,
                 ),
                 onPressed: () {
                   Navigator.pop(context);
@@ -45,7 +54,7 @@ class ProfilePage extends StatelessWidget {
                 },
               ),
               FlatButton(
-                child: Icon(Icons.calendar_today, size: 35, color: newBlue),
+                child: Icon(Icons.calendar_today, size: 35, color: newBlueAccent),
                 onPressed: () {
                   Navigator.pop(context);
                   Navigator.push(
@@ -56,7 +65,7 @@ class ProfilePage extends StatelessWidget {
                 },
               ),
               FlatButton(
-                child: Icon(Icons.equalizer, size: 35, color: newBlue),
+                child: Icon(Icons.equalizer, size: 35, color: newBlueAccent),
                 onPressed: () {
                   Navigator.pop(context);
                   Navigator.push(
@@ -68,7 +77,7 @@ class ProfilePage extends StatelessWidget {
               ),
               FlatButton(
                 child: Icon(Icons.account_circle,
-                    size: 35, color: newBlueAccent),
+                    size: 35, color: backBlue),
                 onPressed: () {},
               ),
             ],

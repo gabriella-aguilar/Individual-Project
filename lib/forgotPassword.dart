@@ -12,9 +12,18 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
     final _usernameController = TextEditingController();
     return Scaffold(
         appBar: AppBar(
+          leading: Builder(
+            builder: (BuildContext context) {
+              return IconButton(
+                icon: const Icon(Icons.arrow_back,color: backBlue,),
+                onPressed: () { Navigator.pop(context); },
+
+              );
+            },
+          ),
           title: const Text(
             'Symptom Tracker',
-            style: TextStyle(color: Colors.white),
+            style: TextStyle(color: backBlue),
           ),
           automaticallyImplyLeading: false,
           centerTitle: true,

@@ -15,9 +15,18 @@ class _SymptomPickerPageState extends State<SymptomPickerPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          leading: Builder(
+            builder: (BuildContext context) {
+              return IconButton(
+                icon: const Icon(Icons.arrow_back,color: backBlue,),
+                onPressed: () { Navigator.pop(context); },
+
+              );
+            },
+          ),
           title: const Text(
             'Pick Your Symptoms',
-            style: TextStyle(color: Colors.white),
+            style: TextStyle(color: backBlue),
           ),
           //automaticallyImplyLeading: false,
           centerTitle: true,

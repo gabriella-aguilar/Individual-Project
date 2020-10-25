@@ -23,10 +23,19 @@ class _LogActivityState extends State<LogActivity> {
         dateNow.year.toString();
     return Scaffold(
         appBar: AppBar(
+          leading: Builder(
+            builder: (BuildContext context) {
+              return IconButton(
+                icon: const Icon(Icons.arrow_back,color: backBlue,),
+                onPressed: () { Navigator.pop(context); },
+
+              );
+            },
+          ),
           backgroundColor: newBlue,
           title: Text(
             'Log an Activity',
-            style: TextStyle(color: Colors.white),
+            style: TextStyle(color: backBlue),
           ),
         ),
         backgroundColor: backBlue,

@@ -18,10 +18,19 @@ class _LogCommentState extends State<LogComment> {
     sDate = dateNow.day.toString() + ' - ' + dateNow.month.toString() + ' - ' + dateNow.year.toString();
     return Scaffold(
         appBar: AppBar(
+          leading: Builder(
+            builder: (BuildContext context) {
+              return IconButton(
+                icon: const Icon(Icons.arrow_back,color: backBlue,),
+                onPressed: () { Navigator.pop(context); },
+
+              );
+            },
+          ),
           backgroundColor: newBlue,
           title: Text(
             'Log a Comment:',
-            style: TextStyle(color: Colors.white),
+            style: TextStyle(color: backBlue),
           ),
         ),
         backgroundColor: backBlue,
