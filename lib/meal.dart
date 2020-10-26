@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tracker/colors.dart';
-
+import 'package:tracker/mealClass.dart';
 class LogMeal extends StatefulWidget {
   @override
   _LogMealState createState() => _LogMealState();
@@ -14,6 +14,12 @@ class _LogMealState extends State<LogMeal> {
   bool _meatController = false;
   bool _dairyController = false;
   Widget build(BuildContext context) {
+    var sDate = '';
+    sDate = DateTime.now().day.toString() +
+        ' - ' +
+        DateTime.now().month.toString() +
+        ' - ' +
+        DateTime.now().year.toString();
     return Scaffold(
         backgroundColor: backBlue,
         appBar: AppBar(
@@ -67,6 +73,22 @@ class _LogMealState extends State<LogMeal> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
+                  Text('Sugar',style: basicText,),
+                  Checkbox(
+                    value: _sugarController,
+                    activeColor: newBlueAccent,
+                    checkColor: newBlueAccent,
+                    onChanged: (value) {
+                      setState(() {
+                        _sugarController = value;
+                      });
+                    },
+                  )
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
                   Text('Alcohol',style: basicText,),
                   Checkbox(
                     value: _alcoholController,
@@ -112,6 +134,25 @@ class _LogMealState extends State<LogMeal> {
                   )
                 ],
               ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    sDate,
+                    style: TextStyle(fontSize: 14),
+                  ),
+                  RaisedButton(
+                      elevation: 8.0,
+                      child: Text('Submit'),
+                      textColor: Colors.white,
+                      color: newBlue,
+                      onPressed: () {
+                        Meal m = new Meal(_nameController.text,_glutenController,_alcoholController,_sugarController,_meatController,_dairyController);
+                        Navigator.pop(context);
+                      }),
+                  //SizedBox(width: 10,)
+                ],
+              )
             ],
           ),
         )]));

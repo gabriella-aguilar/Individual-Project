@@ -64,7 +64,8 @@ class _SymptomPickerPageState extends State<SymptomPickerPage> {
               color: backBlue,
               onPressed: () {
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => HomePage()));
+                    PageRouteBuilder(
+                        pageBuilder: (_, __, ___) => HomePage()));
               },
             ),
           ]),
@@ -79,7 +80,8 @@ class _SymptomPickerPageState extends State<SymptomPickerPage> {
   _customS (BuildContext context) async {
      cust = await Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => CustomSymptomPage()),
+       PageRouteBuilder(
+           pageBuilder: (_, __, ___) => CustomSymptomPage()),
     );
 
      setState(() {

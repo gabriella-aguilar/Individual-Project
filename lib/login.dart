@@ -76,8 +76,8 @@ class _LoginPageState extends State<LoginPage> {
                           onPressed: () {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(
-                                  builder: (context) => ForgotPasswordPage()),
+                                PageRouteBuilder(
+                                    pageBuilder: (_, __, ___) => ForgotPasswordPage())
                             );
                           },
                         ),
@@ -85,8 +85,8 @@ class _LoginPageState extends State<LoginPage> {
                             onPressed: () {
                               Navigator.push(
                                 context,
-                                MaterialPageRoute(
-                                    builder: (context) => SignUpPage()),
+                                PageRouteBuilder(
+                                    pageBuilder: (_, __, ___) => SignUpPage()),
                               );
                             },
                             child:
@@ -103,7 +103,8 @@ class _LoginPageState extends State<LoginPage> {
                                     sampleU.getPassword()) {
                               Navigator.push(
                                 context,
-                                MaterialPageRoute(builder: (context) => HomePage()),
+                                PageRouteBuilder(
+                                    pageBuilder: (_, __, ___) => HomePage()),
                               );
                             } else {
                               _showInvalidLogin();

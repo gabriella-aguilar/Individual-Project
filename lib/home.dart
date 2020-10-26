@@ -97,7 +97,8 @@ class HomePage extends StatelessWidget {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => LogMeal()),
+                PageRouteBuilder(
+                    pageBuilder: (_, __, ___) => LogMeal()),
               );
             },
             child:Container(
@@ -132,7 +133,8 @@ class HomePage extends StatelessWidget {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => LogActivity()),
+                    PageRouteBuilder(
+                        pageBuilder: (_, __, ___) => LogActivity())
                 );
               },
               child:Container(
@@ -166,7 +168,8 @@ class HomePage extends StatelessWidget {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => LogPain()),
+                    PageRouteBuilder(
+                        pageBuilder: (_, __, ___) => LogPain())
                 );
               },
               child:Container(
@@ -200,7 +203,8 @@ class HomePage extends StatelessWidget {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => LogComment()),
+                  PageRouteBuilder(
+                      pageBuilder: (_, __, ___) => LogComment()),
                 );
               },
               child:Container(

@@ -138,9 +138,8 @@ class _SignUpPageState extends State<SignUpPage> {
                   color: newBlue,
                   onPressed: () {
                     Navigator.push(context,
-                        MaterialPageRoute(
-                            builder: (context)=>SymptomPickerPage(),
-                        )
+                        PageRouteBuilder(
+                            pageBuilder: (_, __, ___) => SymptomPickerPage())
                     );},
                 ),
                 SizedBox(height: 50.0),

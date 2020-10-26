@@ -55,11 +55,11 @@ class _LogCommentState extends State<LogComment> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(sDate, style: basicText,),
+                  Text(sDate, style: TextStyle(fontSize: 14),),
                   RaisedButton(
                       elevation: 8.0,
                       child: Text('Submit'),
-                      textColor: Colors.white,
+                      textColor: backBlue,
                       color: newBlue,
                       onPressed: (){
                         

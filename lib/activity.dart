@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tracker/colors.dart';
-
+import 'package:tracker/activityClass.dart';
 class LogActivity extends StatefulWidget {
   LogActivity({Key key}) : super(key: key);
 
@@ -12,11 +12,11 @@ class _LogActivityState extends State<LogActivity> {
   final _titleController = TextEditingController();
   final _commentController = TextEditingController();
   final dateNow = new DateTime.now();
-  var sDate = '';
+
   double _currentSliderValue = 0;
 
   Widget build(BuildContext context) {
-
+    var sDate = '';
     sDate = dateNow.day.toString() +
         ' - ' +
         dateNow.month.toString() +
@@ -105,14 +105,17 @@ class _LogActivityState extends State<LogActivity> {
                 children: [
                   Text(
                     sDate,
-                    style: basicText,
+                    style: TextStyle(fontSize: 14),
                   ),
                   RaisedButton(
                       elevation: 8.0,
                       child: Text('Submit'),
-                      textColor: Colors.white,
+                      textColor: backBlue,
                       color: newBlue,
-                      onPressed: () {}),
+                      onPressed: () {
+                        Activity a = new Activity(_titleController.text, _currentSliderValue.toInt(), _commentController.text);
+                        Navigator.pop(context);
+                      }),
                   //SizedBox(width: 10,)
                 ],
               )

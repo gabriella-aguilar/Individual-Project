@@ -6,6 +6,15 @@ class Meal{
   bool _meat;
   bool _dairy;
 
+  Meal(String n,bool g, bool a, bool s, bool m, bool d){
+    _name = n;
+    _gluten = g;
+    _alcohol = a;
+    _sugar = s;
+    _meat = m;
+    _dairy = d;
+  }
+
   String getName(){return _name;}
   void setName(String n){_name=n;}
 
