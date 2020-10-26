@@ -10,24 +10,20 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
-  final _dobController = TextEditingController();
+  final _firstNameController = TextEditingController();
+  final _lastNameController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+  final _emailControllerConfirm = TextEditingController();
+  final _passwordControllerConfirm = TextEditingController();
+  String _dob = '';
+
   @override
   Widget build(BuildContext context) {
-    var dateNow = new DateTime.now();
-    String sDate = dateNow.day.toString() +
-        ' - ' +
-        dateNow.month.toString() +
-        ' - ' +
-        dateNow.year.toString();
-    final _firstNameController = TextEditingController();
-    final _lastNameController = TextEditingController();
+    if(_dob == ''){
+      _dob = dateFormat(DateTime.now());
+    }
 
-    _dobController.text= sDate;
-    final _emailController = TextEditingController();
-    final _passwordController = TextEditingController();
-    final _emailControllerConfirm = TextEditingController();
-    final _passwordControllerConfirm = TextEditingController();
-    String dob = 'Date of Birth';
     return Scaffold(
       appBar: AppBar(
         leading: Builder(
@@ -43,7 +39,6 @@ class _SignUpPageState extends State<SignUpPage> {
           'Sign Up',
           style: TextStyle(color: backBlue),
         ),
-        //automaticallyImplyLeading: false,
         centerTitle: true,
         backgroundColor: newBlue,
       ),
@@ -94,21 +89,10 @@ class _SignUpPageState extends State<SignUpPage> {
                     SizedBox(width: 10),
                     FlatButton(
                       //elevation: 8.0,
-                      child: Text(_dobController.text),
-                      textColor: Colors.white,
+                      child: Text(_dob),
+                      textColor: backBlue,
                       color: newBlue,
-                      onPressed: () => _selectDate(context, dateNow)
-                      // { 
-                      //   // showDatePicker(
-                      //   //   context: context,
-                      //   //   initialDate: DateTime.now(),
-                      //   //   firstDate: DateTime(1900),
-                      //   //   lastDate: DateTime.now(),
-                      //   //   errorFormatText: 'Enter valid date',
-                      //   //   errorInvalidText: 'Enter date in valid range',
-                      //   //
-                      //   // );
-                      // },
+                      onPressed: () => _selectDate(context)
                     ),
                   ],
                 ),
@@ -150,14 +134,12 @@ class _SignUpPageState extends State<SignUpPage> {
                 RaisedButton(
                   elevation: 8.0,
                   child: Text('Next'),
-                  textColor: Colors.white,
+                  textColor: backBlue,
                   color: newBlue,
                   onPressed: () {
-                    Navigator.pop(context);
                     Navigator.push(context,
                         MaterialPageRoute(
                             builder: (context)=>SymptomPickerPage(),
-
                         )
                     );},
                 ),
@@ -170,21 +152,28 @@ class _SignUpPageState extends State<SignUpPage> {
     );
   }
 
-   Future<String>_selectDate(BuildContext context, DateTime dateNow) async {
+   _selectDate(BuildContext context) async {
     final DateTime picked = await showDatePicker(
       context: context,
-      initialDate: dateNow, // Refer step 1
+      initialDate: DateTime.now(), // Refer step 1
       firstDate: DateTime(2000),
       lastDate: DateTime(2025),
     );
-    if (picked != null && picked != dateNow){
-      String sDate = dateNow.day.toString() +
-          ' - ' +
-          dateNow.month.toString() +
-          ' - ' +
-          dateNow.year.toString();
+    if (picked != null && picked != DateTime.now()){
+
+
       setState(() {
-        _dobController.text = sDate;
+       // _dobController.text = sDate;
+        _dob = dateFormat(picked);
       });}
+  }
+
+  String dateFormat(DateTime d){
+    String sDate = d.day.toString() +
+        ' - ' +
+        d.month.toString() +
+        ' - ' +
+        d.year.toString();
+    return sDate;
   }
 }

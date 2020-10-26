@@ -13,9 +13,10 @@ class _LogActivityState extends State<LogActivity> {
   final _commentController = TextEditingController();
   final dateNow = new DateTime.now();
   var sDate = '';
+  double _currentSliderValue = 0;
 
   Widget build(BuildContext context) {
-    double _currentSliderValue = 20;
+
     sDate = dateNow.day.toString() +
         ' - ' +
         dateNow.month.toString() +
