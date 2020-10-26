@@ -6,5 +6,6 @@ const backBlue = const Color(0xFFE8EAF6);
 
 const basicText = TextStyle(
   fontSize: 18,
+  color: newBlueAccent
 );
 

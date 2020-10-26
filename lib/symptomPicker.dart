@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:tracker/colors.dart';
+import 'package:tracker/customSymptom.dart';
 import 'package:tracker/home.dart';
 import 'package:tracker/dummyDate.dart';
+import 'package:tracker/symptom.dart';
 import 'dart:async';
 
 class SymptomPickerPage extends StatefulWidget {
@@ -10,7 +12,9 @@ class SymptomPickerPage extends StatefulWidget {
 }
 
 class _SymptomPickerPageState extends State<SymptomPickerPage> {
-  List symptoms = getDummyData();
+  final _symptoms = getDummyData();
+  final _tracking = new Set();
+  Symptom cust;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,9 +22,13 @@ class _SymptomPickerPageState extends State<SymptomPickerPage> {
           leading: Builder(
             builder: (BuildContext context) {
               return IconButton(
-                icon: const Icon(Icons.arrow_back,color: backBlue,),
-                onPressed: () { Navigator.pop(context); },
-
+                icon: const Icon(
+                  Icons.arrow_back,
+                  color: backBlue,
+                ),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
               );
             },
           ),
@@ -32,22 +40,82 @@ class _SymptomPickerPageState extends State<SymptomPickerPage> {
           centerTitle: true,
           backgroundColor: newBlue,
         ),
+        bottomNavigationBar: BottomAppBar(
+          color: newBlue,
+          child:Container(
+            padding: EdgeInsets.only(bottom: 5,top: 5),
+            child:Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+
+            RaisedButton(
+              elevation: 8.0,
+              child: Text('Custom Symptom'),
+              textColor: newBlueAccent,
+              color: backBlue,
+              onPressed: () {
+                _customS(context);
+              },
+            ),
+            RaisedButton(
+              elevation: 8.0,
+              child: Text('Sign Up'),
+              textColor: newBlueAccent,
+              color: backBlue,
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => HomePage()));
+              },
+            ),
+          ]),
+        )),
         body: SafeArea(
           child: ListView(
-            padding: EdgeInsets.symmetric(horizontal: 24.0),
-            children: <Widget>[
-              RaisedButton(
-                elevation: 8.0,
-                child: Text('Sign Up'),
-                textColor: Colors.white,
-                color: newBlue,
-                onPressed: () {
-                  Navigator.pop(context);
-                  Navigator.push(context,MaterialPageRoute(builder: (context)=>HomePage()));},
-              ),
-              SizedBox(height: 50.0),
-            ],
-          ),
+              children: _listBuilder()
+          )
         ));
+  }
+
+  _customS (BuildContext context) async {
+     cust = await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => CustomSymptomPage()),
+    );
+
+     setState(() {
+       _symptoms.add(cust);
+       _tracking.add(cust);
+     });
+     cust = null;
+
+  }
+
+
+  List _listBuilder(){
+    List <ListTile> tiles = new List<ListTile>();
+    for(Symptom s in _symptoms){
+      tiles.add(_buildRow(s));
+    }
+    return tiles;
+  }
+
+  Widget _buildRow(Symptom s) {
+    final alreadySaved = _tracking.contains(s);
+    return ListTile(
+      title: Text(s.getName()),
+      trailing: Icon(
+        alreadySaved ? Icons.check_box_rounded : Icons.check_box_outline_blank,
+        color: newBlueAccent ,
+      ),
+      onTap: (){
+        setState(() {
+          if(alreadySaved){
+            _tracking.remove(s);
+          }else{
+            _tracking.add(s);
+          }
+        });
+      },
+    );
   }
 }

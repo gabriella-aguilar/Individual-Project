@@ -82,8 +82,8 @@ class HomePage extends StatelessWidget {
       ),
     );
 
-    //double heightAB = a.preferredSize.height + 65;
-    final double height = MediaQuery.of(context).size.height - 145;
+    double heightAB = a.preferredSize.height + 90;
+    final double height = MediaQuery.of(context).size.height - heightAB;
     final double cHeight = height * 0.25;
     return Scaffold(
       backgroundColor: backBlue,

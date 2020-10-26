@@ -1,6 +1,6 @@
 import 'package:tracker/symptom.dart';
-List getDummyData(){
-  List starterSymp= [];
+Set getDummyData(){
+  final starterSymp= Set<Symptom>();
   starterSymp.add(new Symptom('Joint Pain', true, true, true, true));
   starterSymp.add(new Symptom('Headache', true, false, true, true));
   starterSymp.add(new Symptom('Menstruation', true, false, false, true));
@@ -12,3 +12,4 @@ List getDummyData(){
   starterSymp.add(new Symptom('Fog', true, true, true, true));
   return starterSymp;
 }
+
