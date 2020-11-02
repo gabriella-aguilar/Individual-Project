@@ -10,6 +10,9 @@ Set getDummyData(){
   starterSymp.add(new Symptom('Swelling', true, true, true, true));
   starterSymp.add(new Symptom('Cramp', true, true, false, true));
   starterSymp.add(new Symptom('Fog', true, true, true, true));
+  starterSymp.add(new Symptom('Bloating',false,false,false,false));
+  starterSymp.add(new Symptom('Stomach Cramping',true,false,true,true));
+
   return starterSymp;
 }
 

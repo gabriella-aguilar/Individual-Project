@@ -1,3 +1,4 @@
+import 'package:tracker/symptom.dart';
 User sampleU = new User('Thomas','Jones',new DateTime.now(),'k1816028@gmail.com','savannah23');
 
 
@@ -7,7 +8,7 @@ class User{
   DateTime _dob;
   String _email;
   String _password;
-
+  var _symptoms = Set<Symptom>();
   User(String fn, String ln, DateTime d, String e, String p){
     this._firstName = fn;
     this._lastName = ln;
@@ -15,6 +16,9 @@ class User{
     this._email = e;
     this._password = p;
   }
+
+  Set<Symptom> getSymptoms(){return this._symptoms;}
+  void setSymptoms(Set<Symptom> s){this._symptoms = s;}
 
   String getFirstName(){return this._firstName;}
   void setFirstName(String fn){this._firstName = fn;}

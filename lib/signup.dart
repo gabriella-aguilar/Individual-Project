@@ -16,11 +16,12 @@ class _SignUpPageState extends State<SignUpPage> {
   final _passwordController = TextEditingController();
   final _emailControllerConfirm = TextEditingController();
   final _passwordControllerConfirm = TextEditingController();
+  DateTime _dobDate = new DateTime.now();
   String _dob = '';
 
   @override
   Widget build(BuildContext context) {
-    if(_dob == ''){
+    if (_dob == '') {
       _dob = dateFormat(DateTime.now());
     }
 
@@ -29,9 +30,13 @@ class _SignUpPageState extends State<SignUpPage> {
         leading: Builder(
           builder: (BuildContext context) {
             return IconButton(
-              icon: const Icon(Icons.arrow_back,color: backBlue,),
-              onPressed: () { Navigator.pop(context); },
-
+              icon: const Icon(
+                Icons.arrow_back,
+                color: backBlue,
+              ),
+              onPressed: () {
+                Navigator.pop(context);
+              },
             );
           },
         ),
@@ -88,12 +93,11 @@ class _SignUpPageState extends State<SignUpPage> {
                     Text('DOB'),
                     SizedBox(width: 10),
                     FlatButton(
-                      //elevation: 8.0,
-                      child: Text(_dob),
-                      textColor: backBlue,
-                      color: newBlue,
-                      onPressed: () => _selectDate(context)
-                    ),
+                        //elevation: 8.0,
+                        child: Text(_dob),
+                        textColor: backBlue,
+                        color: newBlue,
+                        onPressed: () => _selectDate(context)),
                   ],
                 ),
                 SizedBox(height: 12.0),
@@ -122,7 +126,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   obscureText: true,
                 ),
                 SizedBox(height: 12.0),
-                TextField(
+                TextField( //TODO:Error checking for pass and email + password rules
                   controller: _passwordControllerConfirm,
                   decoration: InputDecoration(
                     labelText: 'Confirm Password',
@@ -137,10 +141,19 @@ class _SignUpPageState extends State<SignUpPage> {
                   textColor: backBlue,
                   color: newBlue,
                   onPressed: () {
-                    Navigator.push(context,
-                        PageRouteBuilder(
-                            pageBuilder: (_, __, ___) => SymptomPickerPage())
-                    );},
+                    if (_emailControllerConfirm.text != _emailController.text) {
+                      _poppin("Your emails don't match!");
+                    } else if (_passwordControllerConfirm.text !=
+                        _passwordController.text) {
+                      _poppin("Your passwords don't match!");
+                    } else {
+                      Navigator.push(
+                          context,
+                          PageRouteBuilder(
+                              pageBuilder: (_, __, ___) =>
+                                  SymptomPickerPage()));
+                    }
+                  },
                 ),
                 SizedBox(height: 50.0),
               ],
@@ -151,23 +164,51 @@ class _SignUpPageState extends State<SignUpPage> {
     );
   }
 
-   _selectDate(BuildContext context) async {
+  _selectDate(BuildContext context) async {
     final DateTime picked = await showDatePicker(
       context: context,
       initialDate: DateTime.now(), // Refer step 1
       firstDate: DateTime(2000),
       lastDate: DateTime(2025),
     );
-    if (picked != null && picked != DateTime.now()){
-
-
+    if (picked != null && picked != DateTime.now()) {
       setState(() {
-       // _dobController.text = sDate;
+        // _dobController.text = sDate;
+        _dobDate = picked;
         _dob = dateFormat(picked);
-      });}
+      });
+    }
   }
 
-  String dateFormat(DateTime d){
+  Future<void> _poppin(String problem) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Error Signing Up"),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text(problem),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            RaisedButton(
+              elevation: 8,
+              child: Text('Try Again'),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  String dateFormat(DateTime d) {
     String sDate = d.day.toString() +
         ' - ' +
         d.month.toString() +
