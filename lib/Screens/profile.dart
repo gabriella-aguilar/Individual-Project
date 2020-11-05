@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:tracker/colors.dart';
-import 'package:tracker/user.dart';
-import 'package:tracker/home.dart';
-import 'package:tracker/stats.dart';
-import 'package:tracker/calendar.dart';
-import 'package:tracker/editDetails.dart';
+import 'package:tracker/Classes/user.dart';
+import 'package:tracker/Screens/home.dart';
+import 'package:tracker/Screens/stats.dart';
+import 'package:tracker/Screens/calendar.dart';
+import 'package:tracker/Screens/editDetails.dart';
 
 class ProfilePage extends StatelessWidget {
   Widget build(BuildContext context) {

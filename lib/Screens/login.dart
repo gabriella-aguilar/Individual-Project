@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:tracker/colors.dart';
-import 'package:tracker/home.dart';
-import 'package:tracker/signup.dart';
-import 'package:tracker/user.dart';
-import 'package:tracker/forgotPassword.dart';
+import 'package:tracker/Screens/home.dart';
+import 'package:tracker/Screens/signup.dart';
+import 'package:tracker/Classes/user.dart';
+import 'package:tracker/Screens/forgotPassword.dart';
 
 class LoginPage extends StatefulWidget {
   @override

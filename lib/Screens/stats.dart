@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:tracker/colors.dart';
-import 'package:tracker/home.dart';
-import 'package:tracker/profile.dart';
-import 'package:tracker/calendar.dart';
+import 'package:tracker/Screens/home.dart';
+import 'package:tracker/Screens/profile.dart';
+import 'package:tracker/Screens/calendar.dart';
 
 class StatsPage extends StatelessWidget {
   Widget build(BuildContext context) {

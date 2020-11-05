@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tracker/colors.dart';
-import 'package:tracker/user.dart';
-import'package:tracker/profile.dart';
+import 'package:tracker/Classes/user.dart';
+import'package:tracker/Screens/profile.dart';
 class EditDetailsPage extends StatefulWidget {
   @override
   _EditDetailsPageState createState() => _EditDetailsPageState();

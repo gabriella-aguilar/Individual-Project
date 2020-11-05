@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 
-import 'home.dart';
+import 'Screens/home.dart';
 import 'colors.dart';
-import 'login.dart';
+import 'Screens/login.dart';
 
 class MyApp extends StatefulWidget {
   @override

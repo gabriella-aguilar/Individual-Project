@@ -1,4 +1,4 @@
-import 'package:tracker/symptom.dart';
+import 'package:tracker/Classes/symptom.dart';
 User sampleU = new User('Thomas','Jones',new DateTime.now(),'k1816028@gmail.com','savannah23');
 
 

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:tracker/colors.dart';
-import 'package:tracker/customSymptom.dart';
-import 'package:tracker/home.dart';
+import 'package:tracker/Screens/customSymptom.dart';
+import 'package:tracker/Screens/home.dart';
 import 'package:tracker/dummyDate.dart';
-import 'package:tracker/symptom.dart';
+import 'package:tracker/Classes/symptom.dart';
 import 'dart:async';
 
 class SymptomPickerPage extends StatefulWidget {

@@ -1,4 +1,4 @@
-import 'package:tracker/symptom.dart';
+import 'file:///C:/Users/gabri/OneDrive/Desktop/tracker/lib/Classes/symptom.dart';
 Set getDummyData(){
   final starterSymp= Set<Symptom>();
   starterSymp.add(new Symptom('Joint Pain', true, true, true, true));

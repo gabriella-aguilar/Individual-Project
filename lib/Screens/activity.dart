@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tracker/colors.dart';
-import 'package:tracker/activityClass.dart';
+import 'package:tracker/Classes/activityClass.dart';
 class LogActivity extends StatefulWidget {
   LogActivity({Key key}) : super(key: key);
 

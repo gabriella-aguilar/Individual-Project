@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:tracker/colors.dart';
-import 'package:tracker/meal.dart';
-import 'package:tracker/activity.dart';
-import 'package:tracker/comment.dart';
-import 'package:tracker/pain.dart';
-import 'package:tracker/profile.dart';
-import 'package:tracker/stats.dart';
-import 'package:tracker/calendar.dart';
+import 'package:tracker/Screens/meal.dart';
+import 'package:tracker/Screens/activity.dart';
+import 'package:tracker/Screens/comment.dart';
+import 'package:tracker/Screens/pain.dart';
+import 'package:tracker/Screens/profile.dart';
+import 'package:tracker/Screens/stats.dart';
+import 'package:tracker/Screens/calendar.dart';
 
 class HomePage extends StatelessWidget {
   @override
