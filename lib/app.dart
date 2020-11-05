@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-
-
-import 'Screens/home.dart';
 import 'colors.dart';
 import 'Screens/login.dart';
 
