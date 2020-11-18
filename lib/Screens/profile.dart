@@ -1,27 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:tracker/Context.dart';
 import 'package:tracker/colors.dart';
-import 'package:tracker/Classes/user.dart';
+import 'package:tracker/dummyDate.dart';
+import 'package:tracker/Classes/symptom.dart';
 import 'package:tracker/Screens/home.dart';
 import 'package:tracker/Screens/stats.dart';
 import 'package:tracker/Screens/calendar.dart';
 import 'package:tracker/Screens/editDetails.dart';
-
+import 'package:tracker/Classes/user.dart';
+import 'package:tracker/Screens/editSymptoms.dart';
+//TO DO: Symptoms editing add to the list for some reason
 class ProfilePage extends StatelessWidget {
   Widget build(BuildContext context) {
-    final _currentUser = sampleU;
-    var dateNow = _currentUser.getDob();
-    String sDate = dateNow.day.toString() +
-        ' - ' +
-        dateNow.month.toString() +
-        ' - ' +
-        dateNow.year.toString();
+  Widget log = _checkIfLoggedIn(context);
     return Scaffold(
         appBar: AppBar(
           leading: Builder(
             builder: (BuildContext context) {
               return IconButton(
                 icon: const Icon(Icons.arrow_back,color: backBlue,),
-                onPressed: () { Navigator.pop(context); },
+                onPressed: () {
+                  Provider.of<UserInfo>(context, listen: false).setloggedIn(false);
+                  Navigator.pop(context);
+                  },
 
               );
             },
@@ -102,6 +104,46 @@ class ProfilePage extends StatelessWidget {
               SizedBox(
                 height: 20,
               ),
+             log,
+              SizedBox(
+                height: 10,
+              ),
+              RaisedButton(
+                  elevation: 8.0,
+                  child: Text('Edit Tracked Symptoms'),
+                  textColor: backBlue,
+                  color: newBlue,
+                  onPressed: (){
+                    //Navigator.pop(context);
+                    Navigator.push(
+                      context,
+                      PageRouteBuilder(
+                          pageBuilder: (_, __, ___) => EditSymptomsPage()),
+                    );
+                  }
+              ),
+
+            ]),
+
+
+
+        );
+  }
+
+  Widget _checkIfLoggedIn(BuildContext context){
+    bool logged = Provider.of<UserInfo>(context, listen: false).getloggedIn();
+    if(logged){
+      return Consumer<UserInfo>(
+        builder: (context,user,child) {
+          User _currentUser = user.getcurrentUser();
+          var dateNow = _currentUser.getDob();
+          String sDate = dateNow.day.toString() +
+              ' - ' +
+              dateNow.month.toString() +
+              ' - ' +
+              dateNow.year.toString();
+          return Column(
+            children: [
               Text(
                 'Name: ' +
                     _currentUser.getFirstName() +
@@ -126,6 +168,10 @@ class ProfilePage extends StatelessWidget {
               SizedBox(
                 height: 10,
               ),
+              Text("Symptoms Tracking:" + _symptomDisplay(user.getSymptoms()),style: basicText,),
+              SizedBox(
+                height: 10,
+              ),
               RaisedButton(
                   elevation: 8.0,
                   child: Text('Edit Details'),
@@ -139,22 +185,33 @@ class ProfilePage extends StatelessWidget {
                           pageBuilder: (_, __, ___) => EditDetailsPage()),
                     );
                   }),
-              RaisedButton(
-                  elevation: 8.0,
-                  child: Text('Edit Tracked Symptoms'),
-                  textColor: backBlue,
-                  color: newBlue,
-                  onPressed: (){
+            ],
+          );
+        },
+      );
+    }else{
+      Set<Symptom> symptoms = Provider.of<UserInfo>(context, listen: false).getSymptoms();
 
-                  }
-              ),
-
-            ]),
-
-
-
-        );
+      return  Column(
+        children: [
+          Text("Your not currently logged in."),
+          SizedBox(height: 10,),
+          Text("Symptoms Tracking:" + _symptomDisplay(symptoms),style: basicText,)
+        ],
+      );
+    }
   }
 
+  String _symptomDisplay(Set<Symptom> sy){
+
+    String syms = "";
+    if(sy != null && sy.isNotEmpty){
+    for(Symptom s in  sy){
+      syms += " " + s.getName() +",";
+    }
+    syms = syms.substring(0,syms.length-1);
+    return syms;}
+    return "whoopsies";
+  }
 
 }

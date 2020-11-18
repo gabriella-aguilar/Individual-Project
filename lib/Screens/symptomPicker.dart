@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:tracker/Screens/profile.dart';
+import 'package:tracker/Screens/signup.dart';
 import 'package:tracker/colors.dart';
 import 'package:tracker/Screens/customSymptom.dart';
 import 'package:tracker/Screens/home.dart';
@@ -28,6 +30,7 @@ class _SymptomPickerPageState extends State<SymptomPickerPage> {
                 ),
                 onPressed: () {
                   Navigator.pop(context);
+
                 },
               );
             },

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:tracker/colors.dart';
 import 'package:tracker/Screens/meal.dart';
 import 'package:tracker/Screens/activity.dart';
@@ -7,6 +8,8 @@ import 'package:tracker/Screens/pain.dart';
 import 'package:tracker/Screens/profile.dart';
 import 'package:tracker/Screens/stats.dart';
 import 'package:tracker/Screens/calendar.dart';
+
+import '../Context.dart';
 
 class HomePage extends StatelessWidget {
   @override
@@ -70,7 +73,10 @@ class HomePage extends StatelessWidget {
         builder: (BuildContext context) {
           return IconButton(
             icon: const Icon(Icons.arrow_back,color: backBlue,),
-            onPressed: () { Navigator.pop(context); },
+            onPressed: () {
+              Provider.of<UserInfo>(context, listen: false).setloggedIn(false);
+              Navigator.pop(context);
+              },
 
           );
         },

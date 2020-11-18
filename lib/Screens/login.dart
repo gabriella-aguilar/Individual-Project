@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:tracker/Classes/user.dart';
 import 'package:tracker/colors.dart';
 import 'package:tracker/Screens/home.dart';
 import 'package:tracker/Screens/signup.dart';
-import 'package:tracker/Classes/user.dart';
+import 'package:tracker/dummyDate.dart';
 import 'package:tracker/Screens/forgotPassword.dart';
+import 'package:tracker/Context.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -24,6 +27,19 @@ class _LoginPageState extends State<LoginPage> {
         automaticallyImplyLeading: false,
         centerTitle: true,
         backgroundColor: newBlue,
+      ),
+      bottomNavigationBar: BottomAppBar(
+        color: backBlue,
+        child: FlatButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                PageRouteBuilder(
+                    pageBuilder: (_, __, ___) => HomePage()),
+              );
+            },
+            child:
+            Text('Continue As Guest', style: TextStyle(color: newBlue))),
       ),
       body: SafeArea(
         child: ListView(
@@ -97,10 +113,8 @@ class _LoginPageState extends State<LoginPage> {
                           textColor: Colors.white,
                           color: newBlue,
                           onPressed: () {
-                            if (_usernameController.text.trim() ==
-                                sampleU.getEmail() &&
-                                _passwordController.text.trim() ==
-                                    sampleU.getPassword()) {
+                            if (_login(_usernameController.text, _passwordController.text)) {
+                              Provider.of<UserInfo>(context, listen: false).setloggedIn(true);
                               Navigator.push(
                                 context,
                                 PageRouteBuilder(
@@ -149,5 +163,15 @@ class _LoginPageState extends State<LoginPage> {
         );
       },
     );
+  }
+
+  bool _login(String email, String password){
+    for(User u in sampleU){
+      if(email.trim() == u.getEmail() && password.trim() == u.getPassword()){
+        Provider.of<UserInfo>(context, listen: false).setcurrentUser(u);
+        return true;
+      }
+    }
+    return false;
   }
 }

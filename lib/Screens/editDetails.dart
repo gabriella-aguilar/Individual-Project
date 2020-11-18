@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:tracker/Context.dart';
 import 'package:tracker/colors.dart';
-import 'package:tracker/Classes/user.dart';
+import 'package:tracker/dummyDate.dart';
 import'package:tracker/Screens/profile.dart';
 class EditDetailsPage extends StatefulWidget {
   @override
@@ -8,7 +10,7 @@ class EditDetailsPage extends StatefulWidget {
 }
 
 class _EditDetailsPageState extends State<EditDetailsPage> {
-  final _currentUser = sampleU;
+  var _currentUser;
   final _firstNameController = TextEditingController();
   final _lastNameController = TextEditingController();
   final _emailController = TextEditingController();
@@ -20,6 +22,7 @@ class _EditDetailsPageState extends State<EditDetailsPage> {
 
   void initState() {
     super.initState();
+    _currentUser = Provider.of<UserInfo>(context, listen: false).getcurrentUser();
     _dob = dateFormat(_currentUser.getDob());
     _dobDate = _currentUser.getDob();
     _firstNameController.text=_currentUser.getFirstName();

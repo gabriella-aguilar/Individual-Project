@@ -1,4 +1,27 @@
-import 'file:///C:/Users/gabri/OneDrive/Desktop/tracker/lib/Classes/symptom.dart';
+import 'package:tracker/Classes/symptom.dart';
+import 'package:tracker/Classes/user.dart';
+
+var sampleU = [
+  new User(1,'Thomas','Jones',new DateTime.now(),'k1816028@gmail.com','savannah23',setSymptoms()),
+  new User(2,'John','Jones',new DateTime.now(),'k1816028@kingston.ac.uk','savannah23',setSymptomsJ()),
+];
+
+
+Set setSymptoms(){
+  var s = Set<Symptom>();
+  s.add(new Symptom('Joint Pain', true, true, true, true));
+  s.add(new Symptom('Headache', true, false, true, true));
+  return s;
+}
+
+Set setSymptomsJ(){
+  var s = Set<Symptom>();
+  s.add(new Symptom('Joint Pain', true, true, true, true));
+  s.add(new Symptom('Headache', true, false, true, true));
+  s.add(new Symptom('Menstruation', true, false, false, true));
+  return s;
+}
+
 Set getDummyData(){
   final starterSymp= Set<Symptom>();
   starterSymp.add(new Symptom('Joint Pain', true, true, true, true));
