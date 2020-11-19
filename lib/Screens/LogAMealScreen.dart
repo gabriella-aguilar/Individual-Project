@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tracker/colors.dart';
-import 'package:tracker/Classes/mealClass.dart';
+import 'package:tracker/Classes/MealClass.dart';
 class LogMeal extends StatefulWidget {
   @override
   _LogMealState createState() => _LogMealState();

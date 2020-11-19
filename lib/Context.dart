@@ -1,5 +1,5 @@
-import 'package:tracker/Classes/symptom.dart';
-import 'package:tracker/Classes/user.dart';
+import 'package:tracker/Classes/SymptomClass.dart';
+import 'package:tracker/Classes/UserClass.dart';
 import 'package:flutter/foundation.dart';
 //import 'package:provider/provider.dart';
 

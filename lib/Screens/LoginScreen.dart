@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:tracker/Classes/user.dart';
+
+import 'package:tracker/Controllers/LoginController.dart';
 import 'package:tracker/colors.dart';
-import 'package:tracker/Screens/home.dart';
-import 'package:tracker/Screens/signup.dart';
-import 'package:tracker/dummyDate.dart';
-import 'package:tracker/Screens/forgotPassword.dart';
+import 'package:tracker/Screens/HomePageScreen.dart';
+import 'package:tracker/Screens/SignUpScreen.dart';
+
+import 'package:tracker/Screens/ForgotPasswordScreen.dart';
 import 'package:tracker/Context.dart';
 
 class LoginPage extends StatefulWidget {
@@ -90,20 +91,12 @@ class _LoginPageState extends State<LoginPage> {
                             style: TextStyle(color: newBlue),
                           ),
                           onPressed: () {
-                            Navigator.push(
-                              context,
-                                PageRouteBuilder(
-                                    pageBuilder: (_, __, ___) => ForgotPasswordPage())
-                            );
+                            forgotPasswordPressed(context);
                           },
                         ),
                         FlatButton(
                             onPressed: () {
-                              Navigator.push(
-                                context,
-                                PageRouteBuilder(
-                                    pageBuilder: (_, __, ___) => SignUpPage()),
-                              );
+                              signupPressed(context);
                             },
                             child:
                             Text('Sign Up', style: TextStyle(color: newBlue))),
@@ -113,16 +106,7 @@ class _LoginPageState extends State<LoginPage> {
                           textColor: Colors.white,
                           color: newBlue,
                           onPressed: () {
-                            if (_login(_usernameController.text, _passwordController.text)) {
-                              Provider.of<UserInfo>(context, listen: false).setloggedIn(true);
-                              Navigator.push(
-                                context,
-                                PageRouteBuilder(
-                                    pageBuilder: (_, __, ___) => HomePage()),
-                              );
-                            } else {
-                              _showInvalidLogin();
-                            }
+                            login(context,_usernameController.text, _passwordController.text);
                           },
                         ),
                       ],
@@ -135,43 +119,5 @@ class _LoginPageState extends State<LoginPage> {
         ),
       ),
     );
-  }
-
-  Future<void> _showInvalidLogin() async {
-    return showDialog<void>(
-      context: context,
-      barrierDismissible: false, // user must tap button!
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Invalid Credentials'),
-          content: SingleChildScrollView(
-            child: ListBody(
-              children: <Widget>[
-                Text('Your username or password is incorrect.'),
-              ],
-            ),
-          ),
-          actions: <Widget>[
-            RaisedButton(
-              elevation: 8,
-              child: Text('Try Again'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  bool _login(String email, String password){
-    for(User u in sampleU){
-      if(email.trim() == u.getEmail() && password.trim() == u.getPassword()){
-        Provider.of<UserInfo>(context, listen: false).setcurrentUser(u);
-        return true;
-      }
-    }
-    return false;
   }
 }

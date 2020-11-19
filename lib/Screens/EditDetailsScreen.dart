@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:tracker/Context.dart';
 import 'package:tracker/colors.dart';
 import 'package:tracker/dummyDate.dart';
-import'package:tracker/Screens/profile.dart';
+import'package:tracker/Screens/ProfileScreen.dart';
 class EditDetailsPage extends StatefulWidget {
   @override
   _EditDetailsPageState createState() => _EditDetailsPageState();

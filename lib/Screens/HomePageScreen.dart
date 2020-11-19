@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tracker/colors.dart';
-import 'package:tracker/Screens/meal.dart';
-import 'package:tracker/Screens/activity.dart';
-import 'package:tracker/Screens/comment.dart';
-import 'package:tracker/Screens/pain.dart';
-import 'package:tracker/Screens/profile.dart';
-import 'package:tracker/Screens/stats.dart';
-import 'package:tracker/Screens/calendar.dart';
+import 'package:tracker/Screens/LogAMealScreen.dart';
+import 'package:tracker/Screens/LogAnActivityScreen.dart';
+import 'package:tracker/Screens/LogACommentScreen.dart';
+import 'package:tracker/Screens/LogAPainScreen.dart';
+import 'package:tracker/Screens/ProfileScreen.dart';
+import 'package:tracker/Screens/StatsScreen.dart';
+import 'package:tracker/Screens/CalendarScreen.dart';
 
 import '../Context.dart';
 

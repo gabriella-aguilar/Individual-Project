@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tracker/colors.dart';
-import 'package:tracker/Screens/customSymptom.dart';
-import 'package:tracker/Screens/profile.dart';
+import 'package:tracker/Screens/CustomSymptomScreen.dart';
+import 'package:tracker/Screens/ProfileScreen.dart';
 import 'package:tracker/dummyDate.dart';
-import 'package:tracker/Classes/symptom.dart';
+import 'package:tracker/Classes/SymptomClass.dart';
 
 import '../Context.dart';
 

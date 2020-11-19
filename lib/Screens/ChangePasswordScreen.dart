@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:tracker/Screens/login.dart';
+import 'package:tracker/Screens/LoginScreen.dart';
 import 'package:tracker/colors.dart';
-import 'package:tracker/Classes/user.dart';
+import 'package:tracker/Classes/UserClass.dart';
 import 'dart:async';
 
 class ChangePasswordPage extends StatefulWidget {

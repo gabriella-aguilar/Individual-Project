@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:tracker/Screens/stats.dart';
+import 'package:tracker/Screens/StatsScreen.dart';
 import 'package:tracker/colors.dart';
-import 'package:tracker/Screens/home.dart';
-import 'package:tracker/Screens/profile.dart';
+import 'package:tracker/Screens/HomePageScreen.dart';
+import 'package:tracker/Screens/ProfileScreen.dart';
 
 import '../Context.dart';
 

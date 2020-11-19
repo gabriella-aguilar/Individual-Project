@@ -1,4 +1,4 @@
-import 'package:tracker/Classes/symptom.dart';
+import 'package:tracker/Classes/SymptomClass.dart';
 
 
 class User{

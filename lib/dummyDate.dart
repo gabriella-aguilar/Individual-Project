@@ -1,5 +1,5 @@
-import 'package:tracker/Classes/symptom.dart';
-import 'package:tracker/Classes/user.dart';
+import 'package:tracker/Classes/SymptomClass.dart';
+import 'package:tracker/Classes/UserClass.dart';
 
 var sampleU = [
   new User(1,'Thomas','Jones',new DateTime.now(),'k1816028@gmail.com','savannah23',setSymptoms()),

@@ -3,13 +3,13 @@ import 'package:provider/provider.dart';
 import 'package:tracker/Context.dart';
 import 'package:tracker/colors.dart';
 import 'package:tracker/dummyDate.dart';
-import 'package:tracker/Classes/symptom.dart';
-import 'package:tracker/Screens/home.dart';
-import 'package:tracker/Screens/stats.dart';
-import 'package:tracker/Screens/calendar.dart';
-import 'package:tracker/Screens/editDetails.dart';
-import 'package:tracker/Classes/user.dart';
-import 'package:tracker/Screens/editSymptoms.dart';
+import 'package:tracker/Classes/SymptomClass.dart';
+import 'package:tracker/Screens/HomePageScreen.dart';
+import 'package:tracker/Screens/StatsScreen.dart';
+import 'package:tracker/Screens/CalendarScreen.dart';
+import 'package:tracker/Screens/EditDetailsScreen.dart';
+import 'package:tracker/Classes/UserClass.dart';
+import 'package:tracker/Screens/EditSymptomsScreen.dart';
 //TO DO: Symptoms editing add to the list for some reason
 class ProfilePage extends StatelessWidget {
   Widget build(BuildContext context) {
