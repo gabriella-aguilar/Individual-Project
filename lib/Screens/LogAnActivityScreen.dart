@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tracker/Controllers/LogActivityController.dart';
 import 'package:tracker/colors.dart';
 import 'package:tracker/Classes/ActivityClass.dart';
 
@@ -115,8 +116,7 @@ class _LogActivityState extends State<LogActivity> {
                       textColor: backBlue,
                       color: newBlue,
                       onPressed: () {
-                        Activity a = new Activity(_titleController.text, _currentSliderValue.toInt(), _commentController.text);
-                        Navigator.pop(context);
+                        submitPressed(context,_titleController.text, _currentSliderValue.toInt(), _commentController.text);
                       }),
                   //SizedBox(width: 10,)
                 ],

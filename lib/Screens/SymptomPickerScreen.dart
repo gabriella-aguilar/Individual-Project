@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:tracker/Screens/ProfileScreen.dart';
-import 'package:tracker/Screens/SignUpScreen.dart';
 import 'package:tracker/colors.dart';
 import 'package:tracker/Screens/CustomSymptomScreen.dart';
 import 'package:tracker/Screens/HomePageScreen.dart';
 import 'package:tracker/dummyDate.dart';
 import 'package:tracker/Classes/SymptomClass.dart';
-import 'dart:async';
+
 
 class SymptomPickerPage extends StatefulWidget {
   @override

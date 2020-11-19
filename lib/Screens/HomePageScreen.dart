@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:tracker/Screens/SymptomSelectionScreen.dart';
 import 'package:tracker/colors.dart';
 import 'package:tracker/Screens/LogAMealScreen.dart';
 import 'package:tracker/Screens/LogAnActivityScreen.dart';
@@ -175,7 +176,7 @@ class HomePage extends StatelessWidget {
                 Navigator.push(
                   context,
                     PageRouteBuilder(
-                        pageBuilder: (_, __, ___) => LogPain())
+                        pageBuilder: (_, __, ___) => SymptomSelectionPage())
                 );
               },
               child:Container(

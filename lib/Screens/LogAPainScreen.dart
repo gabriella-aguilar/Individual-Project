@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tracker/colors.dart';
+import 'package:tracker/Controllers/LogAPainController.dart';
 
 class LogPain extends StatelessWidget{
   Widget build (BuildContext context){
