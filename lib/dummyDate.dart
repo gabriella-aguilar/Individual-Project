@@ -2,28 +2,28 @@ import 'package:tracker/Classes/SymptomClass.dart';
 import 'package:tracker/Classes/UserClass.dart';
 
 var sampleU = [
-  new User(1,'Thomas','Jones',new DateTime.now(),'k1816028@gmail.com','savannah23',setSymptoms()),
-  new User(2,'John','Jones',new DateTime.now(),'k1816028@kingston.ac.uk','savannah23',setSymptomsJ()),
+  new User('Thomas','Jones',new DateTime.now(),'k1816028@gmail.com','savannah23',setSymptoms()),
+  new User('John','Jones',new DateTime.now(),'k1816028@kingston.ac.uk','savannah23',setSymptomsJ()),
 ];
 
 
-Set setSymptoms(){
-  var s = Set<Symptom>();
+List setSymptoms(){
+  var s = List<Symptom>();
   s.add(new Symptom('Joint Pain', true, true, true, true));
   s.add(new Symptom('Headache', true, false, true, true));
   return s;
 }
 
-Set setSymptomsJ(){
-  var s = Set<Symptom>();
+List setSymptomsJ(){
+  var s = List<Symptom>();
   s.add(new Symptom('Joint Pain', true, true, true, true));
   s.add(new Symptom('Headache', true, false, true, true));
   s.add(new Symptom('Menstruation', true, false, false, true));
   return s;
 }
 
-Set getDummyData(){
-  final starterSymp= Set<Symptom>();
+List getDummyData(){
+  final starterSymp= List<Symptom>();
   starterSymp.add(new Symptom('Joint Pain', true, true, true, true));
   starterSymp.add(new Symptom('Headache', true, false, true, true));
   starterSymp.add(new Symptom('Menstruation', true, false, false, true));

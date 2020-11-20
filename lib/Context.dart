@@ -6,10 +6,10 @@ import 'package:flutter/foundation.dart';
 class UserInfo extends ChangeNotifier {
   User _currentUser;
   bool _loggedIn = false;
-  Set<Symptom> _tracking; //ToDo: Tracking is not logged in
+  List<Symptom> _tracking; //ToDo: Tracking is not logged in
 
-  Set<Symptom> getSymptoms(){return _tracking;}
-  void setSymptoms(Set<Symptom> s){this._tracking = s;}
+  List<Symptom> getSymptoms(){return _tracking;}
+  void setSymptoms(List<Symptom> s){this._tracking = s;}
 
   User getcurrentUser(){return _currentUser;}
 

@@ -5,39 +5,37 @@ import 'package:tracker/Classes/SymptomClass.dart';
 
 
 class User{
-  int _id;
+
   String _firstName;
   String _lastName;
   DateTime _dob;
   String _email;
   String _password;
-  var _symptoms = new Set<Symptom>(); //tracking
-  var _logged = new Set<LoggedSymptom>(); //symptoms experienced
-  var _meals = new Set<Meal>();
-  var _activities = new Set<Activity>();
+  var _symptoms = new List<Symptom>(); //tracking
+  var _logged = new List<LoggedSymptom>(); //symptoms experienced
+  var _meals = new List<Meal>();
+  var _activities = new List<Activity>();
 
-  User(int i,String fn, String ln, DateTime d, String e, String p, Set<Symptom> s){
+  User(String fn, String ln, DateTime d, String e, String p, List<Symptom> s){
     this._firstName = fn;
     this._lastName = ln;
     this._dob = d;
     this._email = e;
     this._password = p;
     this._symptoms = s;
-    this._id = i;
   }
 
-  Set<Symptom> getSymptoms(){return this._symptoms;}
-  void setSymptoms(Set<Symptom> sy, Set<Symptom> r){
-    this._symptoms.removeAll(r);
-    this._symptoms.addAll(sy);
+  List<Symptom> getSymptoms(){return this._symptoms;}
+  void setSymptoms(List<Symptom> sy){
+    this._symptoms = sy;
   }
 
 
-  Set<Meal> getMeals(){return this._meals;}
+  List<Meal> getMeals(){return this._meals;}
 
-  Set<Activity> getActivities(){return this._activities;}
+  List<Activity> getActivities(){return this._activities;}
 
-  Set<LoggedSymptom> getLoggedSymptoms(){return this._logged;}
+  List<LoggedSymptom> getLoggedSymptoms(){return this._logged;}
   void deleteLoggedSymptom(LoggedSymptom ls){_logged.remove(ls);}
 
   String getFirstName(){return this._firstName;}

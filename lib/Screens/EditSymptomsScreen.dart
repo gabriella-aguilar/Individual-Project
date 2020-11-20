@@ -17,12 +17,10 @@ class EditSymptomsPage extends StatefulWidget {
 class _EditSymptomsPageState extends State<EditSymptomsPage> {
   final _symptoms = getDummyData();
   var _tracking;
-  var _initialTrack;
   Symptom cust;
 
   void initState() {
     super.initState();
-    _initialTrack =   Provider.of<UserInfo>(context, listen: false).getcurrentUser().getSymptoms();
     _tracking =   Provider.of<UserInfo>(context, listen: false).getcurrentUser().getSymptoms();
   }
 
@@ -78,15 +76,9 @@ class _EditSymptomsPageState extends State<EditSymptomsPage> {
                       color: backBlue,
                       onPressed: () {
 
-                        var _rem = _initialTrack.difference(_tracking);
 
-                        Provider.of<UserInfo>(context, listen: false).getcurrentUser().setSymptoms(_tracking,_rem);
-                        Navigator.pop(context);
-                        Navigator.push(
-                          context,
-                          PageRouteBuilder(
-                              pageBuilder: (_, __, ___) => ProfilePage()),
-                        );
+                        Navigator.pop(context,_tracking);
+
                       },
                     ),
                   ]),
