@@ -5,7 +5,6 @@ import 'package:tracker/colors.dart';
 import 'package:tracker/Screens/LogAMealScreen.dart';
 import 'package:tracker/Screens/LogAnActivityScreen.dart';
 import 'package:tracker/Screens/LogACommentScreen.dart';
-import 'package:tracker/Screens/LogAPainScreen.dart';
 import 'package:tracker/Screens/ProfileScreen.dart';
 import 'package:tracker/Screens/StatsScreen.dart';
 import 'package:tracker/Screens/CalendarScreen.dart';

@@ -22,8 +22,8 @@ class _EditSymptomsPageState extends State<EditSymptomsPage> {
 
   void initState() {
     super.initState();
-    _initialTrack =   Provider.of<UserInfo>(context, listen: false).getcurrentUser().getSymptoms();;
-    _tracking =   Provider.of<UserInfo>(context, listen: false).getcurrentUser().getSymptoms();;
+    _initialTrack =   Provider.of<UserInfo>(context, listen: false).getcurrentUser().getSymptoms();
+    _tracking =   Provider.of<UserInfo>(context, listen: false).getcurrentUser().getSymptoms();
   }
 
   @override

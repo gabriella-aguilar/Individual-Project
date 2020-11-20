@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:tracker/colors.dart';
 import 'package:tracker/Classes/MealClass.dart';
+
+import '../Context.dart';
 class LogMeal extends StatefulWidget {
   @override
   _LogMealState createState() => _LogMealState();
@@ -148,6 +151,7 @@ class _LogMealState extends State<LogMeal> {
                       color: newBlue,
                       onPressed: () {
                         Meal m = new Meal(_nameController.text,_glutenController,_alcoholController,_sugarController,_meatController,_dairyController);
+                        Provider.of<UserInfo>(context, listen: false).getcurrentUser().getMeals().add(m);
                         Navigator.pop(context);
                       }),
                   //SizedBox(width: 10,)

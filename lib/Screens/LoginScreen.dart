@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+
 
 import 'package:tracker/Controllers/LoginController.dart';
 import 'package:tracker/colors.dart';
 import 'package:tracker/Screens/HomePageScreen.dart';
-import 'package:tracker/Screens/SignUpScreen.dart';
 
-import 'package:tracker/Screens/ForgotPasswordScreen.dart';
-import 'package:tracker/Context.dart';
 
 class LoginPage extends StatefulWidget {
   @override

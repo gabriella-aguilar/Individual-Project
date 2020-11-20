@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tracker/Context.dart';
 import 'package:tracker/colors.dart';
-import 'package:tracker/dummyDate.dart';
 import 'package:tracker/Classes/SymptomClass.dart';
 import 'package:tracker/Screens/HomePageScreen.dart';
 import 'package:tracker/Screens/StatsScreen.dart';

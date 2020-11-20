@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tracker/colors.dart';
 import 'package:tracker/Screens/SymptomPickerScreen.dart';
-import 'package:tracker/Classes/UserClass.dart';
 import 'dart:async';
 
 class SignUpPage extends StatefulWidget {
@@ -16,7 +15,6 @@ class _SignUpPageState extends State<SignUpPage> {
   final _passwordController = TextEditingController();
   final _emailControllerConfirm = TextEditingController();
   final _passwordControllerConfirm = TextEditingController();
-  DateTime _dobDate = new DateTime.now();
   String _dob = '';
 
   @override
@@ -174,7 +172,6 @@ class _SignUpPageState extends State<SignUpPage> {
     if (picked != null && picked != DateTime.now()) {
       setState(() {
         // _dobController.text = sDate;
-        _dobDate = picked;
         _dob = dateFormat(picked);
       });
     }

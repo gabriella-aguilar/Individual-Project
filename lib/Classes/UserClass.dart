@@ -1,3 +1,6 @@
+import 'package:tracker/Classes/ActivityClass.dart';
+import 'package:tracker/Classes/LoggedSymptom.dart';
+import 'package:tracker/Classes/MealClass.dart';
 import 'package:tracker/Classes/SymptomClass.dart';
 
 
@@ -8,7 +11,11 @@ class User{
   DateTime _dob;
   String _email;
   String _password;
-  var _symptoms = new Set<Symptom>();
+  var _symptoms = new Set<Symptom>(); //tracking
+  var _logged = new Set<LoggedSymptom>(); //symptoms experienced
+  var _meals = new Set<Meal>();
+  var _activities = new Set<Activity>();
+
   User(int i,String fn, String ln, DateTime d, String e, String p, Set<Symptom> s){
     this._firstName = fn;
     this._lastName = ln;
@@ -26,6 +33,12 @@ class User{
   }
 
 
+  Set<Meal> getMeals(){return this._meals;}
+
+  Set<Activity> getActivities(){return this._activities;}
+
+  Set<LoggedSymptom> getLoggedSymptoms(){return this._logged;}
+  void deleteLoggedSymptom(LoggedSymptom ls){_logged.remove(ls);}
 
   String getFirstName(){return this._firstName;}
   void setFirstName(String fn){this._firstName = fn;}

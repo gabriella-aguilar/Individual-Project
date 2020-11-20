@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tracker/Controllers/LogActivityController.dart';
 import 'package:tracker/colors.dart';
-import 'package:tracker/Classes/ActivityClass.dart';
+
 
 
 class LogActivity extends StatefulWidget {

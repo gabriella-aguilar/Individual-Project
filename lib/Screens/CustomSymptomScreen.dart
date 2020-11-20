@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tracker/colors.dart';
 import 'package:tracker/Classes/SymptomClass.dart';
-import 'dart:async';
+
 
 class CustomSymptomPage extends StatefulWidget {
   @override
