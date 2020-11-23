@@ -151,7 +151,7 @@ class _LogPainState extends State<LogPain> {
                       textColor: backBlue,
                       color: newBlue,
                       onPressed: () {
-                        
+
                       }),
             ])));
   }
