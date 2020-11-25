@@ -1,4 +1,5 @@
 import 'package:tracker/Classes/ActivityClass.dart';
+import 'package:tracker/Classes/DailySymptoms.dart';
 import 'package:tracker/Classes/LoggedSymptom.dart';
 import 'package:tracker/Classes/MealClass.dart';
 import 'package:tracker/Classes/SymptomClass.dart';
@@ -15,6 +16,7 @@ class User{
   var _logged = new List<LoggedSymptom>(); //symptoms experienced
   var _meals = new List<Meal>();
   var _activities = new List<Activity>();
+  Map<DateTime, List<LoggedSymptom>> _dailies = new Map();
 
   User(String fn, String ln, DateTime d, String e, String p, List<Symptom> s){
     this._firstName = fn;
@@ -30,6 +32,18 @@ class User{
     this._symptoms = sy;
   }
 
+  void logSymptom(LoggedSymptom ls){
+    if(_dailies.containsKey(ls.getDate())){
+      List<LoggedSymptom> cur = _dailies[ls.getDate()];
+      cur.add(ls);
+      _dailies.update(ls.getDate(), (dynamic val) => cur);
+    }
+    else{
+      _dailies[ls.getDate()] = [ls];
+    }
+  }
+
+  Map<DateTime,List<LoggedSymptom>> getDailies(){return this._dailies;}
 
   List<Meal> getMeals(){return this._meals;}
 

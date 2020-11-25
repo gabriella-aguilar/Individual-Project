@@ -1,11 +1,29 @@
+
+import 'package:flutter/cupertino.dart';
+import 'package:provider/provider.dart';
+import 'package:tracker/Classes/LoggedSymptom.dart';
 import 'package:tracker/Classes/SymptomClass.dart';
 import 'package:tracker/Classes/UserClass.dart';
 
+import 'Context.dart';
+DateTime bday = DateTime(1998,11,23,0,0,0,0,0);
 var sampleU = [
-  new User('Thomas','Jones',new DateTime.now(),'k1816028@gmail.com','savannah23',setSymptoms()),
-  new User('John','Jones',new DateTime.now(),'k1816028@kingston.ac.uk','savannah23',setSymptomsJ()),
+  new User('Thomas','Jones',bday,'k1816028@gmail.com','savannah23',setSymptoms()),
+  new User('John','Jones',bday,'k1816028@kingston.ac.uk','savannah23',setSymptomsJ()),
 ];
 
+void setUp(BuildContext context){
+  DateTime one = DateTime(2020,11,23,14,15,0,0,0);
+  DateTime two = DateTime(2020,11,20,14,30,0,0,0);
+  DateTime three = DateTime(2020,11,23,14,45,0,0,0);
+  List<Symptom> sym = getDummyData();
+  LoggedSymptom ls = new LoggedSymptom(sym[0], one, "ow");
+  Provider.of<UserInfo>(context, listen: false).getcurrentUser().logSymptom(ls);
+  ls = new LoggedSymptom(sym[2], two, "ouchie");
+  Provider.of<UserInfo>(context, listen: false).getcurrentUser().logSymptom(ls);
+  ls = new LoggedSymptom(sym[1], three, "yikes");
+  Provider.of<UserInfo>(context, listen: false).getcurrentUser().logSymptom(ls);
+}
 
 List setSymptoms(){
   var s = List<Symptom>();
