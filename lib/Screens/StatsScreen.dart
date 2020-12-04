@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tracker/colors.dart';
+import 'package:fl_chart/fl_chart.dart';
 import 'package:tracker/Screens/HomePageScreen.dart';
 import 'package:tracker/Screens/ProfileScreen.dart';
 import 'package:tracker/Screens/CalendarScreen.dart';
