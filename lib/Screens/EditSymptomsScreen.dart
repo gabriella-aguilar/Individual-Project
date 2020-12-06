@@ -4,6 +4,7 @@ import 'package:tracker/colors.dart';
 import 'package:tracker/Screens/CustomSymptomScreen.dart';
 import 'package:tracker/Screens/ProfileScreen.dart';
 import 'package:tracker/dummyDate.dart';
+import 'package:tracker/Controllers/EditSymptomsController.dart';
 import 'package:tracker/Classes/SymptomClass.dart';
 
 import '../Context.dart';
@@ -15,13 +16,12 @@ class EditSymptomsPage extends StatefulWidget {
 }
 
 class _EditSymptomsPageState extends State<EditSymptomsPage> {
-  final _symptoms = getDummyData();
-  var _tracking;
+
   Symptom cust;
 
   void initState() {
     super.initState();
-    _tracking =   Provider.of<UserInfo>(context, listen: false).getcurrentUser().getSymptoms();
+    setUp(context);
   }
 
   @override
@@ -77,7 +77,7 @@ class _EditSymptomsPageState extends State<EditSymptomsPage> {
                       onPressed: () {
 
 
-                        Navigator.pop(context,_tracking);
+                        Navigator.pop(context,tracking);
 
                       },
                     ),
@@ -98,8 +98,8 @@ class _EditSymptomsPageState extends State<EditSymptomsPage> {
     );
 
     setState(() {
-      _symptoms.add(cust);
-      _tracking.add(cust);
+      symptoms.add(cust);
+      tracking.add(cust);
     });
     cust = null;
 
@@ -108,14 +108,14 @@ class _EditSymptomsPageState extends State<EditSymptomsPage> {
 
   List _listBuilder(){
     List <ListTile> tiles = new List<ListTile>();
-    for(Symptom s in _symptoms){
+    for(Symptom s in symptoms){
       tiles.add(_buildRow(s));
     }
     return tiles;
   }
 
   Widget _buildRow(Symptom s) {
-    final alreadySaved = _tracking.contains(s);
+    final alreadySaved = tracking.contains(s);
     return ListTile(
       title: Text(s.getName()),
       trailing: Icon(
@@ -125,9 +125,9 @@ class _EditSymptomsPageState extends State<EditSymptomsPage> {
       onTap: (){
         setState(() {
           if(alreadySaved){
-            _tracking.remove(s);
+            tracking.remove(s);
           }else{
-            _tracking.add(s);
+            tracking.add(s);
           }
         });
       },

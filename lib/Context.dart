@@ -1,3 +1,4 @@
+import 'package:sqflite/sqflite.dart';
 import 'package:tracker/Classes/SymptomClass.dart';
 import 'package:tracker/Classes/UserClass.dart';
 import 'package:flutter/foundation.dart';
@@ -5,6 +6,7 @@ import 'package:flutter/foundation.dart';
 
 class UserInfo extends ChangeNotifier {
   User _currentUser;
+  Database _database;
   bool _loggedIn = false;
   List<Symptom> _tracking; //ToDo: Tracking is not logged in
 
@@ -16,6 +18,9 @@ class UserInfo extends ChangeNotifier {
   void setcurrentUser(value) {
     _currentUser = value;
   }
+
+  void setDatabase(Database database){this._database = database;}
+  Database getDatabase(){return this._database;}
 
   bool getloggedIn(){return _loggedIn;}
 

@@ -47,7 +47,7 @@ class _LogPainState extends State<LogPain> {
                   Text("Intervention "+ symptom.getIntervention().toString()),
                   Text("Location "+ symptom.getLocation().toString()),
                   Container(
-                    height: symptom.getDuration() ? 50 : 0,
+                    height: symptom.getDuration() == 1 ? 50 : 0,
                     child: Row(
                       children: [
                         Text(
@@ -73,7 +73,7 @@ class _LogPainState extends State<LogPain> {
                     ),
                   ),
                   Container(
-                    height: symptom.getDuration() ? 50 : 0,
+                    height: symptom.getIntensity() == 1? 50 : 0,
                     child: Row(
                       children: [
                         Text("Intensity", style: basicText),
@@ -95,7 +95,7 @@ class _LogPainState extends State<LogPain> {
                     ),
                   ),
                   Container(
-                    height: symptom.getDuration() ? 90 : 0,
+                    height: symptom.getIntervention()== 1 ? 90 : 0,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -113,7 +113,7 @@ class _LogPainState extends State<LogPain> {
                     ),
                   ),
                   Container(
-                    height: symptom.getDuration() ? 90 : 0,
+                    height: symptom.getLocation()== 1 ? 90 : 0,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [

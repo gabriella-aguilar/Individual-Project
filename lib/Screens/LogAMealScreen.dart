@@ -150,7 +150,15 @@ class _LogMealState extends State<LogMeal> {
                       textColor: Colors.white,
                       color: newBlue,
                       onPressed: () {
-                        Meal m = new Meal(_nameController.text,_glutenController,_alcoholController,_sugarController,_meatController,_dairyController);
+                        Meal m = new Meal(
+                            date: DateTime.now().toString(),
+                            name: _nameController.text,
+                            gluten: _glutenController ? 1 : 0,
+                            alcohol: _alcoholController ? 1 : 0,
+                            sugar: _sugarController ? 1 : 0,
+                            meat: _meatController ? 1 : 0,
+                            dairy: _dairyController ? 1 : 0
+                        );
                         Provider.of<UserInfo>(context, listen: false).getcurrentUser().getMeals().add(m);
                         Navigator.pop(context);
                       }),

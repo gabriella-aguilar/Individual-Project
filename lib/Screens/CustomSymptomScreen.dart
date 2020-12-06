@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:tracker/colors.dart';
 import 'package:tracker/Classes/SymptomClass.dart';
 
+import '../DataAccess.dart';
+
 
 class CustomSymptomPage extends StatefulWidget {
   @override
@@ -129,8 +131,23 @@ class _CustomSymptomPageState extends State<CustomSymptomPage> {
                 textColor: backBlue,
                 color: newBlue,
                 onPressed: () {
-                  Symptom s = new Symptom(_name.text, _intensity, _location, _duration, _intensity);
-
+                  int inten= 0;
+                  int dur = 0;
+                  int inter = 0;
+                  int loc = 0;
+                  //this.name,this.intensity,this.duration,this.intervention,this.location
+                  if(_intensity){inten = 1;}
+                  if(_duration){dur = 1;}
+                  if(_intervention){inter = 1;}
+                  if(_location){loc = 1;}
+                  Symptom s = new Symptom(
+                      name: _name.text,
+                      intensity: inten,
+                      duration: dur,
+                      location: loc,
+                      intervention: inter
+                  );
+                  DataAccess.instance.insertSymptom(s);
                   Navigator.pop(context,s);
                 },
               ),

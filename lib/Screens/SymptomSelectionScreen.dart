@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tracker/colors.dart';
-
+import 'package:tracker/DataAccess.dart';
 import 'package:tracker/Classes/SymptomClass.dart';
 import 'package:tracker/Controllers/SymptomSelectionController.dart';
 import 'package:tracker/Screens/LogAPainScreen.dart';

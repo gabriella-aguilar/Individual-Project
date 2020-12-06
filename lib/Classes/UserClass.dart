@@ -7,63 +7,53 @@ import 'package:tracker/Classes/SymptomClass.dart';
 
 class User{
 
-  String _firstName;
-  String _lastName;
-  DateTime _dob;
-  String _email;
-  String _password;
-  var _symptoms = new List<Symptom>(); //tracking
-  var _logged = new List<LoggedSymptom>(); //symptoms experienced
-  var _meals = new List<Meal>();
-  var _activities = new List<Activity>();
+  String firstName;
+  String lastName;
+  DateTime dob;
+  String email;
+  String password;
+  var symptoms = new List<Symptom>(); //tracking
+  var logged = new List<LoggedSymptom>(); //symptoms experienced
+  var  meals = new List<Meal>();
+  var activities = new List<Activity>();
   Map<DateTime, List<LoggedSymptom>> _dailies = new Map();
 
   User(String fn, String ln, DateTime d, String e, String p, List<Symptom> s){
-    this._firstName = fn;
-    this._lastName = ln;
-    this._dob = d;
-    this._email = e;
-    this._password = p;
-    this._symptoms = s;
+    this.firstName = fn;
+    this.lastName = ln;
+    this.dob = d;
+    this.email = e;
+    this.password = p;
+    this.symptoms = s;
   }
 
-  List<Symptom> getSymptoms(){return this._symptoms;}
+  List<Symptom> getSymptoms(){return this.symptoms;}
   void setSymptoms(List<Symptom> sy){
-    this._symptoms = sy;
+    this.symptoms = sy;
   }
 
-  void logSymptom(LoggedSymptom ls){
-    if(_dailies.containsKey(ls.getDate())){
-      List<LoggedSymptom> cur = _dailies[ls.getDate()];
-      cur.add(ls);
-      _dailies.update(ls.getDate(), (dynamic val) => cur);
-    }
-    else{
-      _dailies[ls.getDate()] = [ls];
-    }
-  }
 
   Map<DateTime,List<LoggedSymptom>> getDailies(){return this._dailies;}
 
-  List<Meal> getMeals(){return this._meals;}
+  List<Meal> getMeals(){return this.meals;}
 
-  List<Activity> getActivities(){return this._activities;}
+  List<Activity> getActivities(){return this.activities;}
 
-  List<LoggedSymptom> getLoggedSymptoms(){return this._logged;}
-  void deleteLoggedSymptom(LoggedSymptom ls){_logged.remove(ls);}
+  List<LoggedSymptom> getLoggedSymptoms(){return this.logged;}
+  void deleteLoggedSymptom(LoggedSymptom ls){logged.remove(ls);}
 
-  String getFirstName(){return this._firstName;}
-  void setFirstName(String fn){this._firstName = fn;}
+  String getFirstName(){return this.firstName;}
+  void setFirstName(String fn){this.firstName = fn;}
 
-  String getLastName(){return this._lastName;}
-  void setLastName(String ln){this._lastName = ln;}
+  String getLastName(){return this.lastName;}
+  void setLastName(String ln){this.lastName = ln;}
 
-  DateTime getDob() {return this._dob;}
-  void setDob(DateTime d) {this._dob = d;}
+  DateTime getDob() {return this.dob;}
+  void setDob(DateTime d) {this.dob = d;}
 
-  String getEmail(){return this._email;}
-  void setEmail(String e){this._email = e;}
+  String getEmail(){return this.email;}
+  void setEmail(String e){this.email = e;}
 
-  String getPassword(){return this._password;}
-  void setPassword(String p){this._password = p;}
+  String getPassword(){return this.password;}
+  void setPassword(String p){this.password = p;}
 }

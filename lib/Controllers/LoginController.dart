@@ -8,20 +8,20 @@ import 'package:tracker/dummyDate.dart';
 import 'package:tracker/Context.dart';
 
 void login(BuildContext context,String email, String password){
-  for(User u in sampleU){
-    if(email.trim() == u.getEmail() && password.trim() == u.getPassword()){
-      Provider.of<UserInfo>(context, listen: false).setcurrentUser(u);
-      Provider.of<UserInfo>(context, listen: false).setloggedIn(true);
+  // for(User u in sampleU){
+  //   if(email.trim() == u.getEmail() && password.trim() == u.getPassword()){
+  //     Provider.of<UserInfo>(context, listen: false).setcurrentUser(u);
+  //     Provider.of<UserInfo>(context, listen: false).setloggedIn(true);
       Navigator.push(
         context,
         PageRouteBuilder(
             pageBuilder: (_, __, ___) => HomePage()),
       );
 
-    }else {
-      showInvalidLogin(context);
-    }
-  }
+  //   }else {
+  //     showInvalidLogin(context);
+  //   }
+  // }
 
 }
 

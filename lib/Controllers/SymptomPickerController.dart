@@ -7,6 +7,7 @@ import '../Context.dart';
 
 
 List<Symptom>symptoms;
+List<Symptom>tracking;
 
 void setUp(BuildContext context) async{
   symptoms = await DataAccess.instance.getAllSymptoms();

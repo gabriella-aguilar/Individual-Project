@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:tracker/Classes/ActivityClass.dart';
 import 'package:tracker/Classes/DailySymptoms.dart';
 import 'package:tracker/Classes/LoggedSymptom.dart';
+import 'package:tracker/Classes/MealClass.dart';
 import 'package:tracker/Screens/StatsScreen.dart';
 import 'package:tracker/colors.dart';
 import 'package:tracker/Screens/HomePageScreen.dart';
 import 'package:tracker/Screens/ProfileScreen.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:tracker/Controllers/CalendarController.dart';
 import 'package:tracker/dummyDate.dart';
+import 'package:tracker/DataAccess.dart';
 import '../Context.dart';
 
 class CalendarPage extends StatefulWidget {
@@ -16,53 +20,22 @@ class CalendarPage extends StatefulWidget {
 }
 
 class _CalendarPageState extends State<CalendarPage> {
-  Map<DateTime, List> _events = new Map();
-  List _selectedEvents;
-  //AnimationController _animationController;
-  CalendarController _calendarController;
+  @override
+  void initState() {
+    super.initState();
+    setUp();
+  }
   void dispose() {
     //_animationController.dispose();
-    _calendarController.dispose();
+    calendarController.dispose();
     super.dispose();
   }
 
-  void initState() {
-    super.initState();
-    setUp(context);
-    final _selectedDay = DateTime.now();
-    _calendarController = CalendarController();
-    // _events = {
-    //   _selectedDay.subtract(Duration(days: 30)): [
-    //     'Event A0',
-    //     'Event B0',
-    //     'Event C0'
-    //   ],
-    // };
-
-    Map<DateTime,List<LoggedSymptom>> days = Provider.of<UserInfo>(context, listen: false).getcurrentUser().getDailies();
-
-    // for(DailySymptoms d in days){
-    //   _events[d.getDate()] = [d];
-    // }
-    days.forEach((key, value) {
-      _events[key] = value;
-    });
-
-    _selectedEvents = _events[_selectedDay] ?? [];
-    _calendarController = CalendarController();
-
-    // _animationController = AnimationController(
-    //   vsync: this,
-    //   duration: const Duration(milliseconds: 400),
-    // );
-
-    //_animationController.forward();
-  }
 
   void _onDaySelected(DateTime day, List events, List holidays) {
     print('CALLBACK: _onDaySelected');
     setState(() {
-      _selectedEvents = events;
+      selectedEvents = events;
     });
   }
 
@@ -165,8 +138,8 @@ class _CalendarPageState extends State<CalendarPage> {
 
   TableCalendar _calendar() {
     return TableCalendar(
-      calendarController: _calendarController,
-      events: _events,
+      calendarController: calendarController,
+      events: events,
       //holidays: _holidays,
       startingDayOfWeek: StartingDayOfWeek.monday,
       calendarStyle: CalendarStyle(
@@ -198,6 +171,7 @@ class _CalendarPageState extends State<CalendarPage> {
 
   List<Widget> _eventsList() {
     List<Widget> view = new List<Widget>();
+    if(events.isEmpty){return [new Container()];}
     // for (Object event in _selectedEvents) {
     //   if(event is DailySymptoms){
     //     DailySymptoms d = event;
@@ -223,7 +197,7 @@ class _CalendarPageState extends State<CalendarPage> {
     //   }
     //
     // }
-    for(Object event in _selectedEvents){
+    for(Object event in selectedEvents){
       if(event is LoggedSymptom){
         LoggedSymptom ls = event;
         Container c = Container(
@@ -235,9 +209,45 @@ class _CalendarPageState extends State<CalendarPage> {
           margin:
           const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
           child: ListTile(
-            title: Text(ls.getSymptom().getName(),style: basicText,),
+            title: Text(ls.getSymptom(),style: basicText,),
             subtitle: Text(ls.getComment()),
-            trailing: Text(ls.getDate().hour.toString() + ":"+ ls.getDate().minute.toString()),
+            trailing: Text(ls.getDate()),
+          ),
+        );
+        view.add(c);
+      }
+      else if(event is Meal){
+        Meal ls = event;
+        Container c = Container(
+          decoration: BoxDecoration(
+
+            border: Border.all(width: 1,color: newBlueAccent),
+            borderRadius: BorderRadius.circular(12.0),
+          ),
+          margin:
+          const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+          child: ListTile(
+            title: Text(ls.getName(),style: basicText,),
+            //subtitle: Text(ls.g),
+            trailing: Text(ls.getDate()),
+          ),
+        );
+        view.add(c);
+      }
+      else if(event is Activity){
+        Activity ls = event;
+        Container c = Container(
+          decoration: BoxDecoration(
+
+            border: Border.all(width: 1,color: newBlueAccent),
+            borderRadius: BorderRadius.circular(12.0),
+          ),
+          margin:
+          const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+          child: ListTile(
+            title: Text(ls.getTitle(),style: basicText,),
+            subtitle: Text(ls.getComments()),
+            trailing: Text(ls.getDate()),
           ),
         );
         view.add(c);

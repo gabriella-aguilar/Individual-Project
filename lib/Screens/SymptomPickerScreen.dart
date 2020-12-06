@@ -4,7 +4,7 @@ import 'package:tracker/Screens/CustomSymptomScreen.dart';
 import 'package:tracker/Screens/HomePageScreen.dart';
 import 'package:tracker/dummyDate.dart';
 import 'package:tracker/Classes/SymptomClass.dart';
-
+import 'package:tracker/Controllers/SymptomPickerController.dart';
 
 class SymptomPickerPage extends StatefulWidget {
   @override
@@ -12,8 +12,7 @@ class SymptomPickerPage extends StatefulWidget {
 }
 
 class _SymptomPickerPageState extends State<SymptomPickerPage> {
-  final _symptoms = getDummyData();
-  final _tracking = new Set();
+
   Symptom cust;
   @override
   Widget build(BuildContext context) {
@@ -86,8 +85,8 @@ class _SymptomPickerPageState extends State<SymptomPickerPage> {
     );
 
      setState(() {
-       _symptoms.add(cust);
-       _tracking.add(cust);
+       symptoms.add(cust);
+       tracking.add(cust);
      });
      cust = null;
 
@@ -96,14 +95,14 @@ class _SymptomPickerPageState extends State<SymptomPickerPage> {
 
   List _listBuilder(){
     List <ListTile> tiles = new List<ListTile>();
-    for(Symptom s in _symptoms){
+    for(Symptom s in symptoms){
       tiles.add(_buildRow(s));
     }
     return tiles;
   }
 
   Widget _buildRow(Symptom s) {
-    final alreadySaved = _tracking.contains(s);
+    final alreadySaved = tracking.contains(s);
     return ListTile(
       title: Text(s.getName()),
       trailing: Icon(
@@ -113,9 +112,9 @@ class _SymptomPickerPageState extends State<SymptomPickerPage> {
       onTap: (){
         setState(() {
           if(alreadySaved){
-            _tracking.remove(s);
+            tracking.remove(s);
           }else{
-            _tracking.add(s);
+            tracking.add(s);
           }
         });
       },
