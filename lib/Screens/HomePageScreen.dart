@@ -14,6 +14,11 @@ import '../Context.dart';
 class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+
+    if(MediaQuery.of(context).viewInsets.bottom != 0){
+      FocusScope.of(context).unfocus();
+    }
+
     BottomAppBar b = BottomAppBar(
 
       color: newBlue,
@@ -87,6 +92,7 @@ class HomePage extends StatelessWidget {
         style: TextStyle(color: backBlue),
       ),
     );
+
 
     double heightAB = a.preferredSize.height + 90;
     final double height = MediaQuery.of(context).size.height - heightAB;

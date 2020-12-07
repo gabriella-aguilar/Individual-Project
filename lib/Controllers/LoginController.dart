@@ -12,6 +12,9 @@ void login(BuildContext context,String email, String password){
   //   if(email.trim() == u.getEmail() && password.trim() == u.getPassword()){
   //     Provider.of<UserInfo>(context, listen: false).setcurrentUser(u);
   //     Provider.of<UserInfo>(context, listen: false).setloggedIn(true);
+  if(MediaQuery.of(context).viewInsets.bottom != 0){
+    FocusScope.of(context).unfocus();
+  }
       Navigator.push(
         context,
         PageRouteBuilder(

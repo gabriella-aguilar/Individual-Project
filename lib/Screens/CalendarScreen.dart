@@ -23,6 +23,7 @@ class _CalendarPageState extends State<CalendarPage> {
   @override
   void initState() {
     super.initState();
+    print("calendar init state called");
     setUp();
   }
   void dispose() {
@@ -129,6 +130,7 @@ class _CalendarPageState extends State<CalendarPage> {
             _calendar(),
             Column(
               children: _eventsList(),
+
             )
           ],
         ),
@@ -172,31 +174,6 @@ class _CalendarPageState extends State<CalendarPage> {
   List<Widget> _eventsList() {
     List<Widget> view = new List<Widget>();
     if(events.isEmpty){return [new Container()];}
-    // for (Object event in _selectedEvents) {
-    //   if(event is DailySymptoms){
-    //     DailySymptoms d = event;
-    //     List<LoggedSymptom> log = d.getLogged();
-    //     for(LoggedSymptom l in log){
-    //       Container c = Container(
-    //         decoration: BoxDecoration(
-    //           border: Border.all(width: 0.8),
-    //           borderRadius: BorderRadius.circular(12.0),
-    //         ),
-    //         margin:
-    //         const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
-    //         child: Column(
-    //           children: [
-    //             Text(l.getSymptom().getName(),style: basicText,),
-    //
-    //           ],
-    //         ),
-    //       );
-    //       view.add(c);
-    //     }
-    //     view.add(new Text(log.length.toString()));
-    //   }
-    //
-    // }
     for(Object event in selectedEvents){
       if(event is LoggedSymptom){
         LoggedSymptom ls = event;

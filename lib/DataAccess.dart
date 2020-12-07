@@ -1,41 +1,48 @@
 import 'dart:async';
-import 'package:path/path.dart';
-
+import 'dart:io' show Directory;
 import 'package:sqflite/sqflite.dart';
 import 'package:flutter/widgets.dart';
 import 'package:tracker/Classes/ActivityClass.dart';
 import 'package:tracker/Classes/LoggedSymptom.dart';
 import 'package:tracker/Classes/MealClass.dart';
+import 'package:tracker/Classes/CommentsClass.dart';
 import 'package:tracker/Classes/SymptomClass.dart';
 import 'package:tracker/Classes/TrackingClass.dart';
+import 'package:path/path.dart' show join;
+import 'package:path_provider/path_provider.dart' show getApplicationDocumentsDirectory;
 
-import 'Context.dart';
 
 class DataAccess{
+  int _version = 1;
+
   DataAccess._privateConstructor();
   static final DataAccess instance = DataAccess._privateConstructor();
 
   static Database _database;
   Future<Database> get database async {
     if (_database != null) return _database;
-    // lazily instantiate the db the first time it is accessed
-    _database = await dataAccess();
+    _database = await _initDatabase();
     return _database;
   }
 
-  dataAccess () async{
+  _initDatabase () async{
     WidgetsFlutterBinding.ensureInitialized();
 
-    return openDatabase(
+    Directory documentsDirectory = await getApplicationDocumentsDirectory();
+    String path = join(documentsDirectory.path, "tracking.db");
+    return await openDatabase(path,
+        version: 1,
+        onCreate: _create);
+  }
 
-      join(await getDatabasesPath(), 'tracking_database.db'),
+  Future _create(Database db, int version) async {
 
-      onCreate: (db, version) {
-        db.execute("CREATE TABLE loggedSymptoms(date TEXT PRIMARY KEY, name TEXT FOREIGN KEY, comments TEXT, intensity INTEGER, location TEXT, duration INTEGER, intervention TEXT)");
+        db.execute("CREATE TABLE loggedSymptoms(date TEXT PRIMARY KEY, name TEXT, comments TEXT, intensity INTEGER, location TEXT, duration INTEGER, intervention TEXT)");
         db.execute("CREATE TABLE meals(date TEXT PRIMARY KEY, name TEXT, gluten INTEGER, alcohol INTEGER, sugar INTEGER, meat INTEGER, dairy INTEGER)");
         db.execute("CREATE TABLE exercise(date TEXT PRIMARY KEY, title TEXT, duration INTEGER, comments TEXT)");
         db.execute("CREATE TABLE symptoms(name PRIMARY KEY, intensity INTEGER, location INTEGER, duration INTEGER, intervention INTEGER)");
         db.execute("CREATE TABLE tracking(name PRIMARY KEY)");
+        db.execute("CREATE TABLE comments(date TEXT PRIMARY KEY, comment TEXT)");
         db.execute("INSERT INTO symptoms(name,intensity,location,duration,intervention) VALUES ('Joint Pain',true,true,true,true)");
         db.execute("INSERT INTO symptoms(name,intensity,location,duration,intervention) VALUES ('Headache',true,false,true,true)");
         db.execute("INSERT INTO symptoms(name,intensity,location,duration,intervention) VALUES ('Menstruation',true,false,false,true)");
@@ -47,20 +54,10 @@ class DataAccess{
         db.execute("INSERT INTO symptoms(name,intensity,location,duration,intervention) VALUES ('Fog',true,true,true,true)");
         db.execute("INSERT INTO symptoms(name,intensity,location,duration,intervention) VALUES ('Bloating',false,false,false,false)");
         db.execute( "INSERT INTO symptoms(name,intensity,location,duration,intervention) VALUES ('Stomach Cramping',true,false,true,true)");
-      },
 
-      version: 1,
-    );
   }
 
-  Future<void> insertExercise(Activity activity) async {
-    final Database db = await database;
-    await db.insert(
-      'exercise',
-      activity.toMap(),
-      conflictAlgorithm: ConflictAlgorithm.replace,
-    );
-  }
+
 
   Future<void> insertMeal(Meal meal) async {
     final Database db =await database;
@@ -68,7 +65,24 @@ class DataAccess{
       'meals',
       meal.toMap(),
       conflictAlgorithm: ConflictAlgorithm.replace,
-    );
+    ).catchError((error) {
+      print("Something went wrong: ${error.message}");
+    });
+  }
+
+  Future<void> insertComment(Comments comment) async {
+    print("Inserting Comment*********************************************************");
+    final Database db =await database;
+    //db.execute("CREATE TABLE comments(date TEXT PRIMARY KEY, comment TEXT)");
+    await db.insert(
+      'comments',
+      comment.toMap(),
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    ).catchError((error) {
+      print("Something went wrong: ${error.message}");
+    });
+    List result = await getAllComments();
+    result.forEach((row) => print(row));
   }
 
   Future<void> insertLogged(LoggedSymptom loggedSymptom) async {
@@ -96,6 +110,22 @@ class DataAccess{
       symptom.toMap(),
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
+  }
+
+  Future<void> insertExercise(Activity activity) async {
+
+    final Database db = await database;
+
+    await db.insert(
+      'exercise',
+      activity.toMap(),
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    ).catchError((error) {
+      print("Something went wrong: ${error.message}");
+    });
+    print("inserting " +activity.getTitle());
+    List result = await getAllExercise();
+    result.forEach((row) => print(row));
   }
 
 
@@ -148,6 +178,17 @@ class DataAccess{
     return List.generate(maps.length, (i) {
       return Tracking(
         name: maps[i]['name'],
+      );
+    });
+  }
+
+  Future<List<Comments>> getAllComments() async {
+    final Database db = await database;
+    final List<Map<String, dynamic>> maps = await db.query('comments');
+    return List.generate(maps.length, (i) {
+      return Comments(
+        comment: maps[i]['comment'],
+        date: maps[i]['date']
       );
     });
   }

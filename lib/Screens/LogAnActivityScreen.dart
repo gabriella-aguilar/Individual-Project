@@ -43,86 +43,88 @@ class _LogActivityState extends State<LogActivity> {
           ),
         ),
         backgroundColor: backBlue,
-        body: Container(
-          padding: EdgeInsets.symmetric(horizontal: 24.0, vertical: 24),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            //mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              //Text(sDate, style: basicText),
-              Text(
-                'Activity Title:',
-                style: basicText,
-              ),
-              TextField(
-                controller: _titleController,
-                keyboardType: TextInputType.multiline,
-                style: TextStyle(
-                  fontSize: 18,
+        body: ListView(
+          children:[ Container(
+            padding: EdgeInsets.symmetric(horizontal: 24.0, vertical: 24),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              //mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                //Text(sDate, style: basicText),
+                Text(
+                  'Activity Title:',
+                  style: basicText,
                 ),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Text(
-                'Duration:',
-                style: basicText,
-              ),
-              Slider(
-                value: _currentSliderValue,
-                activeColor: newBlueAccent,
-                inactiveColor: newBlue,
-                min: 0,
-                max: 120,
-                divisions: 5,
-                label: _currentSliderValue.round().toString() + ' minutes',
-                onChanged: (double value) {
-                  setState(() {
-                    _currentSliderValue = value;
-                  });
-                },
-              ),
-              //ToDo:slider still doesn't move
-              SizedBox(
-                height: 10,
-              ),
-              Text(
-                'Comments:',
-                style: basicText,
-              ),
-              TextField(
-                controller: _commentController,
-                keyboardType: TextInputType.multiline,
-                style: TextStyle(
-                  fontSize: 18,
-                ),
-                minLines: 6,
-                //Normal textInputField will be displayed
-                maxLines: 10, // when user presses enter it will adapt to it
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    sDate,
-                    style: TextStyle(fontSize: 14),
+                TextField(
+                  controller: _titleController,
+                  keyboardType: TextInputType.multiline,
+                  style: TextStyle(
+                    fontSize: 18,
                   ),
-                  RaisedButton(
-                      elevation: 8.0,
-                      child: Text('Submit'),
-                      textColor: backBlue,
-                      color: newBlue,
-                      onPressed: () {
-                        submitPressed(context,_titleController.text, _currentSliderValue.toInt(), _commentController.text);
-                      }),
-                  //SizedBox(width: 10,)
-                ],
-              )
-            ],
-          ),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Text(
+                  'Duration:',
+                  style: basicText,
+                ),
+                Slider(
+                  value: _currentSliderValue,
+                  activeColor: newBlueAccent,
+                  inactiveColor: newBlue,
+                  min: 0,
+                  max: 120,
+                  divisions: 5,
+                  label: _currentSliderValue.round().toString() + ' minutes',
+                  onChanged: (double value) {
+                    setState(() {
+                      _currentSliderValue = value;
+                    });
+                  },
+                ),
+                //ToDo:slider still doesn't move
+                SizedBox(
+                  height: 10,
+                ),
+                Text(
+                  'Comments:',
+                  style: basicText,
+                ),
+                TextField(
+                  controller: _commentController,
+                  keyboardType: TextInputType.multiline,
+                  style: TextStyle(
+                    fontSize: 18,
+                  ),
+                  minLines: 6,
+                  //Normal textInputField will be displayed
+                  maxLines: 10, // when user presses enter it will adapt to it
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      sDate,
+                      style: TextStyle(fontSize: 14),
+                    ),
+                    RaisedButton(
+                        elevation: 8.0,
+                        child: Text('Submit'),
+                        textColor: backBlue,
+                        color: newBlue,
+                        onPressed: () {
+                          submitPressed(context,_titleController.text, _currentSliderValue.toInt(), _commentController.text);
+                        }),
+                    //SizedBox(width: 10,)
+                  ],
+                )
+              ],
+            ),
+          )],
         ));
   }
 }

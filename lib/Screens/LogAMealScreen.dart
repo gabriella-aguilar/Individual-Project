@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tracker/colors.dart';
 import 'package:tracker/Classes/MealClass.dart';
+import 'package:tracker/Controllers/LogAMealController.dart';
 
 import '../Context.dart';
 class LogMeal extends StatefulWidget {
@@ -150,17 +151,9 @@ class _LogMealState extends State<LogMeal> {
                       textColor: Colors.white,
                       color: newBlue,
                       onPressed: () {
-                        Meal m = new Meal(
-                            date: DateTime.now().toString(),
-                            name: _nameController.text,
-                            gluten: _glutenController ? 1 : 0,
-                            alcohol: _alcoholController ? 1 : 0,
-                            sugar: _sugarController ? 1 : 0,
-                            meat: _meatController ? 1 : 0,
-                            dairy: _dairyController ? 1 : 0
-                        );
-                        Provider.of<UserInfo>(context, listen: false).getcurrentUser().getMeals().add(m);
-                        Navigator.pop(context);
+
+                        mealSubmitted(context,_nameController.text,_glutenController,_alcoholController,_sugarController,_meatController,_dairyController);
+
                       }),
                   //SizedBox(width: 10,)
                 ],
