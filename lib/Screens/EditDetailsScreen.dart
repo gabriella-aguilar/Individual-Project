@@ -73,7 +73,7 @@ class _EditDetailsPageState extends State<EditDetailsPage> {
                     decoration: InputDecoration(
                       labelText: 'First Name',
                     ),
-                    cursorColor: newBlueAccent,
+                    cursorColor: darkBlueAccent,
                   ),
                   SizedBox(height: 12.0),
                   TextField(
@@ -81,7 +81,7 @@ class _EditDetailsPageState extends State<EditDetailsPage> {
                     decoration: InputDecoration(
                       labelText: 'Last Name',
                     ),
-                    cursorColor: newBlueAccent,
+                    cursorColor: darkBlueAccent,
                   ),
                   SizedBox(height: 12.0),
                   Row(
@@ -104,7 +104,7 @@ class _EditDetailsPageState extends State<EditDetailsPage> {
                     decoration: InputDecoration(
                       labelText: 'Email',
                     ),
-                    cursorColor: newBlueAccent,
+                    cursorColor: darkBlueAccent,
                   ),
                   SizedBox(height: 12.0),
                   TextField(
@@ -112,7 +112,7 @@ class _EditDetailsPageState extends State<EditDetailsPage> {
                     decoration: InputDecoration(
                       labelText: 'Confirm Email',
                     ),
-                    cursorColor: newBlueAccent,
+                    cursorColor: darkBlueAccent,
                   ),
                   SizedBox(height: 12.0),
                   TextField(
@@ -120,7 +120,7 @@ class _EditDetailsPageState extends State<EditDetailsPage> {
                     decoration: InputDecoration(
                       labelText: 'Password',
                     ),
-                    cursorColor: newBlueAccent,
+                    cursorColor: darkBlueAccent,
                     obscureText: true,
                   ),
                   SizedBox(height: 12.0),
@@ -129,7 +129,7 @@ class _EditDetailsPageState extends State<EditDetailsPage> {
                     decoration: InputDecoration(
                       labelText: 'Confirm Password',
                     ),
-                    cursorColor: newBlueAccent,
+                    cursorColor: darkBlueAccent,
                     obscureText: true,
                   ),
                   SizedBox(height: 20.0),

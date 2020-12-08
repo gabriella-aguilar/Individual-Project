@@ -9,6 +9,7 @@ import 'package:tracker/Screens/CalendarScreen.dart';
 import 'package:tracker/Screens/EditDetailsScreen.dart';
 import 'package:tracker/Classes/UserClass.dart';
 import 'package:tracker/Screens/EditSymptomsScreen.dart';
+import 'package:tracker/DataAccess.dart';
 
 //TO DO: Symptoms editing add to the list for some reason
 class ProfilePage extends StatefulWidget {
@@ -20,26 +21,36 @@ class _ProfilePageState extends State<ProfilePage> {
   List<Symptom> _symptomController;
   void initState(){
     super.initState();
-    _symptomController = Provider.of<UserInfo>(context, listen: false).getcurrentUser().getSymptoms();
+    _setUp();
   }
-  Widget build(BuildContext context) {
-    Widget log = _checkIfLoggedIn(context);
 
+  void _setUp() async{
+    List<Symptom> list =  await DataAccess.instance.getTrackedSymptoms();
+    setState(() {
+      _symptomController = list;
+    });
+  }
+
+
+  Widget build(BuildContext context) {
+    //Widget log = _checkIfLoggedIn(context);
+    _setUp();
     return Scaffold(
       appBar: AppBar(
         leading: Builder(
           builder: (BuildContext context) {
-            return IconButton(
-              icon: const Icon(
-                Icons.arrow_back,
-                color: backBlue,
-              ),
-              onPressed: () {
-                Provider.of<UserInfo>(context, listen: false)
-                    .setloggedIn(false);
-                Navigator.pop(context);
-              },
-            );
+            // return IconButton(
+            //   icon: const Icon(
+            //     Icons.arrow_back,
+            //     color: backBlue,
+            //   ),
+            //   onPressed: () {
+            //     Provider.of<UserInfo>(context, listen: false)
+            //         .setloggedIn(false);
+            //     Navigator.pop(context);
+            //   },
+            // );
+            return Container();
           },
         ),
         backgroundColor: newBlue,
@@ -59,7 +70,7 @@ class _ProfilePageState extends State<ProfilePage> {
               child: Icon(
                 Icons.home,
                 size: 35,
-                color: newBlueAccent,
+                color: darkBlueAccent,
               ),
               onPressed: () {
                 Navigator.pop(context);
@@ -70,7 +81,7 @@ class _ProfilePageState extends State<ProfilePage> {
               },
             ),
             FlatButton(
-              child: Icon(Icons.calendar_today, size: 35, color: newBlueAccent),
+              child: Icon(Icons.calendar_today, size: 35, color: darkBlueAccent),
               onPressed: () {
                 Navigator.pop(context);
                 Navigator.push(
@@ -80,7 +91,7 @@ class _ProfilePageState extends State<ProfilePage> {
               },
             ),
             FlatButton(
-              child: Icon(Icons.equalizer, size: 35, color: newBlueAccent),
+              child: Icon(Icons.equalizer, size: 35, color: darkBlueAccent),
               onPressed: () {
                 Navigator.pop(context);
                 Navigator.push(
@@ -106,14 +117,17 @@ class _ProfilePageState extends State<ProfilePage> {
                 Icon(
                   Icons.account_circle,
                   size: 100,
-                  color: newBlueAccent,
+                  color: darkBlueAccent,
                 ),
               ],
             ),
             SizedBox(
               height: 20,
             ),
-            log,
+            Text(
+              "Symptoms Tracking:" + _symptomDisplay(_symptomController),
+              style: basicText,
+            ),
             SizedBox(
               height: 10,
             ),

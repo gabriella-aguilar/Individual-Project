@@ -55,7 +55,7 @@ class _LogMealState extends State<LogMeal> {
                 decoration: InputDecoration(
                   labelText: 'Meal Name',
                 ),
-                cursorColor: newBlueAccent,
+                cursorColor: darkBlueAccent,
               ),
               SizedBox(height: 10,),
               Row(
@@ -64,8 +64,8 @@ class _LogMealState extends State<LogMeal> {
                   Text('Gluten',style: basicText,),
                   Checkbox(
                     value: _glutenController,
-                    activeColor: newBlueAccent,
-                    checkColor: newBlueAccent,
+                    activeColor: darkBlueAccent,
+                    checkColor: darkBlueAccent,
                     onChanged: (value) {
                       setState(() {
                         _glutenController = value;
@@ -80,8 +80,8 @@ class _LogMealState extends State<LogMeal> {
                   Text('Sugar',style: basicText,),
                   Checkbox(
                     value: _sugarController,
-                    activeColor: newBlueAccent,
-                    checkColor: newBlueAccent,
+                    activeColor: darkBlueAccent,
+                    checkColor: darkBlueAccent,
                     onChanged: (value) {
                       setState(() {
                         _sugarController = value;
@@ -96,8 +96,8 @@ class _LogMealState extends State<LogMeal> {
                   Text('Alcohol',style: basicText,),
                   Checkbox(
                     value: _alcoholController,
-                    activeColor: newBlueAccent,
-                    checkColor: newBlueAccent,
+                    activeColor: darkBlueAccent,
+                    checkColor: darkBlueAccent,
                     onChanged: (value) {
                       setState(() {
                         _alcoholController = value;
@@ -112,8 +112,8 @@ class _LogMealState extends State<LogMeal> {
                   Text('Meat',style: basicText,),
                   Checkbox(
                     value: _meatController,
-                    activeColor: newBlueAccent,
-                    checkColor: newBlueAccent,
+                    activeColor: darkBlueAccent,
+                    checkColor: darkBlueAccent,
                     onChanged: (value) {
                       setState(() {
                         _meatController = value;
@@ -128,8 +128,8 @@ class _LogMealState extends State<LogMeal> {
                   Text('Dairy',style: basicText,),
                   Checkbox(
                     value: _dairyController,
-                    activeColor: newBlueAccent,
-                    checkColor: newBlueAccent,
+                    activeColor: darkBlueAccent,
+                    checkColor: darkBlueAccent,
                     onChanged: (value) {
                       setState(() {
                         _dairyController = value;

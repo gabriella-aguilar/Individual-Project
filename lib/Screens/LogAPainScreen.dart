@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:tracker/Classes/SymptomClass.dart';
+import 'package:tracker/Classes/TrackingClass.dart';
+import 'package:tracker/Controllers/LogAPainController.dart';
+import 'package:tracker/DataAccess.dart';
 import 'package:tracker/colors.dart';
+import 'package:provider/provider.dart';
+
+import '../Context.dart';
 
 class LogPain extends StatefulWidget {
   @override
@@ -8,14 +14,26 @@ class LogPain extends StatefulWidget {
 }
 
 class _LogPainState extends State<LogPain> {
-  double _durationController = 0;
-  double _intensityController = 0;
+  Symptom symptom;
+  double _durationController;
+  double _intensityController;
   TextEditingController _locationController;
   TextEditingController _interventionController;
   TextEditingController _commentController;
 
+
+  @override
+  void initState() {
+    super.initState();
+    String name = Provider.of<UserInfo>(context, listen: false).getSymptom();
+    _intensityController = 0;
+    _durationController = 0;
+    getSymptom(name);
+  }
+
   Widget build(BuildContext context) {
-    Symptom symptom = ModalRoute.of(context).settings.arguments;
+
+
     return Scaffold(
         appBar: AppBar(
           leading: Builder(
@@ -42,10 +60,10 @@ class _LogPainState extends State<LogPain> {
             child: ListView(
                 padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10),
                 children: [
-                  Text("Duration "+ symptom.getDuration().toString()),
-                  Text("Intensity "+ symptom.getIntensity().toString()),
-                  Text("Intervention "+ symptom.getIntervention().toString()),
-                  Text("Location "+ symptom.getLocation().toString()),
+                  // Text("Duration "+ symptom.getDuration().toString()),
+                  // Text("Intensity "+ symptom.getIntensity().toString()),
+                  // Text("Intervention "+ symptom.getIntervention().toString()),
+                  // Text("Location "+ symptom.getLocation().toString()),
                   Container(
                     height: symptom.getDuration() == 1 ? 50 : 0,
                     child: Row(
@@ -56,11 +74,11 @@ class _LogPainState extends State<LogPain> {
                         ),
                         Slider(
                           value: _durationController,
-                          activeColor: newBlueAccent,
+                          activeColor: darkBlueAccent,
                           inactiveColor: newBlue,
                           min: 0,
                           max: 120,
-                          divisions: 5,
+                          divisions: 120,
                           label:
                               _durationController.round().toString() + ' minutes',
                           onChanged: (double value) {
@@ -79,11 +97,11 @@ class _LogPainState extends State<LogPain> {
                         Text("Intensity", style: basicText),
                         Slider(
                           value: _intensityController,
-                          activeColor: newBlueAccent,
+                          activeColor: darkBlueAccent,
                           inactiveColor: newBlue,
                           min: 0,
-                          max: 120,
-                          divisions: 5,
+                          max: 10,
+                          divisions: 10,
                           label: _intensityController.round().toString(),
                           onChanged: (double value) {
                             setState(() {
@@ -151,8 +169,26 @@ class _LogPainState extends State<LogPain> {
                       textColor: backBlue,
                       color: newBlue,
                       onPressed: () {
-
+                        String name = Provider.of<UserInfo>(context, listen: false).getSymptom();
+                        Provider.of<UserInfo>(context, listen: false).setSymptomName("");
+                        String loc = "";
+                        String inter = "";
+                        String comm = "";
+                        if(_locationController != null){loc = _locationController.text.toString();}
+                        if(_interventionController != null){inter = _interventionController.text.toString();}
+                        if(_commentController != null){comm = _commentController.text.toString();}
+                        submitPressed(context,name,_intensityController.round(),_durationController.round(),loc,inter,comm);
                       }),
             ])));
   }
+
+  getSymptom(String name) async{
+   List<Symptom> s = await DataAccess.instance.getSpecificSymptom(name);
+   Symptom sym = s[0];
+   setState(() {
+     symptom = sym;
+   });
+  }
+
+
 }

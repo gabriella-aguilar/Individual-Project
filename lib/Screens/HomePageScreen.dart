@@ -36,7 +36,7 @@ class HomePage extends StatelessWidget {
             onPressed: () {},
           ),
           FlatButton(
-            child: Icon(Icons.calendar_today, size: 35, color: newBlueAccent),
+            child: Icon(Icons.calendar_today, size: 35, color: darkBlueAccent),
             onPressed: () {
               Navigator.pop(context);
               Navigator.push(
@@ -47,7 +47,7 @@ class HomePage extends StatelessWidget {
             },
           ),
           FlatButton(
-            child: Icon(Icons.equalizer, size: 35, color: newBlueAccent),
+            child: Icon(Icons.equalizer, size: 35, color: darkBlueAccent),
             onPressed: () {
               Navigator.pop(context);
               Navigator.push(
@@ -59,7 +59,7 @@ class HomePage extends StatelessWidget {
           ),
           FlatButton(
             child: Icon(Icons.account_circle,
-                size: 35, color: newBlueAccent),
+                size: 35, color: darkBlueAccent),
             onPressed: () {
               Navigator.pop(context);
               Navigator.push(
@@ -76,14 +76,16 @@ class HomePage extends StatelessWidget {
     AppBar a = AppBar(
       leading: Builder(
         builder: (BuildContext context) {
-          return IconButton(
-            icon: const Icon(Icons.arrow_back,color: backBlue,),
-            onPressed: () {
-              Provider.of<UserInfo>(context, listen: false).setloggedIn(false);
-              Navigator.pop(context);
-              },
+          // return IconButton(
+          //   icon: const Icon(Icons.arrow_back,color: backBlue,),
+          //   onPressed: () {
+          //     Provider.of<UserInfo>(context, listen: false).setloggedIn(false);
+          //     Navigator.pop(context);
+          //     },
+          //
+          // );
+          return Container();
 
-          );
         },
       ),
       backgroundColor: newBlue,
@@ -118,7 +120,7 @@ class HomePage extends StatelessWidget {
               decoration: BoxDecoration(
                 color: backBlue,
                 border: Border(
-                  bottom: BorderSide(width: 1.0, color: newBlueAccent),
+                  bottom: BorderSide(width: 1.0, color: darkBlueAccent),
                 ),
               ),
               padding: EdgeInsets.symmetric(horizontal: 10),
@@ -131,7 +133,7 @@ class HomePage extends StatelessWidget {
                 Icon(
                   Icons.fastfood,
                   size: cHeight-20,
-                  color: newBlueAccent,
+                  color: darkBlueAccent,
                   semanticLabel: 'food',
                 ),
                 Text(
@@ -155,7 +157,7 @@ class HomePage extends StatelessWidget {
                   decoration: BoxDecoration(
                     color:backBlue,
                     border: Border(
-                      bottom: BorderSide(width: 1.0, color: newBlueAccent),
+                      bottom: BorderSide(width: 1.0, color: darkBlueAccent),
                     ),
                   ),
                   child:
@@ -166,7 +168,7 @@ class HomePage extends StatelessWidget {
                       Icon(
                         Icons.fitness_center,
                         size: cHeight-20,
-                        color: newBlueAccent,
+                        color: darkBlueAccent,
                         semanticLabel: 'exercise',
                       ),
                       Text(
@@ -190,7 +192,7 @@ class HomePage extends StatelessWidget {
                   decoration: BoxDecoration(
                     color: backBlue,
                     border: Border(
-                      bottom: BorderSide(width: 1.0, color: newBlueAccent),
+                      bottom: BorderSide(width: 1.0, color: darkBlueAccent),
                     ),
                   ),
                   child:
@@ -201,7 +203,7 @@ class HomePage extends StatelessWidget {
                       Icon(
                         Icons.healing,
                         size: cHeight-20,
-                        color: newBlueAccent,
+                        color: darkBlueAccent,
                         semanticLabel: 'pain',
                       ),
                       Text(
@@ -236,7 +238,7 @@ class HomePage extends StatelessWidget {
                       Icon(
                         Icons.insert_comment,
                         size: cHeight-20,
-                        color: newBlueAccent,
+                        color: darkBlueAccent,
                         semanticLabel: 'comment',
                       ),
                       Text(

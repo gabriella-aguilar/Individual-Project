@@ -7,7 +7,7 @@ void submitPressed(BuildContext context,String name, int intensity, int duration
     FocusScope.of(context).unfocus();
   }
 
- LoggedSymptom ls = LoggedSymptom(
+  LoggedSymptom ls = LoggedSymptom(
       name: name,
       date: DateTime.now().toString(),
       intensity: intensity,

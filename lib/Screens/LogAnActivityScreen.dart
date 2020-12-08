@@ -71,7 +71,7 @@ class _LogActivityState extends State<LogActivity> {
                 ),
                 Slider(
                   value: _currentSliderValue,
-                  activeColor: newBlueAccent,
+                  activeColor: darkBlueAccent,
                   inactiveColor: newBlue,
                   min: 0,
                   max: 120,

@@ -12,6 +12,6 @@ List<Symptom>tracking;
 
 void setUp(BuildContext context) async{
   symptoms = await DataAccess.instance.getAllSymptoms();
-  final List<Tracking> t= await DataAccess.instance.getAllTracking();
-  tracking = await DataAccess.instance.getTrackedSymptoms(t);
+  //final List<Tracking> t= await DataAccess.instance.getAllTracking();
+  tracking = await DataAccess.instance.getTrackedSymptoms();
 }

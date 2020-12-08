@@ -13,7 +13,7 @@ import 'package:path_provider/path_provider.dart' show getApplicationDocumentsDi
 
 
 class DataAccess{
-  int _version = 1;
+  int _version = 2;
 
   DataAccess._privateConstructor();
   static final DataAccess instance = DataAccess._privateConstructor();
@@ -21,7 +21,10 @@ class DataAccess{
   static Database _database;
   Future<Database> get database async {
     if (_database != null) return _database;
+
     _database = await _initDatabase();
+   // _create(_database, _version);
+
     return _database;
   }
 
@@ -31,7 +34,7 @@ class DataAccess{
     Directory documentsDirectory = await getApplicationDocumentsDirectory();
     String path = join(documentsDirectory.path, "tracking.db");
     return await openDatabase(path,
-        version: 1,
+        version: _version,
         onCreate: _create);
   }
 
@@ -43,17 +46,7 @@ class DataAccess{
         db.execute("CREATE TABLE symptoms(name PRIMARY KEY, intensity INTEGER, location INTEGER, duration INTEGER, intervention INTEGER)");
         db.execute("CREATE TABLE tracking(name PRIMARY KEY)");
         db.execute("CREATE TABLE comments(date TEXT PRIMARY KEY, comment TEXT)");
-        db.execute("INSERT INTO symptoms(name,intensity,location,duration,intervention) VALUES ('Joint Pain',true,true,true,true)");
-        db.execute("INSERT INTO symptoms(name,intensity,location,duration,intervention) VALUES ('Headache',true,false,true,true)");
-        db.execute("INSERT INTO symptoms(name,intensity,location,duration,intervention) VALUES ('Menstruation',true,false,false,true)");
-        db.execute( "INSERT INTO symptoms(name,intensity,location,duration,intervention) VALUES ('Fatigue',true,false,false,true)");
-        db.execute("INSERT INTO symptoms(name,intensity,location,duration,intervention) VALUES ('Nausea',true,true,false,true)");
-        db.execute("INSERT INTO symptoms(name,intensity,location,duration,intervention) VALUES ('Dizziness',true,true,false,true)");
-        db.execute("INSERT INTO symptoms(name,intensity,location,duration,intervention) VALUES ('Swelling',true,true,true,true)");
-        db.execute("INSERT INTO symptoms(name,intensity,location,duration,intervention) VALUES ('Cramp',true,true,false,true)");
-        db.execute("INSERT INTO symptoms(name,intensity,location,duration,intervention) VALUES ('Fog',true,true,true,true)");
-        db.execute("INSERT INTO symptoms(name,intensity,location,duration,intervention) VALUES ('Bloating',false,false,false,false)");
-        db.execute( "INSERT INTO symptoms(name,intensity,location,duration,intervention) VALUES ('Stomach Cramping',true,false,true,true)");
+       populateSymptoms();
 
   }
 
@@ -128,6 +121,25 @@ class DataAccess{
     result.forEach((row) => print(row));
   }
 
+  void populateSymptoms() async{
+    final Database db = await database;
+    db.rawInsert("INSERT INTO symptoms(name,intensity,location,duration,intervention) VALUES ('Joint Pain',1,1,1,1)");
+    db.rawInsert("INSERT INTO symptoms(name,intensity,location,duration,intervention) VALUES ('Headache',1,0,1,1)");
+    db.rawInsert("INSERT INTO symptoms(name,intensity,location,duration,intervention) VALUES ('Menstruation',1,0,0,1)");
+    db.rawInsert( "INSERT INTO symptoms(name,intensity,location,duration,intervention) VALUES ('Fatigue',1,0,0,1)");
+    db.rawInsert("INSERT INTO symptoms(name,intensity,location,duration,intervention) VALUES ('Nausea',1,0,1,1)");
+    db.rawInsert("INSERT INTO symptoms(name,intensity,location,duration,intervention) VALUES ('Dizziness',1,1,0,1)");
+    db.rawInsert("INSERT INTO symptoms(name,intensity,location,duration,intervention) VALUES ('Swelling',1,1,1,1)");
+    db.rawInsert("INSERT INTO symptoms(name,intensity,location,duration,intervention) VALUES ('Cramp',1,1,0,1)");
+    db.rawInsert("INSERT INTO symptoms(name,intensity,location,duration,intervention) VALUES ('Fog',1,1,1,1)");
+    db.rawInsert("INSERT INTO symptoms(name,intensity,location,duration,intervention) VALUES ('Bloating',0,0,0,0)");
+    db.rawInsert( "INSERT INTO symptoms(name,intensity,location,duration,intervention) VALUES ('Stomach Cramping',1,0,1,1)");
+  }
+  
+  void fix() async{
+    final Database db = await database;
+    db.rawUpdate("UPDATE symptoms SET location = 0 WHERE name = Nausea");
+  }
 
   Future<List<Activity>> getAllExercise() async {
     final Database db = await database;
@@ -209,8 +221,9 @@ class DataAccess{
     });
   }
 
-  Future<List<Symptom>> getTrackedSymptoms(List<Tracking> tracking) async{
+  Future<List<Symptom>> getTrackedSymptoms() async{
     final Database db = await database;
+    List<Tracking> tracking = await getAllTracking();
     String query ='SELECT * FROM Symptom WHERE name=?';
     List<String> names = new List<String>();
     for(Tracking track in tracking){
@@ -218,6 +231,21 @@ class DataAccess{
       names.add(track.getName());
     }
     final List<Map<String, dynamic>> maps =  await db.rawQuery(query,names);
+    return List.generate(maps.length, (i) {
+      return Symptom(
+          name: maps[i]['name'],
+          intensity: maps[i]['intensity'],
+          duration: maps[i]['duration'],
+          location: maps[i]['location'],
+          intervention: maps[i]['intervention']
+      );
+    });
+  }
+
+  Future<List<Symptom>> getSpecificSymptom(String name) async {
+    final Database db = await database;
+   // final List<Map<String, dynamic>> maps =  await db.rawQuery('SELECT * FROM Symptom WHERE name=?',[name]);
+    final List<Map<String, dynamic>> maps = await db.query("symptoms",where: "name = ?",whereArgs: [name]);
     return List.generate(maps.length, (i) {
       return Symptom(
           name: maps[i]['name'],

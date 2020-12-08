@@ -63,7 +63,7 @@ class _EditSymptomsPageState extends State<EditSymptomsPage> {
                     RaisedButton(
                       elevation: 8.0,
                       child: Text('Custom Symptom'),
-                      textColor: newBlueAccent,
+                      textColor: darkBlueAccent,
                       color: backBlue,
                       onPressed: () {
                         _customS(context);
@@ -72,7 +72,7 @@ class _EditSymptomsPageState extends State<EditSymptomsPage> {
                     RaisedButton(
                       elevation: 8.0,
                       child: Text('Save Symptoms'),
-                      textColor: newBlueAccent,
+                      textColor: darkBlueAccent,
                       color: backBlue,
                       onPressed: () {
 
@@ -120,7 +120,7 @@ class _EditSymptomsPageState extends State<EditSymptomsPage> {
       title: Text(s.getName()),
       trailing: Icon(
         alreadySaved ? Icons.check_box_rounded : Icons.check_box_outline_blank,
-        color: newBlueAccent ,
+        color: darkBlueAccent ,
       ),
       onTap: (){
         setState(() {

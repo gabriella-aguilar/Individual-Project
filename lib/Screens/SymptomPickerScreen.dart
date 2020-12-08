@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:tracker/Classes/TrackingClass.dart';
 import 'package:tracker/colors.dart';
 import 'package:tracker/Screens/CustomSymptomScreen.dart';
 import 'package:tracker/Screens/HomePageScreen.dart';
-import 'package:tracker/dummyDate.dart';
 import 'package:tracker/Classes/SymptomClass.dart';
 import 'package:tracker/Controllers/SymptomPickerController.dart';
+
+import '../DataAccess.dart';
 
 class SymptomPickerPage extends StatefulWidget {
   @override
@@ -12,10 +14,21 @@ class SymptomPickerPage extends StatefulWidget {
 }
 
 class _SymptomPickerPageState extends State<SymptomPickerPage> {
-
   Symptom cust;
+  List<Symptom>symptoms =  new List<Symptom>();
+  List<Symptom> tracking;
+
+  @override
+  void initState() {
+    super.initState();
+    tracking = new List<Symptom>();
+    setUpSymptomPicker();
+  }
+
   @override
   Widget build(BuildContext context) {
+
+    List tiles =  _listBuilder();
     return Scaffold(
         appBar: AppBar(
           leading: Builder(
@@ -51,7 +64,7 @@ class _SymptomPickerPageState extends State<SymptomPickerPage> {
             RaisedButton(
               elevation: 8.0,
               child: Text('Custom Symptom'),
-              textColor: newBlueAccent,
+              textColor: darkBlueAccent,
               color: backBlue,
               onPressed: () {
                 _customS(context);
@@ -59,10 +72,12 @@ class _SymptomPickerPageState extends State<SymptomPickerPage> {
             ),
             RaisedButton(
               elevation: 8.0,
-              child: Text('Sign Up'),
-              textColor: newBlueAccent,
+              child: Text('Start'),
+              textColor: darkBlueAccent,
               color: backBlue,
               onPressed: () {
+                _finish();
+                checkOnInserts();
                 Navigator.push(context,
                     PageRouteBuilder(
                         pageBuilder: (_, __, ___) => HomePage()));
@@ -72,9 +87,23 @@ class _SymptomPickerPageState extends State<SymptomPickerPage> {
         )),
         body: SafeArea(
           child: ListView(
-              children: _listBuilder()
+              children: tiles
           )
         ));
+  }
+
+  _finish() async{
+    for(Symptom symptom in tracking){
+      Tracking tracking = new Tracking(
+        name: symptom.getName()
+      );
+      DataAccess.instance.insertTracking(tracking);
+    }
+  }
+
+  checkOnInserts() async{
+    List<Tracking> list = await DataAccess.instance.getAllTracking();
+    list.forEach((element) {print(element.getName());});
   }
 
   _customS (BuildContext context) async {
@@ -107,7 +136,7 @@ class _SymptomPickerPageState extends State<SymptomPickerPage> {
       title: Text(s.getName()),
       trailing: Icon(
         alreadySaved ? Icons.check_box_rounded : Icons.check_box_outline_blank,
-        color: newBlueAccent ,
+        color: darkBlueAccent ,
       ),
       onTap: (){
         setState(() {
@@ -119,5 +148,13 @@ class _SymptomPickerPageState extends State<SymptomPickerPage> {
         });
       },
     );
+  }
+
+  void setUpSymptomPicker() async{
+    List<Symptom> test = await DataAccess.instance.getAllSymptoms().catchError((onError) {print("problem");});
+    setState(() {
+      symptoms= test;
+    });
+
   }
 }

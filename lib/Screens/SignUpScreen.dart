@@ -74,7 +74,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   decoration: InputDecoration(
                     labelText: 'First Name',
                   ),
-                  cursorColor: newBlueAccent,
+                  cursorColor: darkBlueAccent,
                 ),
                 SizedBox(height: 12.0),
                 TextField(
@@ -82,7 +82,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   decoration: InputDecoration(
                     labelText: 'Last Name',
                   ),
-                  cursorColor: newBlueAccent,
+                  cursorColor: darkBlueAccent,
                 ),
                 SizedBox(height: 12.0),
                 Row(
@@ -104,7 +104,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   decoration: InputDecoration(
                     labelText: 'Email',
                   ),
-                  cursorColor: newBlueAccent,
+                  cursorColor: darkBlueAccent,
                 ),
                 SizedBox(height: 12.0),
                 TextField(
@@ -112,7 +112,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   decoration: InputDecoration(
                     labelText: 'Confirm Email',
                   ),
-                  cursorColor: newBlueAccent,
+                  cursorColor: darkBlueAccent,
                 ),
                 SizedBox(height: 12.0),
                 TextField(
@@ -120,7 +120,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   decoration: InputDecoration(
                     labelText: 'Password',
                   ),
-                  cursorColor: newBlueAccent,
+                  cursorColor: darkBlueAccent,
                   obscureText: true,
                 ),
                 SizedBox(height: 12.0),
@@ -129,7 +129,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   decoration: InputDecoration(
                     labelText: 'Confirm Password',
                   ),
-                  cursorColor: newBlueAccent,
+                  cursorColor: darkBlueAccent,
                   obscureText: true,
                 ),
                 SizedBox(height: 20.0),
@@ -139,18 +139,18 @@ class _SignUpPageState extends State<SignUpPage> {
                   textColor: backBlue,
                   color: newBlue,
                   onPressed: () {
-                    if (_emailControllerConfirm.text != _emailController.text) {
-                      _poppin("Your emails don't match!");
-                    } else if (_passwordControllerConfirm.text !=
-                        _passwordController.text) {
-                      _poppin("Your passwords don't match!");
-                    } else {
+                    // if (_emailControllerConfirm.text != _emailController.text) {
+                    //   _poppin("Your emails don't match!");
+                    // } else if (_passwordControllerConfirm.text !=
+                    //     _passwordController.text) {
+                    //   _poppin("Your passwords don't match!");
+                    // } else {
                       Navigator.push(
                           context,
                           PageRouteBuilder(
                               pageBuilder: (_, __, ___) =>
                                   SymptomPickerPage()));
-                    }
+                    //}
                   },
                 ),
                 SizedBox(height: 50.0),

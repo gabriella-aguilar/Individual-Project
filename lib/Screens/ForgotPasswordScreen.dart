@@ -41,7 +41,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                   ),
                   TextField(
                     controller: _usernameController,
-                    cursorColor: newBlueAccent,
+                    cursorColor: darkBlueAccent,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,

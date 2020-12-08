@@ -5,7 +5,20 @@ import 'package:tracker/Screens/ForgotPasswordScreen.dart';
 import 'package:tracker/Screens/HomePageScreen.dart';
 import 'package:tracker/Screens/SignUpScreen.dart';
 import 'package:tracker/dummyDate.dart';
+import 'package:tracker/DataAccess.dart';
 import 'package:tracker/Context.dart';
+
+initialChecks(BuildContext context) async {
+  List list = await DataAccess.instance.getAllTracking();
+  if(list.isNotEmpty && list != null){
+    Navigator.pop(context);
+    Navigator.push(
+      context,
+      PageRouteBuilder(
+          pageBuilder: (_, __, ___) => HomePage()),
+    );
+  }
+}
 
 void login(BuildContext context,String email, String password){
   // for(User u in sampleU){

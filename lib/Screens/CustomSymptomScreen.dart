@@ -52,7 +52,7 @@ class _CustomSymptomPageState extends State<CustomSymptomPage> {
                 decoration: InputDecoration(
                   labelText: 'Symptom Name',
                 ),
-                cursorColor: newBlueAccent,
+                cursorColor: darkBlueAccent,
 
               ),
               SizedBox(height:30),
@@ -64,7 +64,7 @@ class _CustomSymptomPageState extends State<CustomSymptomPage> {
                   Text('Intensity',style: basicText,),
                   Switch(
                       value: _intensity,
-                      activeColor: newBlueAccent,
+                      activeColor: darkBlueAccent,
                       activeTrackColor: newBlue,
                       onChanged: (bool n){
                         setState(() {
@@ -81,7 +81,7 @@ class _CustomSymptomPageState extends State<CustomSymptomPage> {
                   Text('Location',style: basicText),
                   Switch(
                       value: _location,
-                      activeColor: newBlueAccent,
+                      activeColor: darkBlueAccent,
                       activeTrackColor: newBlue,
                       onChanged: (bool n){
                         setState(() {
@@ -97,7 +97,7 @@ class _CustomSymptomPageState extends State<CustomSymptomPage> {
                   Text('Duration',style: basicText),
                   Switch(
                     value: _duration,
-                      activeColor: newBlueAccent,
+                      activeColor: darkBlueAccent,
                       activeTrackColor: newBlue,
                       onChanged: (bool n){
                         setState(() {
@@ -114,7 +114,7 @@ class _CustomSymptomPageState extends State<CustomSymptomPage> {
                   Text('Intervention',style: basicText),
                   Switch(
                       value: _intervention,
-                      activeColor: newBlueAccent,
+                      activeColor: darkBlueAccent,
                       activeTrackColor: newBlue,
                       onChanged: (bool n){
                         setState(() {

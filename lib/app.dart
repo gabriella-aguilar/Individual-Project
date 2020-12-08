@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:tracker/DataAccess.dart';
 import 'colors.dart';
 import 'Screens/LoginScreen.dart';
+import 'package:tracker/Screens/HomePageScreen.dart';
 
 class MyApp extends StatefulWidget {
   @override
@@ -8,10 +10,12 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+
   @override
   Widget build(BuildContext context) {
+
     return MaterialApp(
-      title: 'Shrine',
+      title: 'Symptom Tracker',
       home: Column(
         children: <Widget>[
           Text('home page'),
@@ -24,15 +28,18 @@ class _MyAppState extends State<MyApp> {
   }
 
   Route<dynamic> _getRoute(RouteSettings settings) {
-    if (settings.name != '/login') {
+    if (settings.name == '/login') {
+      return MaterialPageRoute<void>(
+        settings: settings,
+        builder: (BuildContext context) => LoginPage(),
+        fullscreenDialog: true,
+      );
+    }
+    else{
       return null;
     }
 
-    return MaterialPageRoute<void>(
-      settings: settings,
-      builder: (BuildContext context) => LoginPage(),
-      fullscreenDialog: true,
-    );
+
   }
 }
 
@@ -55,15 +62,15 @@ ThemeData _buildTrackTheme() {
       // filled: true,
       //   fillColor: backBlue,
         enabledBorder: UnderlineInputBorder(
-          borderSide: BorderSide(color: newBlueAccent),
+          borderSide: BorderSide(color: darkBlueAccent),
         ),
         focusedBorder: UnderlineInputBorder(
-          borderSide: BorderSide(color: newBlueAccent),
+          borderSide: BorderSide(color: darkBlueAccent),
         ),
         border: UnderlineInputBorder(
-          borderSide: BorderSide(color: newBlueAccent),
+          borderSide: BorderSide(color: darkBlueAccent),
         ),
-        labelStyle: TextStyle(color: newBlueAccent)
+        labelStyle: TextStyle(color: darkBlueAccent)
     ),
   );
 }
@@ -84,7 +91,7 @@ TextTheme _buildTrackTextTheme(TextTheme base) {
   )
       .apply(
     fontFamily: 'Rubik',
-    displayColor: newBlueAccent,
-    bodyColor: newBlueAccent,
+    displayColor: darkBlueAccent,
+    bodyColor: darkBlueAccent,
   );
 }

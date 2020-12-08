@@ -20,14 +20,59 @@ class CalendarPage extends StatefulWidget {
 }
 
 class _CalendarPageState extends State<CalendarPage> {
-  @override
-  void initState() {
-    super.initState();
-    print("calendar init state called");
-    setUp();
+
+  Map<DateTime, List> events = new Map();
+  List selectedEvents;
+
+
+  CalendarController calendarController;
+  void setUpCalendar() async{
+
+    final selectedDay = DateTime.now();
+    calendarController = CalendarController();
+
+
+    Map<DateTime,List<LoggedSymptom>> days = await DataAccess.instance.getLoggedForCalendar();
+    Map<DateTime,List<Meal>> meals = await DataAccess.instance.getMealsForCalendar();
+    Map<DateTime,List<Activity>> activities = await DataAccess.instance.getActivitiesForCalendar();
+
+
+    days.forEach((key, value) {
+      events[key] = value;
+
+    });
+
+    meals.forEach((key, value) {
+
+      if(events.containsKey(key)){
+        List cur = events[key];
+        cur.addAll(value);
+        events[key] = cur;
+      }
+      else{events[key] = value;}
+      meals[key].forEach((row) => print("Meal: "+row.getName()));
+    });
+
+    activities.forEach((key, value) {
+
+      if(events.containsKey(key)){
+        List cur = events[key];
+        cur.addAll(value);
+        events[key] = cur;
+      }
+      else{events[key] = value;}
+      activities[key].forEach((row) => print("Activity: "+row.getTitle()));
+
+    });
+
+    setState(() {
+      selectedEvents = events[selectedDay] ?? [];
+      calendarController = CalendarController();
+    });
   }
+
+
   void dispose() {
-    //_animationController.dispose();
     calendarController.dispose();
     super.dispose();
   }
@@ -51,21 +96,23 @@ class _CalendarPageState extends State<CalendarPage> {
   }
 
   Widget build(BuildContext context) {
+    setUpCalendar();
     return Scaffold(
       appBar: AppBar(
         leading: Builder(
           builder: (BuildContext context) {
-            return IconButton(
-              icon: const Icon(
-                Icons.arrow_back,
-                color: backBlue,
-              ),
-              onPressed: () {
-                Provider.of<UserInfo>(context, listen: false)
-                    .setloggedIn(false);
-                Navigator.pop(context);
-              },
-            );
+            // return IconButton(
+            //   icon: const Icon(
+            //     Icons.arrow_back,
+            //     color: backBlue,
+            //   ),
+            //   onPressed: () {
+            //     Provider.of<UserInfo>(context, listen: false)
+            //         .setloggedIn(false);
+            //     Navigator.pop(context);
+            //   },
+            // );
+            return Container();
           },
         ),
         backgroundColor: newBlue,
@@ -86,7 +133,7 @@ class _CalendarPageState extends State<CalendarPage> {
               child: Icon(
                 Icons.home,
                 size: 35,
-                color: newBlueAccent,
+                color: darkBlueAccent,
               ),
               onPressed: () {
                 Navigator.pop(context);
@@ -101,7 +148,7 @@ class _CalendarPageState extends State<CalendarPage> {
               onPressed: () {},
             ),
             FlatButton(
-              child: Icon(Icons.equalizer, size: 35, color: newBlueAccent),
+              child: Icon(Icons.equalizer, size: 35, color: darkBlueAccent),
               onPressed: () {
                 Navigator.pop(context);
                 Navigator.push(
@@ -111,7 +158,7 @@ class _CalendarPageState extends State<CalendarPage> {
               },
             ),
             FlatButton(
-              child: Icon(Icons.account_circle, size: 35, color: newBlueAccent),
+              child: Icon(Icons.account_circle, size: 35, color: darkBlueAccent),
               onPressed: () {
                 Navigator.pop(context);
                 Navigator.push(
@@ -146,22 +193,22 @@ class _CalendarPageState extends State<CalendarPage> {
       startingDayOfWeek: StartingDayOfWeek.monday,
       calendarStyle: CalendarStyle(
         weekendStyle:
-        TextStyle().copyWith(color: newBlueAccent, fontSize: 15.0),
-        selectedColor: newBlueAccent,
+        TextStyle().copyWith(color: darkBlueAccent, fontSize: 15.0),
+        selectedColor: darkBlueAccent,
         todayColor: newBlue,
-        markersColor: blue3,
+        markersColor: newBlue2,
         outsideDaysVisible: false,
       ),
       daysOfWeekStyle: DaysOfWeekStyle(
           weekdayStyle:
-          TextStyle().copyWith(color: newBlueAccent, fontSize: 15.0),
+          TextStyle().copyWith(color: darkBlueAccent, fontSize: 15.0),
           weekendStyle:
-          TextStyle().copyWith(color: newBlueAccent, fontSize: 15.0)),
+          TextStyle().copyWith(color: darkBlueAccent, fontSize: 15.0)),
       headerStyle: HeaderStyle(
         formatButtonTextStyle:
         TextStyle().copyWith(color: backBlue, fontSize: 15.0),
         formatButtonDecoration: BoxDecoration(
-          color: newBlueAccent,
+          color: darkBlueAccent,
           borderRadius: BorderRadius.circular(16.0),
         ),
       ),
@@ -177,10 +224,11 @@ class _CalendarPageState extends State<CalendarPage> {
     for(Object event in selectedEvents){
       if(event is LoggedSymptom){
         LoggedSymptom ls = event;
+
         Container c = Container(
           decoration: BoxDecoration(
 
-            border: Border.all(width: 1,color: newBlueAccent),
+            border: Border.all(width: 1,color: darkBlueAccent),
             borderRadius: BorderRadius.circular(12.0),
           ),
           margin:
@@ -198,7 +246,7 @@ class _CalendarPageState extends State<CalendarPage> {
         Container c = Container(
           decoration: BoxDecoration(
 
-            border: Border.all(width: 1,color: newBlueAccent),
+            border: Border.all(width: 1,color: darkBlueAccent),
             borderRadius: BorderRadius.circular(12.0),
           ),
           margin:
@@ -216,7 +264,7 @@ class _CalendarPageState extends State<CalendarPage> {
         Container c = Container(
           decoration: BoxDecoration(
 
-            border: Border.all(width: 1,color: newBlueAccent),
+            border: Border.all(width: 1,color: darkBlueAccent),
             borderRadius: BorderRadius.circular(12.0),
           ),
           margin:

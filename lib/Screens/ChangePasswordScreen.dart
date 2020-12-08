@@ -69,7 +69,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                   decoration: InputDecoration(
                     labelText: 'New Password',
                   ),
-                  cursorColor: newBlueAccent,
+                  cursorColor: darkBlueAccent,
                   obscureText: true,
                 ),
                 SizedBox(height: 12.0),
@@ -78,7 +78,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                   decoration: InputDecoration(
                     labelText: 'Confirm Password',
                   ),
-                  cursorColor: newBlueAccent,
+                  cursorColor: darkBlueAccent,
                   obscureText: true,
                 ),
                 SizedBox(height: 20.0),

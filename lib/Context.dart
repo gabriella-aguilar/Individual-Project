@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 //import 'package:provider/provider.dart';
 
 class UserInfo extends ChangeNotifier {
+  String _currentSymptomName;
   User _currentUser;
   Database _database;
   bool _loggedIn = false;
@@ -18,6 +19,9 @@ class UserInfo extends ChangeNotifier {
   void setcurrentUser(value) {
     _currentUser = value;
   }
+
+  void setSymptomName(String name){_currentSymptomName = name;}
+  String getSymptom(){return _currentSymptomName;}
 
   void setDatabase(Database database){this._database = database;}
   Database getDatabase(){return this._database;}
