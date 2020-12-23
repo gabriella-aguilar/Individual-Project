@@ -24,6 +24,7 @@ class DataAccess{
 
     _database = await _initDatabase();
    // _create(_database, _version);
+    populateSymptoms();
 
     return _database;
   }
@@ -46,7 +47,7 @@ class DataAccess{
         db.execute("CREATE TABLE symptoms(name PRIMARY KEY, intensity INTEGER, location INTEGER, duration INTEGER, intervention INTEGER)");
         db.execute("CREATE TABLE tracking(name PRIMARY KEY)");
         db.execute("CREATE TABLE comments(date TEXT PRIMARY KEY, comment TEXT)");
-       populateSymptoms();
+      // populateSymptoms();
 
   }
 

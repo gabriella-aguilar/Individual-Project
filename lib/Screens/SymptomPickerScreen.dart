@@ -112,12 +112,14 @@ class _SymptomPickerPageState extends State<SymptomPickerPage> {
        PageRouteBuilder(
            pageBuilder: (_, __, ___) => CustomSymptomPage()),
     );
+    if(cust != null){
+      setState(() {
+        symptoms.add(cust);
+        tracking.add(cust);
+      });
+      cust = null;
+    }
 
-     setState(() {
-       symptoms.add(cust);
-       tracking.add(cust);
-     });
-     cust = null;
 
   }
 
@@ -151,6 +153,7 @@ class _SymptomPickerPageState extends State<SymptomPickerPage> {
   }
 
   void setUpSymptomPicker() async{
+    await DataAccess.instance.populateSymptoms();
     List<Symptom> test = await DataAccess.instance.getAllSymptoms().catchError((onError) {print("problem");});
     setState(() {
       symptoms= test;
