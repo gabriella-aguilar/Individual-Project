@@ -117,7 +117,7 @@ class HomePage extends StatelessWidget {
       backgroundColor: backBlue,
       bottomNavigationBar: b,
       appBar: a,
-      body: Column(
+      body: ListView(
         //padding: EdgeInsets.symmetric( vertical: 24),
         //mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
