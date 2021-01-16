@@ -23,7 +23,9 @@ class _CalendarPageState extends State<CalendarPage> {
 
   Map<DateTime, List> events = new Map();
   List selectedEvents;
-
+  bool hasLogged;
+  bool hasMeals;
+  bool hasActivities;
 
   CalendarController calendarController;
   void setUpCalendar() async{
@@ -36,35 +38,52 @@ class _CalendarPageState extends State<CalendarPage> {
     Map<DateTime,List<Meal>> meals = await DataAccess.instance.getMealsForCalendar();
     Map<DateTime,List<Activity>> activities = await DataAccess.instance.getActivitiesForCalendar();
 
+    if(days.isEmpty || days == null){
+      print("logged in Empty");
+      hasLogged = false;
+    }else {
+      days.forEach((key, value) {
+        print(value.first.getSymptom());
+        events[key] = value;
+      });
+      hasLogged = true;
+    }
 
-    days.forEach((key, value) {
-      events[key] = value;
+    if(meals.isEmpty || meals == null){
+      hasMeals = false;
+    }
+    else {
+      hasMeals = true;
+      meals.forEach((key, value) {
+        if (events.containsKey(key)) {
+          List cur = events[key];
+          cur.addAll(value);
+          events[key] = cur;
+        }
+        else {
+          events[key] = value;
+        }
+        meals[key].forEach((row) => print("Meal: " + row.getName()));
+      });
+    }
 
-    });
-
-    meals.forEach((key, value) {
-
-      if(events.containsKey(key)){
-        List cur = events[key];
-        cur.addAll(value);
-        events[key] = cur;
-      }
-      else{events[key] = value;}
-      meals[key].forEach((row) => print("Meal: "+row.getName()));
-    });
-
-    activities.forEach((key, value) {
-
-      if(events.containsKey(key)){
-        List cur = events[key];
-        cur.addAll(value);
-        events[key] = cur;
-      }
-      else{events[key] = value;}
-      activities[key].forEach((row) => print("Activity: "+row.getTitle()));
-
-    });
-
+    if(activities.isEmpty || activities == null){
+      hasActivities = false;
+    }
+    else {
+      hasActivities = true;
+      activities.forEach((key, value) {
+        if (events.containsKey(key)) {
+          List cur = events[key];
+          cur.addAll(value);
+          events[key] = cur;
+        }
+        else {
+          events[key] = value;
+        }
+        activities[key].forEach((row) => print("Activity: " + row.getTitle()));
+      });
+    }
     setState(() {
       selectedEvents = events[selectedDay] ?? [];
       calendarController = CalendarController();
@@ -220,7 +239,7 @@ class _CalendarPageState extends State<CalendarPage> {
 
   List<Widget> _eventsList() {
     List<Widget> view = new List<Widget>();
-    if(events.isEmpty){return [new Container()];}
+    if(events.isEmpty || events == null){return [new Container()];}
     for(Object event in selectedEvents){
       if(event is LoggedSymptom){
         LoggedSymptom ls = event;

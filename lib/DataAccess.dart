@@ -86,6 +86,7 @@ class DataAccess{
       loggedSymptom.toMap(),
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
+    print("Adding ${loggedSymptom.getSymptom()}");
   }
 
   Future<void> insertTracking(Tracking tracking) async {
@@ -128,7 +129,7 @@ class DataAccess{
     db.rawInsert("INSERT INTO symptoms(name,intensity,location,duration,intervention) VALUES ('Headache',1,0,1,1)");
     db.rawInsert("INSERT INTO symptoms(name,intensity,location,duration,intervention) VALUES ('Menstruation',1,0,0,1)");
     db.rawInsert( "INSERT INTO symptoms(name,intensity,location,duration,intervention) VALUES ('Fatigue',1,0,0,1)");
-    db.rawInsert("INSERT INTO symptoms(name,intensity,location,duration,intervention) VALUES ('Nausea',1,0,1,1)");
+    db.rawInsert("INSERT INTO symptoms(name,intensity,location,duration,intervention) VALUES ('Nausea',1,0,0,1)");
     db.rawInsert("INSERT INTO symptoms(name,intensity,location,duration,intervention) VALUES ('Dizziness',1,1,0,1)");
     db.rawInsert("INSERT INTO symptoms(name,intensity,location,duration,intervention) VALUES ('Swelling',1,1,1,1)");
     db.rawInsert("INSERT INTO symptoms(name,intensity,location,duration,intervention) VALUES ('Cramp',1,1,0,1)");
@@ -262,6 +263,9 @@ class DataAccess{
     final Database db = await database;
     List<LoggedSymptom> logged = await getAllLoggedSymptoms();
     Map<DateTime,List<LoggedSymptom>> map = new Map();
+    if(logged.isEmpty || logged == null){
+      return null;
+    }
     for(LoggedSymptom loggedSymptom in logged){
       DateTime date = DateTime.parse(loggedSymptom.getDate());
       if(map.containsKey(date)){
@@ -281,6 +285,9 @@ class DataAccess{
   Future<Map<DateTime,List<Meal>>> getMealsForCalendar() async{
     final Database db = await database;
     List<Meal> logged = await getAllMeals();
+    if(logged.isEmpty || logged == null){
+      return null;
+    }
     Map<DateTime,List<Meal>> map = new Map();
     for(Meal loggedMeal in logged){
       DateTime date = DateTime.parse(loggedMeal.getDate());
@@ -301,6 +308,9 @@ class DataAccess{
   Future<Map<DateTime,List<Activity>>> getActivitiesForCalendar() async{
     final Database db = await database;
     List<Activity> logged = await getAllExercise();
+    if(logged.isEmpty || logged == null){
+      return null;
+    }
     Map<DateTime,List<Activity>> map = new Map();
     for(Activity loggedActivity in logged){
       DateTime date = DateTime.parse(loggedActivity.getDate());
