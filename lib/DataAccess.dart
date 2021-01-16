@@ -259,6 +259,11 @@ class DataAccess{
     });
   }
 
+  void deleteTracking(String tracking) async{
+    final Database db = await database;
+    db.delete('tracking',where: "name = ?" ,whereArgs: [tracking]);
+  }
+
   Future<Map<DateTime,List<LoggedSymptom>>> getLoggedForCalendar() async{
     final Database db = await database;
     List<LoggedSymptom> logged = await getAllLoggedSymptoms();

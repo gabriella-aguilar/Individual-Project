@@ -8,6 +8,7 @@ import 'package:tracker/Screens/StatsScreen.dart';
 import 'package:tracker/Screens/CalendarScreen.dart';
 import 'package:tracker/Screens/EditDetailsScreen.dart';
 import 'package:tracker/Classes/UserClass.dart';
+import 'package:tracker/Classes/TrackingClass.dart';
 import 'package:tracker/Screens/EditSymptomsScreen.dart';
 import 'package:tracker/DataAccess.dart';
 
@@ -18,14 +19,14 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  List<Symptom> _symptomController;
+  List<Tracking> _symptomController;
   void initState(){
     super.initState();
     _setUp();
   }
 
   void _setUp() async{
-    List<Symptom> list =  await DataAccess.instance.getTrackedSymptoms();
+    List<Tracking> list =  await DataAccess.instance.getAllTracking();
     setState(() {
       _symptomController = list;
     });
@@ -34,7 +35,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
   Widget build(BuildContext context) {
     //Widget log = _checkIfLoggedIn(context);
-    _setUp();
+
     return Scaffold(
       appBar: AppBar(
         leading: Builder(
@@ -144,96 +145,99 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  Widget _checkIfLoggedIn(BuildContext context) {
-    bool logged = Provider.of<UserInfo>(context, listen: false).getloggedIn();
-    if (logged) {
-      return Consumer<UserInfo>(
-        builder: (context, user, child) {
-          User _currentUser = user.getcurrentUser();
-          var dateNow = _currentUser.getDob();
-          String sDate = dateNow.day.toString() +
-              ' - ' +
-              dateNow.month.toString() +
-              ' - ' +
-              dateNow.year.toString();
-          return Column(
-            children: [
-              Text(
-                'Name: ' +
-                    _currentUser.getFirstName() +
-                    ' ' +
-                    _currentUser.getLastName(),
-                style: basicText,
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Text(
-                'Email: ' + _currentUser.getEmail(),
-                style: basicText,
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Text(
-                'DOB: ' + sDate,
-                style: basicText,
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Text(
-                "Symptoms Tracking:" + _symptomDisplay(_symptomController),
-                style: basicText,
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              RaisedButton(
-                  elevation: 8.0,
-                  child: Text('Edit Details'),
-                  textColor: backBlue,
-                  color: newBlue,
-                  onPressed: () {
-                    Navigator.pop(context);
-                    Navigator.push(
-                      context,
-                      PageRouteBuilder(
-                          pageBuilder: (_, __, ___) => EditDetailsPage()),
-                    );
-                  }),
-            ],
-          );
-        },
-      );
-    } else {
-      List<Symptom> symptoms = Provider.of<UserInfo>(context, listen: false).getSymptoms();
+  // Widget _checkIfLoggedIn(BuildContext context) {
+  //   bool logged = Provider.of<UserInfo>(context, listen: false).getloggedIn();
+  //   if (logged) {
+  //     return Consumer<UserInfo>(
+  //       builder: (context, user, child) {
+  //         User _currentUser = user.getcurrentUser();
+  //         var dateNow = _currentUser.getDob();
+  //         String sDate = dateNow.day.toString() +
+  //             ' - ' +
+  //             dateNow.month.toString() +
+  //             ' - ' +
+  //             dateNow.year.toString();
+  //         return Column(
+  //           children: [
+  //             Text(
+  //               'Name: ' +
+  //                   _currentUser.getFirstName() +
+  //                   ' ' +
+  //                   _currentUser.getLastName(),
+  //               style: basicText,
+  //             ),
+  //             SizedBox(
+  //               height: 10,
+  //             ),
+  //             Text(
+  //               'Email: ' + _currentUser.getEmail(),
+  //               style: basicText,
+  //             ),
+  //             SizedBox(
+  //               height: 10,
+  //             ),
+  //             Text(
+  //               'DOB: ' + sDate,
+  //               style: basicText,
+  //             ),
+  //             SizedBox(
+  //               height: 10,
+  //             ),
+  //             Text(
+  //               "Symptoms Tracking:" + _symptomDisplay(_symptomController),
+  //               style: basicText,
+  //             ),
+  //             SizedBox(
+  //               height: 10,
+  //             ),
+  //             RaisedButton(
+  //                 elevation: 8.0,
+  //                 child: Text('Edit Details'),
+  //                 textColor: backBlue,
+  //                 color: newBlue,
+  //                 onPressed: () {
+  //                   Navigator.pop(context);
+  //                   Navigator.push(
+  //                     context,
+  //                     PageRouteBuilder(
+  //                         pageBuilder: (_, __, ___) => EditDetailsPage()),
+  //                   );
+  //                 }),
+  //           ],
+  //         );
+  //       },
+  //     );
+  //   } else {
+  //     List<Symptom> symptoms = Provider.of<UserInfo>(context, listen: false).getSymptoms();
+  //
+  //     return Column(
+  //       children: [
+  //         Text("Your not currently logged in."),
+  //         SizedBox(
+  //           height: 10,
+  //         ),
+  //         Text(
+  //           "Symptoms Tracking:" + _symptomDisplay(symptoms),
+  //           style: basicText,
+  //         )
+  //       ],
+  //     );
+  //   }
+  // }
 
-      return Column(
-        children: [
-          Text("Your not currently logged in."),
-          SizedBox(
-            height: 10,
-          ),
-          Text(
-            "Symptoms Tracking:" + _symptomDisplay(symptoms),
-            style: basicText,
-          )
-        ],
-      );
-    }
-  }
-
-  String _symptomDisplay(List<Symptom> sy) {
+  String _symptomDisplay(List<Tracking> sy) {
     String syms = "";
-    if (sy != null && sy.isNotEmpty) {
-      for (Symptom s in sy) {
+    if (sy != null ) {
+      if(sy.isEmpty ){return 'empty';}
+      for (Tracking s in sy) {
         syms += " " + s.getName() + ",";
       }
       syms = syms.substring(0, syms.length - 1);
       return syms;
+
+
     }
-    if(sy.isEmpty){return 'empty';}
+
     return "whoopsies";
   }
 

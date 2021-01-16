@@ -77,7 +77,7 @@ class _EditSymptomsPageState extends State<EditSymptomsPage> {
                       onPressed: () {
 
 
-                        Navigator.pop(context,tracking);
+                        save(context);
 
                       },
                     ),
@@ -99,7 +99,7 @@ class _EditSymptomsPageState extends State<EditSymptomsPage> {
 
     setState(() {
       symptoms.add(cust);
-      tracking.add(cust);
+      names.add(cust.getName());
     });
     cust = null;
 
@@ -115,7 +115,7 @@ class _EditSymptomsPageState extends State<EditSymptomsPage> {
   }
 
   Widget _buildRow(Symptom s) {
-    final alreadySaved = tracking.contains(s);
+    final alreadySaved = names.contains(s.getName());
     return ListTile(
       title: Text(s.getName()),
       trailing: Icon(
@@ -125,9 +125,9 @@ class _EditSymptomsPageState extends State<EditSymptomsPage> {
       onTap: (){
         setState(() {
           if(alreadySaved){
-            tracking.remove(s);
+            names.remove(s.getName());
           }else{
-            tracking.add(s);
+            names.add(s.getName());
           }
         });
       },
