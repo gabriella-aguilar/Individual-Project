@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:tracker/Classes/TrackingClass.dart';
 import 'package:tracker/colors.dart';
 import 'package:tracker/Screens/CustomSymptomScreen.dart';
 import 'package:tracker/Screens/ProfileScreen.dart';
-import 'package:tracker/dummyDate.dart';
-import 'package:tracker/Controllers/EditSymptomsController.dart';
 import 'package:tracker/Classes/SymptomClass.dart';
+import 'package:tracker/Controllers/EditSymptomsController.dart';
 
-import '../Context.dart';
-
+import '../DataAccess.dart';
 
 class EditSymptomsPage extends StatefulWidget {
   @override
@@ -16,16 +14,22 @@ class EditSymptomsPage extends StatefulWidget {
 }
 
 class _EditSymptomsPageState extends State<EditSymptomsPage> {
-
   Symptom cust;
+  List<Symptom>symptoms =  new List<Symptom>();
+  List<Symptom> tracking;
+  List<Symptom> preTracking;
 
+  @override
   void initState() {
     super.initState();
-    setUp(context);
+    tracking = new List<Symptom>();
+    setUpSymptomPicker();
   }
 
   @override
   Widget build(BuildContext context) {
+
+    List tiles =  _listBuilder();
     return Scaffold(
         appBar: AppBar(
           leading: Builder(
@@ -37,15 +41,13 @@ class _EditSymptomsPageState extends State<EditSymptomsPage> {
                 ),
                 onPressed: () {
                   Navigator.pop(context);
-                  PageRouteBuilder(
-                      pageBuilder: (_, __, ___) => ProfilePage()
-                  );
+
                 },
               );
             },
           ),
           title: const Text(
-            'Edit Your Symptoms',
+            'Pick Your Symptoms',
             style: TextStyle(color: backBlue),
           ),
           //automaticallyImplyLeading: false,
@@ -71,23 +73,47 @@ class _EditSymptomsPageState extends State<EditSymptomsPage> {
                     ),
                     RaisedButton(
                       elevation: 8.0,
-                      child: Text('Save Symptoms'),
+                      child: Text('Save'),
                       textColor: darkBlueAccent,
                       color: backBlue,
                       onPressed: () {
-
-
-                        save(context);
-
+                        _finish();
+                        checkOnInserts();
+                        Navigator.push(context,
+                            PageRouteBuilder(
+                                pageBuilder: (_, __, ___) => ProfilePage()));
                       },
                     ),
                   ]),
             )),
         body: SafeArea(
             child: ListView(
-                children: _listBuilder()
+                children: tiles
             )
         ));
+  }
+
+  _finish() async{
+    for(Symptom symptom in tracking){
+      if(!preTracking.contains(symptom)) {
+        Tracking tracking = new Tracking(
+            name: symptom.getName()
+        );
+        DataAccess.instance.insertTracking(tracking);
+      }
+    }
+
+    for(Symptom symptom in preTracking){
+      if(!tracking.contains(symptom)) {
+        print(symptom.getName() + " no longer tracked");
+        DataAccess.instance.deleteTracking(symptom.getName());
+      }
+    }
+  }
+
+  checkOnInserts() async{
+    List<Tracking> list = await DataAccess.instance.getAllTracking();
+    list.forEach((element) {print(element.getName());});
   }
 
   _customS (BuildContext context) async {
@@ -96,12 +122,14 @@ class _EditSymptomsPageState extends State<EditSymptomsPage> {
       PageRouteBuilder(
           pageBuilder: (_, __, ___) => CustomSymptomPage()),
     );
+    if(cust != null){
+      setState(() {
+        symptoms.add(cust);
+        tracking.add(cust);
+      });
+      cust = null;
+    }
 
-    setState(() {
-      symptoms.add(cust);
-      names.add(cust.getName());
-    });
-    cust = null;
 
   }
 
@@ -115,7 +143,7 @@ class _EditSymptomsPageState extends State<EditSymptomsPage> {
   }
 
   Widget _buildRow(Symptom s) {
-    final alreadySaved = names.contains(s.getName());
+    final alreadySaved = tracking.contains(s);
     return ListTile(
       title: Text(s.getName()),
       trailing: Icon(
@@ -125,12 +153,28 @@ class _EditSymptomsPageState extends State<EditSymptomsPage> {
       onTap: (){
         setState(() {
           if(alreadySaved){
-            names.remove(s.getName());
+            tracking.remove(s);
           }else{
-            names.add(s.getName());
+            tracking.add(s);
           }
         });
       },
     );
+  }
+
+  void setUpSymptomPicker() async{
+
+    List<Symptom> test = await DataAccess.instance.getAllSymptoms().catchError((onError) {print("problem");});
+    List<Tracking> tracks = await DataAccess.instance.getAllTracking().catchError((onError) {print("problem");});
+    List<Symptom> t = new List<Symptom>();
+    for(Tracking tr in tracks){
+      t.addAll(await DataAccess.instance.getSpecificSymptom(tr.getName()));
+    }
+    setState(() {
+      symptoms= test;
+      tracking = t;
+      preTracking = t;
+    });
+
   }
 }
