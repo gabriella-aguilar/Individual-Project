@@ -26,7 +26,7 @@ class _EditSymptomsPageState extends State<EditSymptomsPage> {
     tracking = new List<Symptom>();
     // preTracking =  new List<Symptom>();
     setUpSymptomPicker();
-    
+
   }
 
   @override
@@ -81,7 +81,7 @@ class _EditSymptomsPageState extends State<EditSymptomsPage> {
                       color: backBlue,
                       onPressed: () {
                         _finish();
-                        checkOnInserts();
+                        //checkOnInserts(); //prints out all tracking
                         Navigator.push(context,
                             PageRouteBuilder(
                                 pageBuilder: (_, __, ___) => ProfilePage()));
@@ -97,7 +97,7 @@ class _EditSymptomsPageState extends State<EditSymptomsPage> {
   }
 
   _finish() async{
-    print("INSIDE FINISH");
+
     for(Symptom symptom in tracking){
       bool found = false;
       for(Tracking s in preTracking) {
@@ -121,7 +121,7 @@ class _EditSymptomsPageState extends State<EditSymptomsPage> {
         }
       }
       if(!found) {
-        print(symptom.getName() + " no longer tracked");
+        //print(symptom.getName() + " no longer tracked");
         DataAccess.instance.deleteTracking(symptom.getName());
       }
     }

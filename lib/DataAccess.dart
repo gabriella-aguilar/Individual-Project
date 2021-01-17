@@ -260,13 +260,13 @@ class DataAccess{
   }
 
   void deleteTracking(String tracking) async{
-    print("Deleting "+tracking);
+    //print("Deleting "+tracking);
     final Database db = await database;
     db.delete('tracking',where: "name = ?" ,whereArgs: [tracking]);
   }
 
   Future<Map<DateTime,List<LoggedSymptom>>> getLoggedForCalendar() async{
-    final Database db = await database;
+   // final Database db = await database;
     List<LoggedSymptom> logged = await getAllLoggedSymptoms();
     Map<DateTime,List<LoggedSymptom>> map = new Map();
     if(logged.isEmpty || logged == null){
@@ -274,12 +274,18 @@ class DataAccess{
     }
     for(LoggedSymptom loggedSymptom in logged){
       DateTime date = DateTime.parse(loggedSymptom.getDate());
-      if(map.containsKey(date)){
-        List<LoggedSymptom> cur = map[date];
-        cur.add(loggedSymptom);
-        map[date] = cur;
-      }
-      else{
+      bool found = false;
+      map.forEach((key, value) {
+        if(key.day == date.day && key.month == date.month && key.year == date.year){
+          found = true;
+          List<LoggedSymptom> cur = map[key];
+          cur.add(loggedSymptom);
+          map[key] = cur;
+        }
+
+      });
+
+      if(!found){
         map[date] = [loggedSymptom];
       }
     }
@@ -297,12 +303,16 @@ class DataAccess{
     Map<DateTime,List<Meal>> map = new Map();
     for(Meal loggedMeal in logged){
       DateTime date = DateTime.parse(loggedMeal.getDate());
-      if(map.containsKey(date)){
-        List<Meal> cur = map[date];
-        cur.add(loggedMeal);
-        map[date] = cur;
-      }
-      else{
+      bool found = false;
+      map.forEach((key, value) {
+        if(key.day == date.day && key.month == date.month && key.year == date.year){
+          found = true;
+          List<Meal> cur = map[key];
+          cur.add(loggedMeal);
+          map[key] = cur;
+        }
+      });
+      if(!found){
         map[date] = [loggedMeal];
       }
     }
@@ -320,12 +330,17 @@ class DataAccess{
     Map<DateTime,List<Activity>> map = new Map();
     for(Activity loggedActivity in logged){
       DateTime date = DateTime.parse(loggedActivity.getDate());
-      if(map.containsKey(date)){
-        List<Activity> cur = map[date];
-        cur.add(loggedActivity);
-        map[date] = cur;
-      }
-      else{
+      bool found = false;
+      map.forEach((key, value) {
+        if(key.day == date.day && key.month == date.month && key.year == date.year){
+          found = true;
+          List<Activity> cur = map[key];
+          cur.add(loggedActivity);
+          map[key] = cur;
+        }
+      });
+
+      if(!found){
         map[date] = [loggedActivity];
       }
     }

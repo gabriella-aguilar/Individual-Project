@@ -55,15 +55,20 @@ class _CalendarPageState extends State<CalendarPage> {
     else {
       hasMeals = true;
       meals.forEach((key, value) {
-        if (events.containsKey(key)) {
-          List cur = events[key];
-          cur.addAll(value);
-          events[key] = cur;
-        }
-        else {
+        bool found = false;
+        events.forEach((k, v) {
+          if (key.day == k.day && key.month == k.month && key.year == k.year) {
+            found = true;
+            List cur = events[k];
+            cur.addAll(value);
+            events[k] = cur;
+          }
+        });
+
+        if(!found) {
           events[key] = value;
         }
-        meals[key].forEach((row) => print("Meal: " + row.getName()));
+        //meals[key].forEach((row) => print("Meal: " + row.getName()));
       });
     }
 
@@ -73,15 +78,20 @@ class _CalendarPageState extends State<CalendarPage> {
     else {
       hasActivities = true;
       activities.forEach((key, value) {
-        if (events.containsKey(key)) {
-          List cur = events[key];
-          cur.addAll(value);
-          events[key] = cur;
-        }
-        else {
+        bool found = false;
+        events.forEach((k, v) {
+          if (key.day == k.day && key.month == k.month && key.year == k.year) {
+            found = true;
+            List cur = events[k];
+            cur.addAll(value);
+            events[k] = cur;
+          }
+        });
+
+        if(!found) {
           events[key] = value;
         }
-        activities[key].forEach((row) => print("Activity: " + row.getTitle()));
+        //activities[key].forEach((row) => print("Activity: " + row.getTitle()));
       });
     }
     setState(() {
