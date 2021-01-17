@@ -260,6 +260,7 @@ class DataAccess{
   }
 
   void deleteTracking(String tracking) async{
+    print("Deleting "+tracking);
     final Database db = await database;
     db.delete('tracking',where: "name = ?" ,whereArgs: [tracking]);
   }

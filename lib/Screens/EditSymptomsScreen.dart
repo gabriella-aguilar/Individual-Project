@@ -15,15 +15,18 @@ class EditSymptomsPage extends StatefulWidget {
 
 class _EditSymptomsPageState extends State<EditSymptomsPage> {
   Symptom cust;
-  List<Symptom>symptoms =  new List<Symptom>();
+  List<Symptom> symptoms =  new List<Symptom>();
   List<Symptom> tracking;
-  List<Symptom> preTracking;
+  List<Tracking> preTracking;
+
 
   @override
   void initState() {
     super.initState();
     tracking = new List<Symptom>();
+    // preTracking =  new List<Symptom>();
     setUpSymptomPicker();
+    
   }
 
   @override
@@ -94,8 +97,15 @@ class _EditSymptomsPageState extends State<EditSymptomsPage> {
   }
 
   _finish() async{
+    print("INSIDE FINISH");
     for(Symptom symptom in tracking){
-      if(!preTracking.contains(symptom)) {
+      bool found = false;
+      for(Tracking s in preTracking) {
+        if (symptom.getName() == s.getName()) {
+          found = true;
+        }
+      }
+      if(!found){
         Tracking tracking = new Tracking(
             name: symptom.getName()
         );
@@ -103,8 +113,14 @@ class _EditSymptomsPageState extends State<EditSymptomsPage> {
       }
     }
 
-    for(Symptom symptom in preTracking){
-      if(!tracking.contains(symptom)) {
+    for(Tracking symptom in preTracking){
+      bool found = false;
+      for(Symptom s in tracking){
+        if(symptom.getName() == s.getName()){
+          found = true;
+        }
+      }
+      if(!found) {
         print(symptom.getName() + " no longer tracked");
         DataAccess.instance.deleteTracking(symptom.getName());
       }
@@ -142,8 +158,30 @@ class _EditSymptomsPageState extends State<EditSymptomsPage> {
     return tiles;
   }
 
+  void _buildTracking() async{
+    for(Symptom s in symptoms) {
+      bool found = false;
+      for (Tracking t in preTracking) {
+        if (s.getName() == t.getName()) {
+          found = true;
+        }
+      }
+      if (found) {
+        setState(() {
+          tracking.add(s);
+        });
+      }
+    }
+  }
+
   Widget _buildRow(Symptom s) {
-    final alreadySaved = tracking.contains(s);
+    bool alreadySaved = false;//= tracking.contains(s);
+    for(Symptom symptom in tracking){
+      if(s.getName() == symptom.getName()){
+        alreadySaved = true;
+      }
+    }
+    //print("Already Tracking " + s.getName() +" "+ alreadySaved.toString());
     return ListTile(
       title: Text(s.getName()),
       trailing: Icon(
@@ -163,18 +201,19 @@ class _EditSymptomsPageState extends State<EditSymptomsPage> {
   }
 
   void setUpSymptomPicker() async{
-
     List<Symptom> test = await DataAccess.instance.getAllSymptoms().catchError((onError) {print("problem");});
     List<Tracking> tracks = await DataAccess.instance.getAllTracking().catchError((onError) {print("problem");});
     List<Symptom> t = new List<Symptom>();
     for(Tracking tr in tracks){
       t.addAll(await DataAccess.instance.getSpecificSymptom(tr.getName()));
     }
+    //print("tracks length: " + t.length.toString());
     setState(() {
       symptoms= test;
-      tracking = t;
-      preTracking = t;
-    });
 
+      preTracking =tracks;
+     // print("tracking length: " + tracking.length.toString());
+    });
+    _buildTracking();
   }
 }

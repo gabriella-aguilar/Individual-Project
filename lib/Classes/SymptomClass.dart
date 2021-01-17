@@ -47,7 +47,7 @@ class Symptom{
   String getName(){return this.name;}
   int getLocation(){return this.location;}
   int getIntensity(){return this.intensity;}
- int getDuration(){return this.duration;}
+  int getDuration(){return this.duration;}
   int getIntervention(){return this.intervention;}
 }
 

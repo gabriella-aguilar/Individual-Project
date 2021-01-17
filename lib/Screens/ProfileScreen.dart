@@ -145,85 +145,6 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  // Widget _checkIfLoggedIn(BuildContext context) {
-  //   bool logged = Provider.of<UserInfo>(context, listen: false).getloggedIn();
-  //   if (logged) {
-  //     return Consumer<UserInfo>(
-  //       builder: (context, user, child) {
-  //         User _currentUser = user.getcurrentUser();
-  //         var dateNow = _currentUser.getDob();
-  //         String sDate = dateNow.day.toString() +
-  //             ' - ' +
-  //             dateNow.month.toString() +
-  //             ' - ' +
-  //             dateNow.year.toString();
-  //         return Column(
-  //           children: [
-  //             Text(
-  //               'Name: ' +
-  //                   _currentUser.getFirstName() +
-  //                   ' ' +
-  //                   _currentUser.getLastName(),
-  //               style: basicText,
-  //             ),
-  //             SizedBox(
-  //               height: 10,
-  //             ),
-  //             Text(
-  //               'Email: ' + _currentUser.getEmail(),
-  //               style: basicText,
-  //             ),
-  //             SizedBox(
-  //               height: 10,
-  //             ),
-  //             Text(
-  //               'DOB: ' + sDate,
-  //               style: basicText,
-  //             ),
-  //             SizedBox(
-  //               height: 10,
-  //             ),
-  //             Text(
-  //               "Symptoms Tracking:" + _symptomDisplay(_symptomController),
-  //               style: basicText,
-  //             ),
-  //             SizedBox(
-  //               height: 10,
-  //             ),
-  //             RaisedButton(
-  //                 elevation: 8.0,
-  //                 child: Text('Edit Details'),
-  //                 textColor: backBlue,
-  //                 color: newBlue,
-  //                 onPressed: () {
-  //                   Navigator.pop(context);
-  //                   Navigator.push(
-  //                     context,
-  //                     PageRouteBuilder(
-  //                         pageBuilder: (_, __, ___) => EditDetailsPage()),
-  //                   );
-  //                 }),
-  //           ],
-  //         );
-  //       },
-  //     );
-  //   } else {
-  //     List<Symptom> symptoms = Provider.of<UserInfo>(context, listen: false).getSymptoms();
-  //
-  //     return Column(
-  //       children: [
-  //         Text("Your not currently logged in."),
-  //         SizedBox(
-  //           height: 10,
-  //         ),
-  //         Text(
-  //           "Symptoms Tracking:" + _symptomDisplay(symptoms),
-  //           style: basicText,
-  //         )
-  //       ],
-  //     );
-  //   }
-  // }
 
   String _symptomDisplay(List<Tracking> sy) {
     String syms = "";
@@ -248,10 +169,7 @@ class _ProfilePageState extends State<ProfilePage> {
           pageBuilder: (_, __, ___) => EditSymptomsPage()),
     );
 
-    setState(() {
-      Provider.of<UserInfo>(context, listen: false).getcurrentUser().setSymptoms(symptoms);
-
-    });
+    _setUp();
 
   }
 }
