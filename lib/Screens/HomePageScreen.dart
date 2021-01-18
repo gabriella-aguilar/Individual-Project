@@ -46,9 +46,9 @@ class HomePage extends StatelessWidget {
     double heightAB = a.preferredSize.height * 2;
     final double height = MediaQuery.of(context).size.height - heightAB ;
     final double cHeight = height * 0.25 - 5;
-    print("HeightAB: ${heightAB}");
-    print("Height: ${height}");
-    print("cHeight: ${cHeight}");
+    // print("HeightAB: ${heightAB}");
+    // print("Height: ${height}");
+    // print("cHeight: ${cHeight}");
     BottomAppBar b = BottomAppBar (
 
       color: newBlue,

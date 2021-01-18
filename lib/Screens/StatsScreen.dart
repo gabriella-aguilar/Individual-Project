@@ -7,6 +7,7 @@ import 'package:tracker/Screens/ProfileScreen.dart';
 import 'package:tracker/Screens/CalendarScreen.dart';
 
 import '../Context.dart';
+import '../DataAccess.dart';
 
 class StatsPage extends StatefulWidget {
 
@@ -26,6 +27,73 @@ class _StatsPageState extends State<StatsPage> {
   @override
   void initState() {
     super.initState();
+    _setUpStats();
+  }
+
+  _setUpStats() async{
+    Map <DateTime,List> events = new Map<DateTime, List>();
+    final _today = DateTime.now();
+
+    Map <DateTime,List>days = await DataAccess.instance.getLoggedForCalendar();
+    Map <DateTime,List>meals = await DataAccess.instance.getMealsForCalendar();
+    Map <DateTime,List>activities = await DataAccess.instance.getActivitiesForCalendar();
+
+    if (meals == null) {
+      print("meals null");
+    } else if (meals.isEmpty) {
+      print("meals empty");
+    } else {
+      meals.forEach((key, value) {
+        bool found = false;
+        events.forEach((k, v) {
+          if (key.day == k.day &&
+              key.month == k.month &&
+              key.year == k.year) {
+            found = true;
+            List cur = new List();
+            cur.addAll(events[k]);
+            cur.addAll(value);
+            events[k] = cur;
+          }
+        });
+
+        if (!found) {
+          events[key] = value;
+        }
+        //meals[key].forEach((row) => print("Meal: " + row.getName()));
+      });
+    }
+
+    if (activities == null) {
+      print("exercise null");
+    } else if (activities.isEmpty) {
+      print("exercise empty");
+    } else {
+      activities.forEach((key, value) {
+        bool found = false;
+        events.forEach((k, v) {
+          if (key.day == k.day &&
+              key.month == k.month &&
+              key.year == k.year) {
+            found = true;
+            List cur =  new List();
+            cur.addAll(events[k]);
+            cur.addAll(value);
+            events[k] = cur;
+          }
+        });
+
+        if (!found) {
+          events[key] = value;
+        }
+        //activities[key].forEach((row) => print("Activity: " + row.getTitle()));
+      });
+    }
+    
+
+
+
+
     final barGroup1 = makeGroupData(0, 5, 12);
     final barGroup2 = makeGroupData(1, 16, 12);
     final barGroup3 = makeGroupData(2, 18, 5);
@@ -44,9 +112,12 @@ class _StatsPageState extends State<StatsPage> {
       barGroup7,
     ];
 
-    rawBarGroups = items;
+    setState(() {
+      rawBarGroups = items;
 
-    showingBarGroups = rawBarGroups;
+      showingBarGroups = rawBarGroups;
+    });
+
   }
 
   BarChartGroupData makeGroupData(int x, double y1, double y2) {

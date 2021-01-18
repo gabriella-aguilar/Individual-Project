@@ -21,6 +21,8 @@ final Map<DateTime, List> _holidays = {
   DateTime(2020, 4, 22): ['Easter Monday'],
 };
 
+//TODO: Subtitles for Logged Symptoms aren't efficient
+
 class CalendarPage extends StatefulWidget {
   CalendarPage({Key key}) : super(key: key);
 
@@ -40,59 +42,7 @@ class _CalendarPageState extends State<CalendarPage>
     print("inside initstate calendar");
     super.initState();
 
-    // events = {
-    //   _selectedDay.subtract(Duration(days: 30)): [
-    //     'Event A0',
-    //     'Event B0',
-    //     'Event C0'
-    //   ],
-    //   _selectedDay.subtract(Duration(days: 27)): ['Event A1'],
-    //   _selectedDay.subtract(Duration(days: 20)): [
-    //     'Event A2',
-    //     'Event B2',
-    //     'Event C2',
-    //     'Event D2'
-    //   ],
-    //   _selectedDay.subtract(Duration(days: 16)): ['Event A3', 'Event B3'],
-    //   _selectedDay.subtract(Duration(days: 10)): [
-    //     'Event A4',
-    //     'Event B4',
-    //     'Event C4'
-    //   ],
-    //   _selectedDay.subtract(Duration(days: 4)): [
-    //     'Event A5',
-    //     'Event B5',
-    //     'Event C5'
-    //   ],
-    //   _selectedDay.subtract(Duration(days: 2)): ['Event A6', 'Event B6'],
-    //   _selectedDay: ['Event A7', 'Event B7', 'Event C7', 'Event D7'],
-    //   _selectedDay.add(Duration(days: 1)): [
-    //     'Event A8',
-    //     'Event B8',
-    //     'Event C8',
-    //     'Event D8'
-    //   ],
-    //   _selectedDay.add(Duration(days: 3)):
-    //   Set.from(['Event A9', 'Event A9', 'Event B9']).toList(),
-    //   _selectedDay.add(Duration(days: 7)): [
-    //     'Event A10',
-    //     'Event B10',
-    //     'Event C10'
-    //   ],
-    //   _selectedDay.add(Duration(days: 11)): ['Event A11', 'Event B11'],
-    //   _selectedDay.add(Duration(days: 17)): [
-    //     'Event A12',
-    //     'Event B12',
-    //     'Event C12',
-    //     'Event D12'
-    //   ],
-    //   _selectedDay.add(Duration(days: 22)): ['Event A13', 'Event B13'],
-    //   _selectedDay.add(Duration(days: 26)): [
-    //     'Event A14',
-    //     'Event B14',
-    //     'Event C14'
-    //   ],
-    // };
+
     setUpCalendar();
 
     _calendarController = CalendarController();
@@ -135,17 +85,7 @@ class _CalendarPageState extends State<CalendarPage>
       appBar: AppBar(
         leading: Builder(
           builder: (BuildContext context) {
-            // return IconButton(
-            //   icon: const Icon(
-            //     Icons.arrow_back,
-            //     color: backBlue,
-            //   ),
-            //   onPressed: () {
-            //     Provider.of<UserInfo>(context, listen: false)
-            //         .setloggedIn(false);
-            //     Navigator.pop(context);
-            //   },
-            // );
+
             return Container();
           },
         ),
@@ -208,15 +148,14 @@ class _CalendarPageState extends State<CalendarPage>
       body: Column(
         mainAxisSize: MainAxisSize.max,
         children: <Widget>[
-          // Switch out 2 lines below to play with TableCalendar's settings
-          //-----------------------
+
           _buildTableCalendar(),
-          // _buildTableCalendarWithBuilders(),
+
           const SizedBox(height: 8.0),
-          //_buildButtons(),
+
           const SizedBox(height: 8.0),
           Expanded(child: _buildEventList()),
-          // Expanded(child: Column(children: eventsList(),))
+
         ],
       ),
     );
@@ -256,89 +195,9 @@ class _CalendarPageState extends State<CalendarPage>
 
   // More advanced TableCalendar configuration (using Builders & Styles)
 
-  Widget _buildEventsMarker(DateTime date, List events) {
-    return AnimatedContainer(
-      duration: const Duration(milliseconds: 300),
-      decoration: BoxDecoration(
-        shape: BoxShape.rectangle,
-        color: _calendarController.isSelected(date)
-            ? Colors.brown[500]
-            : _calendarController.isToday(date)
-                ? Colors.brown[300]
-                : newBlue,
-      ),
-      width: 16.0,
-      height: 16.0,
-      child: Center(
-        child: Text(
-          '${events.length}',
-          style: TextStyle().copyWith(
-            color: Colors.white,
-            fontSize: 12.0,
-          ),
-        ),
-      ),
-    );
-  }
 
-  Widget _buildHolidaysMarker() {
-    return Icon(
-      Icons.add_box,
-      size: 20.0,
-      color: Colors.blueGrey[800],
-    );
-  }
 
-  Widget _buildButtons() {
-    final dateTime = events.keys.elementAt(events.length - 2);
 
-    return Column(
-      children: <Widget>[
-        Row(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: <Widget>[
-            RaisedButton(
-              child: Text('Month'),
-              onPressed: () {
-                setState(() {
-                  _calendarController.setCalendarFormat(CalendarFormat.month);
-                });
-              },
-            ),
-            RaisedButton(
-              child: Text('2 weeks'),
-              onPressed: () {
-                setState(() {
-                  _calendarController
-                      .setCalendarFormat(CalendarFormat.twoWeeks);
-                });
-              },
-            ),
-            RaisedButton(
-              child: Text('Week'),
-              onPressed: () {
-                setState(() {
-                  _calendarController.setCalendarFormat(CalendarFormat.week);
-                });
-              },
-            ),
-          ],
-        ),
-        const SizedBox(height: 8.0),
-        RaisedButton(
-          child: Text(
-              'Set day ${dateTime.day}-${dateTime.month}-${dateTime.year}'),
-          onPressed: () {
-            _calendarController.setSelectedDay(
-              DateTime(dateTime.year, dateTime.month, dateTime.day),
-              runCallback: true,
-            );
-          },
-        ),
-      ],
-    );
-  }
 
   Widget _buildEventList() {
     return ListView(
@@ -360,34 +219,20 @@ class _CalendarPageState extends State<CalendarPage>
     );
   }
 
-  List<Widget> eList() {
-    List<Widget> view = new List<Widget>();
-    if (events == null || events.isEmpty) {
-      print("events empty or null");
-      return view;
-    }
-    events.forEach((key, value) {
-      view.add(new Container(
-        decoration: BoxDecoration(
-          border: Border.all(width: 1, color: darkBlueAccent),
-          borderRadius: BorderRadius.circular(12.0),
-        ),
-        margin: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
-        child: ListTile(title: Text("booox")),
-      ));
-    });
-    return view;
-  }
+
 
   List<Widget> eventsList() {
     List<Widget> view = new List<Widget>();
-    if (events == null || events.isEmpty) {
+    if (selectedEvents == null || selectedEvents.isEmpty) {
       return [new Container()];
     }
     for (Object event in selectedEvents) {
       if (event is LoggedSymptom) {
         LoggedSymptom ls = event;
-
+        String subtitle = ls.getComment();
+        if(ls.getSymptom() == "Joint Pain"){
+          subtitle = ls.getLocation() + " " + subtitle;
+        }
         Container c = Container(
           decoration: BoxDecoration(
             border: Border.all(width: 1, color: darkBlueAccent),
@@ -399,7 +244,7 @@ class _CalendarPageState extends State<CalendarPage>
               ls.getSymptom(),
               style: basicText,
             ),
-            subtitle: Text(ls.getComment()),
+            subtitle: Text(subtitle),
             trailing: Text(ls.getDate()),
           ),
         );
@@ -442,14 +287,14 @@ class _CalendarPageState extends State<CalendarPage>
         view.add(c);
       }
     }
-    print("events size: " + events.length.toString());
-    // print("events size" + events.length.toString());
-    print("view size: " + view.length.toString());
+    // print("events size: " + events.length.toString());
+    // // print("events size" + events.length.toString());
+    // print("view size: " + view.length.toString());
     return view;
   }
 
   void setUpCalendar() async {
-    print("INSIDE SET UP");
+   // print("INSIDE SET UP");
 
     events = new Map<DateTime, List>();
     final _selectedDay = DateTime.now();
@@ -463,7 +308,7 @@ class _CalendarPageState extends State<CalendarPage>
       } else {
         days.forEach((key, value) {
           events[key] = value;
-          print("first in logged" + value.first.getSymptom());
+          //print("first in logged" + value.first.getSymptom());
         });
       }
 
@@ -479,7 +324,8 @@ class _CalendarPageState extends State<CalendarPage>
                 key.month == k.month &&
                 key.year == k.year) {
               found = true;
-              List cur = events[k];
+              List cur = new List();
+              cur.addAll(events[k]);
               cur.addAll(value);
               events[k] = cur;
             }
@@ -504,7 +350,8 @@ class _CalendarPageState extends State<CalendarPage>
                 key.month == k.month &&
                 key.year == k.year) {
               found = true;
-              List cur = events[k];
+              List cur =  new List();
+              cur.addAll(events[k]);
               cur.addAll(value);
               events[k] = cur;
             }
