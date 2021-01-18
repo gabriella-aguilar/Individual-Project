@@ -4,62 +4,91 @@ import 'package:tracker/Classes/ActivityClass.dart';
 import 'package:tracker/Classes/LoggedSymptom.dart';
 import 'package:tracker/Classes/MealClass.dart';
 import 'package:tracker/DataAccess.dart';
+Map<DateTime, List> events;
+void setUpCalendar() async{
+  print("INSIDE SET UP");
+  events = new Map<DateTime,List>();
 
-Map<DateTime,List> eve(DateTime _selectedDay) {
-  Map<DateTime, List> _events = {
-    _selectedDay.subtract(Duration(days: 30)): [
-      'Event A0',
-      'Event B0',
-      'Event C0'
-    ],
-    _selectedDay.subtract(Duration(days: 27)): ['Event A1'],
-    _selectedDay.subtract(Duration(days: 20)): [
-      'Event A2',
-      'Event B2',
-      'Event C2',
-      'Event D2'
-    ],
-    _selectedDay.subtract(Duration(days: 16)): ['Event A3', 'Event B3'],
-    _selectedDay.subtract(Duration(days: 10)): [
-      'Event A4',
-      'Event B4',
-      'Event C4'
-    ],
-    _selectedDay.subtract(Duration(days: 4)): [
-      'Event A5',
-      'Event B5',
-      'Event C5'
-    ],
-    _selectedDay.subtract(Duration(days: 2)): ['Event A6', 'Event B6'],
-    _selectedDay: ['Event A7', 'Event B7', 'Event C7', 'Event D7'],
-    _selectedDay.add(Duration(days: 1)): [
-      'Event A8',
-      'Event B8',
-      'Event C8',
-      'Event D8'
-    ],
-    _selectedDay.add(Duration(days: 3)):
-    Set.from(['Event A9', 'Event A9', 'Event B9']).toList(),
-    _selectedDay.add(Duration(days: 7)): [
-      'Event A10',
-      'Event B10',
-      'Event C10'
-    ],
-    _selectedDay.add(Duration(days: 11)): ['Event A11', 'Event B11'],
-    _selectedDay.add(Duration(days: 17)): [
-      'Event A12',
-      'Event B12',
-      'Event C12',
-      'Event D12'
-    ],
-    _selectedDay.add(Duration(days: 22)): ['Event A13', 'Event B13'],
-    _selectedDay.add(Duration(days: 26)): [
-      'Event A14',
-      'Event B14',
-      'Event C14'
-    ],
-  };
-  return _events;
+  Map<DateTime,List<LoggedSymptom>> days = await DataAccess.instance.getLoggedForCalendar();
+  Map<DateTime,List<Meal>> meals = await DataAccess.instance.getMealsForCalendar();
+  Map<DateTime,List<Activity>> activities = await DataAccess.instance.getActivitiesForCalendar();
+
+  if(days.isEmpty || days == null){
+    print("logged in Empty or null");
+
+  }else {
+    days.forEach((key, value) {
+
+      events[key] = value;
+      print("first in logged" +value.first.getSymptom());
+    });
+
+  }
+
+  if( meals == null){
+    print("meals null");
+  }
+  else if(meals.isEmpty ){
+    print ("meals empty");
+  }
+  else {
+
+    meals.forEach((key, value) {
+      bool found = false;
+      events.forEach((k, v) {
+        if (key.day == k.day && key.month == k.month && key.year == k.year) {
+          found = true;
+          List cur = events[k];
+          cur.addAll(value);
+          events[k] = cur;
+        }
+      });
+
+      if(!found) {
+        events[key] = value;
+      }
+      //meals[key].forEach((row) => print("Meal: " + row.getName()));
+    });
+  }
+
+  if(activities == null){
+      print("exercise null");
+  }
+  else if(activities.isEmpty ){
+    print("exercise empty");
+  }
+  else {
+
+    activities.forEach((key, value) {
+      bool found = false;
+      events.forEach((k, v) {
+        if (key.day == k.day && key.month == k.month && key.year == k.year) {
+          found = true;
+          List cur = events[k];
+          cur.addAll(value);
+          events[k] = cur;
+        }
+      });
+
+      if(!found) {
+        events[key] = value;
+      }
+      //activities[key].forEach((row) => print("Activity: " + row.getTitle()));
+    });
+  }
+
+  if(events.isNotEmpty && events != null){
+    events.forEach((key, value) {
+      print("key: " + key.toString() + "  value: " + value.toString());});
+
+  }
+  else if(events == null){
+    print("events is null");
+  }
+  else {
+    print("EVENTS IS EMPTY");
+  }
+
 }
 
 

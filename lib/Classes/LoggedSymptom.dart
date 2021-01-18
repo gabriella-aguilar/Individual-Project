@@ -38,6 +38,11 @@ class LoggedSymptom {
 
     };
   }
+  @override
+  String toString(){
+    String text = this.name + "\n" + this.date;
+    return text;
+  }
 
   String getSymptom(){return this.name;}
   String getDate(){return this.date;}
