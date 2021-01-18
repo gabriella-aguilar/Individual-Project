@@ -1,7 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:tracker/Classes/ActivityClass.dart';
+import 'package:tracker/Classes/LoggedSymptom.dart';
+import 'package:tracker/Classes/MealClass.dart';
 import 'package:tracker/Controllers/CalendarController.dart';
+
+import '../DataAccess.dart';
+import '../colors.dart';
+import 'HomePageScreen.dart';
+import 'ProfileScreen.dart';
+import 'StatsScreen.dart';
+
 // Example holidays
 final Map<DateTime, List> _holidays = {
   DateTime(2020, 1, 1): ['New Year\'s Day'],
@@ -11,19 +21,17 @@ final Map<DateTime, List> _holidays = {
   DateTime(2020, 4, 22): ['Easter Monday'],
 };
 
-
 class CalendarPage extends StatefulWidget {
   CalendarPage({Key key}) : super(key: key);
-
-
 
   @override
   _CalendarPageState createState() => _CalendarPageState();
 }
 
-class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMixin {
-  Map<DateTime, List> _events;
-  List _selectedEvents;
+class _CalendarPageState extends State<CalendarPage>
+    with TickerProviderStateMixin {
+  Map<DateTime, List> events;
+  //List _selectedEvents;
   AnimationController _animationController;
   CalendarController _calendarController;
 
@@ -31,9 +39,8 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
   void initState() {
     print("inside initstate calendar");
     super.initState();
-    final _selectedDay = DateTime.now();
 
-    // _events = {
+    // events = {
     //   _selectedDay.subtract(Duration(days: 30)): [
     //     'Event A0',
     //     'Event B0',
@@ -87,12 +94,7 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
     //   ],
     // };
     setUpCalendar();
-    _events = new Map<DateTime,List>();
-    events.forEach((key, value) {
-      DateTime k = new DateTime(key.year,key.month,key.day,0,0,0,0,0);
-      _events[k] = value;
-    });
-    _selectedEvents = _events[_selectedDay] ?? [];
+
     _calendarController = CalendarController();
 
     _animationController = AnimationController(
@@ -101,7 +103,6 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
     );
 
     _animationController.forward();
-
   }
 
   @override
@@ -114,7 +115,7 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
   void _onDaySelected(DateTime day, List events, List holidays) {
     print('CALLBACK: _onDaySelected');
     setState(() {
-      _selectedEvents = events;
+      selectedEvents = events;
     });
   }
 
@@ -132,8 +133,78 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Calendar"),
+        leading: Builder(
+          builder: (BuildContext context) {
+            // return IconButton(
+            //   icon: const Icon(
+            //     Icons.arrow_back,
+            //     color: backBlue,
+            //   ),
+            //   onPressed: () {
+            //     Provider.of<UserInfo>(context, listen: false)
+            //         .setloggedIn(false);
+            //     Navigator.pop(context);
+            //   },
+            // );
+            return Container();
+          },
+        ),
+        backgroundColor: newBlue,
+        title: Text(
+          'Calendar Page',
+          style: TextStyle(color: backBlue),
+        ),
       ),
+      backgroundColor: backBlue,
+      bottomNavigationBar: BottomAppBar(
+        color: newBlue,
+        elevation: 2,
+        child: ButtonBar(
+          alignment: MainAxisAlignment.spaceAround,
+          buttonPadding: EdgeInsets.only(bottom: 15, top: 15),
+          children: <Widget>[
+            FlatButton(
+              child: Icon(
+                Icons.home,
+                size: 35,
+                color: darkBlueAccent,
+              ),
+              onPressed: () {
+                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  PageRouteBuilder(pageBuilder: (_, __, ___) => HomePage()),
+                );
+              },
+            ),
+            FlatButton(
+              child: Icon(Icons.calendar_today, size: 35, color: backBlue),
+              onPressed: () {},
+            ),
+            FlatButton(
+              child: Icon(Icons.equalizer, size: 35, color: darkBlueAccent),
+              onPressed: () {
+                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  PageRouteBuilder(pageBuilder: (_, __, ___) => StatsPage()),
+                );
+              },
+            ),
+            FlatButton(
+              child: Icon(Icons.account_circle, size: 35, color: darkBlueAccent),
+              onPressed: () {
+                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  PageRouteBuilder(pageBuilder: (_, __, ___) => ProfilePage()),
+                );
+              },
+            ),
+          ],
+        ),
+      ),
+
       body: Column(
         mainAxisSize: MainAxisSize.max,
         children: <Widget>[
@@ -145,6 +216,7 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
           //_buildButtons(),
           const SizedBox(height: 8.0),
           Expanded(child: _buildEventList()),
+          // Expanded(child: Column(children: eventsList(),))
         ],
       ),
     );
@@ -154,20 +226,25 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
   Widget _buildTableCalendar() {
     return TableCalendar(
       calendarController: _calendarController,
-      events: _events,
+      events: events,
       holidays: _holidays,
       startingDayOfWeek: StartingDayOfWeek.monday,
       calendarStyle: CalendarStyle(
-        selectedColor: Colors.deepOrange[400],
-        todayColor: Colors.deepOrange[200],
-        markersColor: Colors.brown[700],
+        selectedColor: darkBlueAccent,
+        weekendStyle: TextStyle().copyWith(color: newBlue2),
+        todayColor: darkBlueAccent2,
+        markersColor: newBlue2,
         outsideDaysVisible: false,
+      ),
+      daysOfWeekStyle: DaysOfWeekStyle(
+        weekendStyle: TextStyle().copyWith(color: darkBlueAccent2),
+        weekdayStyle: TextStyle().copyWith(color: darkBlueAccent2),
       ),
       headerStyle: HeaderStyle(
         formatButtonTextStyle:
-        TextStyle().copyWith(color: Colors.white, fontSize: 15.0),
+            TextStyle().copyWith(color: backBlue, fontSize: 15.0),
         formatButtonDecoration: BoxDecoration(
-          color: Colors.deepOrange[400],
+          color: darkBlueAccent,
           borderRadius: BorderRadius.circular(16.0),
         ),
       ),
@@ -178,96 +255,6 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
   }
 
   // More advanced TableCalendar configuration (using Builders & Styles)
-  Widget _buildTableCalendarWithBuilders() {
-    return TableCalendar(
-      locale: 'pl_PL',
-      calendarController: _calendarController,
-      events: _events,
-      holidays: _holidays,
-      initialCalendarFormat: CalendarFormat.month,
-      formatAnimation: FormatAnimation.slide,
-      startingDayOfWeek: StartingDayOfWeek.sunday,
-      availableGestures: AvailableGestures.all,
-      availableCalendarFormats: const {
-        CalendarFormat.month: '',
-        CalendarFormat.week: '',
-      },
-      calendarStyle: CalendarStyle(
-        outsideDaysVisible: false,
-        weekendStyle: TextStyle().copyWith(color: Colors.blue[800]),
-        holidayStyle: TextStyle().copyWith(color: Colors.blue[800]),
-      ),
-      daysOfWeekStyle: DaysOfWeekStyle(
-        weekendStyle: TextStyle().copyWith(color: Colors.blue[600]),
-      ),
-      headerStyle: HeaderStyle(
-        centerHeaderTitle: true,
-        formatButtonVisible: false,
-      ),
-      builders: CalendarBuilders(
-        selectedDayBuilder: (context, date, _) {
-          return FadeTransition(
-            opacity: Tween(begin: 0.0, end: 1.0).animate(_animationController),
-            child: Container(
-              margin: const EdgeInsets.all(4.0),
-              padding: const EdgeInsets.only(top: 5.0, left: 6.0),
-              color: Colors.deepOrange[300],
-              width: 100,
-              height: 100,
-              child: Text(
-                '${date.day}',
-                style: TextStyle().copyWith(fontSize: 16.0),
-              ),
-            ),
-          );
-        },
-        todayDayBuilder: (context, date, _) {
-          return Container(
-            margin: const EdgeInsets.all(4.0),
-            padding: const EdgeInsets.only(top: 5.0, left: 6.0),
-            color: Colors.amber[400],
-            width: 100,
-            height: 100,
-            child: Text(
-              '${date.day}',
-              style: TextStyle().copyWith(fontSize: 16.0),
-            ),
-          );
-        },
-        markersBuilder: (context, date, events, holidays) {
-          final children = <Widget>[];
-
-          if (events.isNotEmpty) {
-            children.add(
-              Positioned(
-                right: 1,
-                bottom: 1,
-                child: _buildEventsMarker(date, events),
-              ),
-            );
-          }
-
-          if (holidays.isNotEmpty) {
-            children.add(
-              Positioned(
-                right: -2,
-                top: -2,
-                child: _buildHolidaysMarker(),
-              ),
-            );
-          }
-
-          return children;
-        },
-      ),
-      onDaySelected: (date, events, holidays) {
-        _onDaySelected(date, events, holidays);
-        _animationController.forward(from: 0.0);
-      },
-      onVisibleDaysChanged: _onVisibleDaysChanged,
-      onCalendarCreated: _onCalendarCreated,
-    );
-  }
 
   Widget _buildEventsMarker(DateTime date, List events) {
     return AnimatedContainer(
@@ -277,8 +264,8 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
         color: _calendarController.isSelected(date)
             ? Colors.brown[500]
             : _calendarController.isToday(date)
-            ? Colors.brown[300]
-            : Colors.blue[400],
+                ? Colors.brown[300]
+                : newBlue,
       ),
       width: 16.0,
       height: 16.0,
@@ -303,7 +290,7 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
   }
 
   Widget _buildButtons() {
-    final dateTime = _events.keys.elementAt(_events.length - 2);
+    final dateTime = events.keys.elementAt(events.length - 2);
 
     return Column(
       children: <Widget>[
@@ -355,21 +342,192 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
 
   Widget _buildEventList() {
     return ListView(
-      children: _selectedEvents
-          .map((event) => Container(
-        decoration: BoxDecoration(
-          border: Border.all(width: 0.8),
-          borderRadius: BorderRadius.circular(12.0),
-        ),
-        margin:
-        const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
-        child: ListTile(
-          title: Text(event.toString()),
-          onTap: () => print('$event tapped!'),
-        ),
-      ))
-          .toList(),
+      children: eventsList(),
+      // children: _selectedEvents
+      //     .map((event) => Container(
+      //   decoration: BoxDecoration(
+      //     border: Border.all(width: 0.8),
+      //     borderRadius: BorderRadius.circular(12.0),
+      //   ),
+      //   margin:
+      //   const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+      //   child: ListTile(
+      //     title: Text(event.toString()),
+      //     onTap: () => print('$event tapped!'),
+      //   ),
+      // ))
+      //     .toList(),
     );
   }
-}
 
+  List<Widget> eList() {
+    List<Widget> view = new List<Widget>();
+    if (events == null || events.isEmpty) {
+      print("events empty or null");
+      return view;
+    }
+    events.forEach((key, value) {
+      view.add(new Container(
+        decoration: BoxDecoration(
+          border: Border.all(width: 1, color: darkBlueAccent),
+          borderRadius: BorderRadius.circular(12.0),
+        ),
+        margin: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+        child: ListTile(title: Text("booox")),
+      ));
+    });
+    return view;
+  }
+
+  List<Widget> eventsList() {
+    List<Widget> view = new List<Widget>();
+    if (events == null || events.isEmpty) {
+      return [new Container()];
+    }
+    for (Object event in selectedEvents) {
+      if (event is LoggedSymptom) {
+        LoggedSymptom ls = event;
+
+        Container c = Container(
+          decoration: BoxDecoration(
+            border: Border.all(width: 1, color: darkBlueAccent),
+            borderRadius: BorderRadius.circular(12.0),
+          ),
+          margin: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+          child: ListTile(
+            title: Text(
+              ls.getSymptom(),
+              style: basicText,
+            ),
+            subtitle: Text(ls.getComment()),
+            trailing: Text(ls.getDate()),
+          ),
+        );
+        view.add(c);
+      } else if (event is Meal) {
+        Meal ls = event;
+        Container c = Container(
+          decoration: BoxDecoration(
+            border: Border.all(width: 1, color: darkBlueAccent),
+            borderRadius: BorderRadius.circular(12.0),
+          ),
+          margin: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+          child: ListTile(
+            title: Text(
+              ls.getName(),
+              style: basicText,
+            ),
+            //subtitle: Text(ls.g),
+            trailing: Text(ls.getDate()),
+          ),
+        );
+        view.add(c);
+      } else if (event is Activity) {
+        Activity ls = event;
+        Container c = Container(
+          decoration: BoxDecoration(
+            border: Border.all(width: 1, color: darkBlueAccent),
+            borderRadius: BorderRadius.circular(12.0),
+          ),
+          margin: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+          child: ListTile(
+            title: Text(
+              ls.getTitle(),
+              style: basicText,
+            ),
+            subtitle: Text(ls.getComments()),
+            trailing: Text(ls.getDate()),
+          ),
+        );
+        view.add(c);
+      }
+    }
+    print("events size: " + events.length.toString());
+    // print("events size" + events.length.toString());
+    print("view size: " + view.length.toString());
+    return view;
+  }
+
+  void setUpCalendar() async {
+    print("INSIDE SET UP");
+
+    events = new Map<DateTime, List>();
+    final _selectedDay = DateTime.now();
+
+    days = await DataAccess.instance.getLoggedForCalendar();
+    meals = await DataAccess.instance.getMealsForCalendar();
+    activities = await DataAccess.instance.getActivitiesForCalendar();
+    setState(() {
+      if (days.isEmpty || days == null) {
+        print("logged in Empty or null");
+      } else {
+        days.forEach((key, value) {
+          events[key] = value;
+          print("first in logged" + value.first.getSymptom());
+        });
+      }
+
+      if (meals == null) {
+        print("meals null");
+      } else if (meals.isEmpty) {
+        print("meals empty");
+      } else {
+        meals.forEach((key, value) {
+          bool found = false;
+          events.forEach((k, v) {
+            if (key.day == k.day &&
+                key.month == k.month &&
+                key.year == k.year) {
+              found = true;
+              List cur = events[k];
+              cur.addAll(value);
+              events[k] = cur;
+            }
+          });
+
+          if (!found) {
+            events[key] = value;
+          }
+          //meals[key].forEach((row) => print("Meal: " + row.getName()));
+        });
+      }
+
+      if (activities == null) {
+        print("exercise null");
+      } else if (activities.isEmpty) {
+        print("exercise empty");
+      } else {
+        activities.forEach((key, value) {
+          bool found = false;
+          events.forEach((k, v) {
+            if (key.day == k.day &&
+                key.month == k.month &&
+                key.year == k.year) {
+              found = true;
+              List cur = events[k];
+              cur.addAll(value);
+              events[k] = cur;
+            }
+          });
+
+          if (!found) {
+            events[key] = value;
+          }
+          //activities[key].forEach((row) => print("Activity: " + row.getTitle()));
+        });
+      }
+
+      if (events.isNotEmpty && events != null) {
+        events.forEach((key, value) {
+          print("key: " + key.toString() + "  value: " + value.toString());
+        });
+      } else if (events == null) {
+        print("events is null");
+      } else {
+        print("EVENTS IS EMPTY");
+      }
+
+      selectedEvents = events[_selectedDay] ?? [];
+    });
+  }
+}
