@@ -259,6 +259,53 @@ class DataAccess{
     });
   }
 
+  Future<LoggedSymptom> getLoggedSymptomByDate(String date) async{
+    final Database db = await database;
+    final List<Map<String, dynamic>> maps = await db.query("loggedSymptoms",where: "date = ?",whereArgs: [date]);
+    var temp =  List.generate(maps.length, (i) {
+      return LoggedSymptom(
+          date: maps[i]['date'],
+          comments: maps[i]['comments'],
+          name: maps[i]['name'],
+          intensity: maps[i]['intensity'],
+          duration: maps[i]['duration'],
+          location: maps[i]['location'],
+          intervention: maps[i]['intervention']
+      );
+    });
+    return temp[0];
+  }
+
+  Future<Meal> getMealByDate(String date) async{
+    final Database db = await database;
+    final List<Map<String, dynamic>> maps = await db.query("meals",where: "date = ?",whereArgs: [date]);
+    var temp =  List.generate(maps.length, (i) {
+      return Meal(
+          date: maps[i]['date'],
+          name: maps[i]['name'],
+          gluten: maps[i]['gluten'],
+          sugar: maps[i]['sugar'],
+          alcohol: maps[i]['alcohol'],
+          meat: maps[i]['meat'],
+          dairy: maps[i]['dairy']
+      );
+    });
+    return temp[0];
+  }
+  Future<Activity> getExerciseByDate(String date) async{
+    final Database db = await database;
+    final List<Map<String, dynamic>> maps = await db.query("exercise",where: "date = ?",whereArgs: [date]);
+    var temp =  List.generate(maps.length, (i) {
+      return Activity(
+          date: maps[i]['date'],
+          title: maps[i]['title'],
+          duration: maps[i]['duration'],
+          comments: maps[i]['comments']
+      );
+    });
+    return temp[0];
+  }
+
   void deleteTracking(String tracking) async{
     //print("Deleting "+tracking);
     final Database db = await database;

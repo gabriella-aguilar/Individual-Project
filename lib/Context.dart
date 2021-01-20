@@ -6,6 +6,7 @@ import 'package:flutter/foundation.dart';
 
 class UserInfo extends ChangeNotifier {
   String _currentSymptomName;
+  String _currentLoggedDate;
   User _currentUser;
   Database _database;
   bool _loggedIn = false;
@@ -13,6 +14,10 @@ class UserInfo extends ChangeNotifier {
 
   List<Symptom> getSymptoms(){return _tracking;}
   void setSymptoms(List<Symptom> s){this._tracking = s;}
+
+  void setDate(String date){this._currentLoggedDate = date;}
+  String getLoggedDate(){return this._currentLoggedDate;}
+
 
   User getcurrentUser(){return _currentUser;}
 

@@ -5,12 +5,16 @@ import 'package:tracker/Classes/ActivityClass.dart';
 import 'package:tracker/Classes/LoggedSymptom.dart';
 import 'package:tracker/Classes/MealClass.dart';
 import 'package:tracker/Controllers/CalendarController.dart';
-
+import 'package:tracker/Screens/ViewLoggedSymptomScreen.dart';
+import 'package:provider/provider.dart';
+import 'package:tracker/Context.dart';
 import '../DataAccess.dart';
 import '../colors.dart';
 import 'HomePageScreen.dart';
 import 'ProfileScreen.dart';
 import 'StatsScreen.dart';
+import 'package:tracker/Screens/ViewMealScreen.dart';
+import 'package:tracker/Screens/ViewExerciseScreen.dart';
 
 // Example holidays
 final Map<DateTime, List> _holidays = {
@@ -245,7 +249,14 @@ class _CalendarPageState extends State<CalendarPage>
               style: basicText,
             ),
             subtitle: Text(subtitle),
-            trailing: Text(ls.getDate()),
+            trailing: Text(ls.getDate().substring(0,16)),
+            onTap: (){
+              Provider.of<UserInfo>(context, listen: false).setDate(ls.getDate());
+              Navigator.push(
+                context,
+                PageRouteBuilder(pageBuilder: (_, __, ___) => ViewLoggedSymptomScreen()),
+              );
+            },
           ),
         );
         view.add(c);
@@ -263,7 +274,14 @@ class _CalendarPageState extends State<CalendarPage>
               style: basicText,
             ),
             //subtitle: Text(ls.g),
-            trailing: Text(ls.getDate()),
+            trailing: Text(ls.getDate().substring(0,16)),
+            onTap: (){
+              Provider.of<UserInfo>(context, listen: false).setDate(ls.getDate());
+              Navigator.push(
+                context,
+                PageRouteBuilder(pageBuilder: (_, __, ___) => ViewMealScreen()),
+              );
+            },
           ),
         );
         view.add(c);
@@ -281,7 +299,14 @@ class _CalendarPageState extends State<CalendarPage>
               style: basicText,
             ),
             subtitle: Text(ls.getComments()),
-            trailing: Text(ls.getDate()),
+            trailing: Text(ls.getDate().substring(0,16)),
+            onTap: (){
+              Provider.of<UserInfo>(context, listen: false).setDate(ls.getDate());
+              Navigator.push(
+                context,
+                PageRouteBuilder(pageBuilder: (_, __, ___) => ViewExerciseScreen()),
+              );
+            },
           ),
         );
         view.add(c);
