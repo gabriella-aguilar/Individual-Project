@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:tracker/Classes/LoggedSymptom.dart';
+
 import 'package:tracker/Classes/TrackingClass.dart';
 import 'package:tracker/colors.dart';
 import 'package:fl_chart/fl_chart.dart';
@@ -7,8 +8,8 @@ import 'package:tracker/Screens/HomePageScreen.dart';
 import 'package:tracker/Screens/ProfileScreen.dart';
 import 'package:tracker/Screens/CalendarScreen.dart';
 
-import '../Context.dart';
 import '../DataAccess.dart';
+
 
 class StatsPage extends StatefulWidget {
   @override
@@ -16,13 +17,12 @@ class StatsPage extends StatefulWidget {
 }
 
 class _StatsPageState extends State<StatsPage> {
-  final double width = 7;
 
-  List<BarChartGroupData> rawBarGroups;
-
-  List<BarChartGroupData> showingBarGroups;
-
-  int touchedGroupIndex;
+  final Color dark = const Color(0xff3b8c75);
+  final Color normal = const Color(0xff64caad);
+  final Color light = const Color(0xff73e8c9);
+  var symptomMaps;
+  Map<String,Color> colorMap;
 
   @override
   void initState() {
@@ -30,34 +30,10 @@ class _StatsPageState extends State<StatsPage> {
     _setUpStats();
   }
 
-  BarChartGroupData makeGroupData(int x, List<double> ys) {
-    List<BarChartRodData> data = new List<BarChartRodData>();
-    ys.forEach((element) {
-      data.add(new BarChartRodData(
-        y: element,
-        colors: [newBlue],
-        width: width,
-      ));
-    });
-    return BarChartGroupData(barsSpace: 4, x: x,
-        barRods: data
-    //     [
-    //   BarChartRodData(
-    //     y: y1,
-    //     colors: [newBlue],
-    //     width: width,
-    //   ),
-    //   BarChartRodData(
-    //     y: y2,
-    //     colors: [darkBlueAccent],
-    //     width: width,
-    //   ),
-    // ]
-        );
-  }
-
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: backBlue,
       appBar: AppBar(
         leading: Builder(
           builder: (BuildContext context) {
@@ -100,7 +76,7 @@ class _StatsPageState extends State<StatsPage> {
             ),
             FlatButton(
               child:
-                  Icon(Icons.calendar_today, size: 35, color: darkBlueAccent),
+              Icon(Icons.calendar_today, size: 35, color: darkBlueAccent),
               onPressed: () {
                 Navigator.pop(context);
                 Navigator.push(
@@ -115,7 +91,7 @@ class _StatsPageState extends State<StatsPage> {
             ),
             FlatButton(
               child:
-                  Icon(Icons.account_circle, size: 35, color: darkBlueAccent),
+              Icon(Icons.account_circle, size: 35, color: darkBlueAccent),
               onPressed: () {
                 Navigator.pop(context);
                 Navigator.push(
@@ -127,224 +103,219 @@ class _StatsPageState extends State<StatsPage> {
           ],
         ),
       ),
-      backgroundColor: backBlue,
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          AspectRatio(
-            aspectRatio: 1,
-            child: Card(
-              elevation: 0,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(4)),
-              color: backBlue2, //const Color(0xff2c4260),
-              child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.max,
-                  children: <Widget>[
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: <Widget>[
-                        makeTransactionsIcon(),
-                        const SizedBox(
-                          width: 38,
-                        ),
-                        const Text(
-                          'Transactions',
-                          style: TextStyle(color: Colors.white, fontSize: 22),
-                        ),
-                        const SizedBox(
-                          width: 4,
-                        ),
-                        const Text(
-                          'state',
-                          style:
-                              TextStyle(color: Color(0xff77839a), fontSize: 16),
-                        ),
-                      ],
+      body: Container(
+        child: AspectRatio(
+          aspectRatio: 1.66,
+          child: Card(
+            elevation: 4,
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
+            color: Colors.white,
+            child: Padding(
+              padding: const EdgeInsets.only(top: 16.0),
+              child: BarChart(
+                BarChartData(
+                  alignment: BarChartAlignment.spaceAround,
+                  barTouchData: BarTouchData(
+                    enabled: false,
+                  ),
+                  titlesData: FlTitlesData(
+                    show: true,
+                    bottomTitles: SideTitles(
+                      showTitles: true,
+                      getTextStyles: (value) => const TextStyle(color: Color(0xff939393), fontSize: 10),
+                      margin: 10,
+                      getTitles: (double value) {
+                        switch (value.toInt()) {
+                          case 0:
+                            return 'Sun';
+                          case 1:
+                            return 'Mon';
+                          case 2:
+                            return 'Tues';
+                          case 3:
+                            return 'Wed';
+                          case 4:
+                            return 'Thur';
+                          case 5:
+                            return 'Fri';
+                          case 6:
+                            return 'Sat';
+                          default:
+                            return '';
+                        }
+                      },
                     ),
-                    const SizedBox(
-                      height: 38,
-                    ),
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                        child: BarChart(
-                          BarChartData(
-                            maxY: 20,
-                            barTouchData: BarTouchData(
-                                touchTooltipData: BarTouchTooltipData(
-                                  tooltipBgColor: Colors.grey,
-                                  getTooltipItem: (_a, _b, _c, _d) => null,
-                                ),
-                                touchCallback: (response) {
-                                  if (response.spot == null) {
-                                    setState(() {
-                                      touchedGroupIndex = -1;
-                                      showingBarGroups = List.of(rawBarGroups);
-                                    });
-                                    return;
-                                  }
-
-                                  touchedGroupIndex =
-                                      response.spot.touchedBarGroupIndex;
-
-                                  setState(() {
-                                    if (response.touchInput is FlLongPressEnd ||
-                                        response.touchInput is FlPanEnd) {
-                                      touchedGroupIndex = -1;
-                                      showingBarGroups = List.of(rawBarGroups);
-                                    } else {
-                                      showingBarGroups = List.of(rawBarGroups);
-                                      if (touchedGroupIndex != -1) {
-                                        double sum = 0;
-                                        for (BarChartRodData rod
-                                            in showingBarGroups[
-                                                    touchedGroupIndex]
-                                                .barRods) {
-                                          sum += rod.y;
-                                        }
-                                        final avg = sum /
-                                            showingBarGroups[touchedGroupIndex]
-                                                .barRods
-                                                .length;
-
-                                        showingBarGroups[touchedGroupIndex] =
-                                            showingBarGroups[touchedGroupIndex]
-                                                .copyWith(
-                                          barRods: showingBarGroups[
-                                                  touchedGroupIndex]
-                                              .barRods
-                                              .map((rod) {
-                                            return rod.copyWith(y: avg);
-                                          }).toList(),
-                                        );
-                                      }
-                                    }
-                                  });
-                                }),
-                            titlesData: FlTitlesData(
-                              show: true,
-                              bottomTitles: SideTitles(
-                                showTitles: true,
-                                getTextStyles: (value) => const TextStyle(
-                                    color: Color(0xff7589a2),
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 14),
-                                margin: 20,
-                                getTitles: (double value) {
-                                  switch (value.toInt()) {
-                                    case 0:
-                                      return 'Mn';
-                                    case 1:
-                                      return 'Te';
-                                    case 2:
-                                      return 'Wd';
-                                    case 3:
-                                      return 'Tu';
-                                    case 4:
-                                      return 'Fr';
-                                    case 5:
-                                      return 'St';
-                                    case 6:
-                                      return 'Sn';
-                                    default:
-                                      return '';
-                                  }
-                                },
-                              ),
-                              leftTitles: SideTitles(
-                                showTitles: true,
-                                getTextStyles: (value) => const TextStyle(
-                                    color: Color(0xff7589a2),
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 14),
-                                margin: 32,
-                                reservedSize: 14,
-                                getTitles: (value) {
-                                  if (value == 0) {
-                                    return '1K';
-                                  } else if (value == 10) {
-                                    return '5K';
-                                  } else if (value == 19) {
-                                    return '10K';
-                                  } else {
-                                    return '';
-                                  }
-                                },
-                              ),
-                            ),
-                            borderData: FlBorderData(
-                              show: false,
-                            ),
-                            barGroups: showingBarGroups,
+                    leftTitles: SideTitles(
+                      showTitles: true,
+                      getTextStyles: (value) => const TextStyle(
+                          color: Color(
+                            0xff939393,
                           ),
-                        ),
-                      ),
+                          fontSize: 10),
+                      margin: 0,
                     ),
-                    const SizedBox(
-                      height: 12,
+                  ),
+                  gridData: FlGridData(
+                    show: true,
+                    checkToShowHorizontalLine: (value) => value % 10 == 0,
+                    getDrawingHorizontalLine: (value) => FlLine(
+                      color: const Color(0xffe7e8ec),
+                      strokeWidth: 1,
                     ),
-                  ],
+                  ),
+                  borderData: FlBorderData(
+                    show: false,
+                  ),
+                  groupsSpace: 4,
+                  barGroups: getData(),
                 ),
               ),
             ),
           ),
-        ],
+        ),
       ),
     );
   }
 
-  Widget makeTransactionsIcon() {
-    const double width = 4.5;
-    const double space = 3.5;
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: <Widget>[
-        Container(
-          width: width,
-          height: 10,
-          color: Colors.white.withOpacity(0.4),
-        ),
-        const SizedBox(
-          width: space,
-        ),
-        Container(
-          width: width,
-          height: 28,
-          color: Colors.white.withOpacity(0.8),
-        ),
-        const SizedBox(
-          width: space,
-        ),
-        Container(
-          width: width,
-          height: 42,
-          color: Colors.white.withOpacity(1),
-        ),
-        const SizedBox(
-          width: space,
-        ),
-        Container(
-          width: width,
-          height: 28,
-          color: Colors.white.withOpacity(0.8),
-        ),
-        const SizedBox(
-          width: space,
-        ),
-        Container(
-          width: width,
-          height: 10,
-          color: Colors.white.withOpacity(0.4),
-        ),
-      ],
+  List<BarChartGroupData> getData() {
+    List<BarChartGroupData> data =  List<BarChartGroupData>();
+    for(int i = 0; i < 7; i++){
+      data.add(BarChartGroupData(
+          x: i,
+          barsSpace: 4,
+        barRods: [getRods(i)]
+      ));
+    }
+    return data;
+    // return [
+    //   BarChartGroupData(
+    //     x: 0,
+    //     barsSpace: 4,
+    //     barRods: [
+    //       BarChartRodData(
+    //           y: 250,
+    //           rodStackItems: [
+    //             BarChartRodStackItem(0, 20, dark),
+    //             BarChartRodStackItem(20, 120, normal),
+    //             BarChartRodStackItem(120, 170, light),
+    //             BarChartRodStackItem(170, 250, darkBlueAccent),
+    //           ],
+    //           borderRadius: const BorderRadius.all(Radius.zero)),
+    //
+    //     ],
+    //   ),
+    //   BarChartGroupData(
+    //     x: 1,
+    //     barsSpace: 4,
+    //     barRods: [
+    //       BarChartRodData(
+    //           y: 310,
+    //           rodStackItems: [
+    //             BarChartRodStackItem(0, 110, dark),
+    //             BarChartRodStackItem(110, 180, normal),
+    //             BarChartRodStackItem(180, 310, light),
+    //           ],
+    //           borderRadius: const BorderRadius.all(Radius.zero)),
+    //
+    //     ],
+    //   ),
+    //   BarChartGroupData(
+    //     x: 2,
+    //     barsSpace: 4,
+    //     barRods: [
+    //       BarChartRodData(
+    //           y: 340,
+    //           rodStackItems: [
+    //             BarChartRodStackItem(0, 60, dark),
+    //             BarChartRodStackItem(60, 230, normal),
+    //             BarChartRodStackItem(230, 340, light),
+    //           ],
+    //           borderRadius: const BorderRadius.all(Radius.zero)),
+    //
+    //     ],
+    //   ),
+    //   BarChartGroupData(
+    //     x: 3,
+    //     barsSpace: 4,
+    //     barRods: [
+    //       BarChartRodData(
+    //           y: 140,
+    //           rodStackItems: [
+    //             BarChartRodStackItem(0, 10.5, dark),
+    //             BarChartRodStackItem(10.5, 120, normal),
+    //             BarChartRodStackItem(120, 140, light),
+    //           ],
+    //           borderRadius: const BorderRadius.all(Radius.zero)),
+    //
+    //     ],
+    //   ),
+    //   BarChartGroupData(
+    //     x: 4,
+    //     barsSpace: 4,
+    //     barRods: [
+    //
+    //       BarChartRodData(
+    //           y: 270,
+    //           rodStackItems: [
+    //             BarChartRodStackItem(0, 70, dark),
+    //             BarChartRodStackItem(70, 250, normal),
+    //             BarChartRodStackItem(250, 270, light),
+    //           ],
+    //           borderRadius: const BorderRadius.all(Radius.zero)),
+    //
+    //     ],
+    //   ),
+    //   BarChartGroupData(
+    //     x: 5,
+    //     barsSpace: 4,
+    //     barRods: [
+    //
+    //       BarChartRodData(
+    //           y: 290,
+    //           rodStackItems: [
+    //             BarChartRodStackItem(0, 60, dark),
+    //             BarChartRodStackItem(60, 230, normal),
+    //             BarChartRodStackItem(230, 290, light),
+    //           ],
+    //           borderRadius: const BorderRadius.all(Radius.zero)),
+    //
+    //     ],
+    //   ),
+    //   BarChartGroupData(
+    //     x: 6,
+    //     barsSpace: 4,
+    //     barRods: [
+    //
+    //       BarChartRodData(
+    //           y: 160.5,
+    //           rodStackItems: [
+    //             BarChartRodStackItem(0, 90, dark),
+    //             BarChartRodStackItem(90, 150, normal),
+    //             BarChartRodStackItem(150, 160.5, light),
+    //           ],
+    //           borderRadius: const BorderRadius.all(Radius.zero)),
+    //
+    //     ],
+    //   ),
+    // ];
+  }
+
+  BarChartRodData getRods(int i){
+    List<BarChartRodStackItem> rods = new List<BarChartRodStackItem>();
+    Map<String, int> map = symptomMaps[i];
+    double lower = 0;
+    double upper = 0;
+    map.forEach((key, value) {
+      upper += value;
+      Color c = colorMap[key];
+      rods.add(BarChartRodStackItem(lower, upper, c));
+      lower = upper;
+    });
+
+    return BarChartRodData(
+      y: upper,
+      rodStackItems: rods,
+      borderRadius: const BorderRadius.all(Radius.zero),
     );
   }
 
@@ -355,7 +326,12 @@ class _StatsPageState extends State<StatsPage> {
     Map<DateTime, List> days = await DataAccess.instance.getLoggedForCalendar();
 
     List<Tracking> tracking = await DataAccess.instance.getAllTracking();
-
+    colorMap = new Map<String,Color>();
+    //TODO: Needs to generate more colors if more tracked
+    var colors = [newBlue,newBlue2,darkBlueAccent,darkBlueAccent2,backBlue2];
+    for(int i = 0; i < tracking.length; i++){
+      colorMap[tracking[i].getName()] = colors[i];
+    }
     if (days.isEmpty || days == null) {
       print("logged in Empty or null");
     } else {
@@ -374,26 +350,26 @@ class _StatsPageState extends State<StatsPage> {
         DateTime.now().subtract(Duration(days: 2)),
         DateTime.now().subtract(Duration(days: 1))
       ];
-      var list = [
-        new List(),
-        new List(),
-        new List(),
-        new List(),
-        new List(),
-        new List(),
-        new List(),
+      var list = [ //All logged for that day of week
+        new List<LoggedSymptom>(),
+        new List<LoggedSymptom>(),
+        new List<LoggedSymptom>(),
+        new List<LoggedSymptom>(),
+        new List<LoggedSymptom>(),
+        new List<LoggedSymptom>(),
+        new List<LoggedSymptom>(),
       ];
-      var maps =[
-        new Map<String,List>(),
-        new Map<String,List>(),
-        new Map<String,List>(),
-        new Map<String,List>(),
-        new Map<String,List>(),
-        new Map<String,List>(),
-        new Map<String,List>(),
+      var maps =[ //Maps logged for that day by symptom and the number of instances
+        new Map<String,int>(),
+        new Map<String,int>(),
+        new Map<String,int>(),
+        new Map<String,int>(),
+        new Map<String,int>(),
+        new Map<String,int>(),
+        new Map<String,int>(),
       ];
 
-      for(int i = 1; i <=7; i++){
+      for(int i = 0; i < 7; i++){ //retrieves the events from the last seven days
         events.forEach((key, value) {
           if(d[i].day == key.day && d[i].month == key.month && d[i].year == key.year){
             list[i] = value;
@@ -401,29 +377,22 @@ class _StatsPageState extends State<StatsPage> {
         });
       }
 
-      final barGroup1 = makeGroupData(0, [5, 12,4]);
-      final barGroup2 = makeGroupData(1, [16, 12,4]);
-      final barGroup3 = makeGroupData(2, [18, 5,4]);
-      final barGroup4 = makeGroupData(3, [20, 16,4]);
-      final barGroup5 = makeGroupData(4, [17, 6,4]);
-      final barGroup6 = makeGroupData(5, [19, 1.5,4]);
-      final barGroup7 = makeGroupData(6, [10, 1.5,4]);
-
-      final items = [
-        barGroup1,
-        barGroup2,
-        barGroup3,
-        barGroup4,
-        barGroup5,
-        barGroup6,
-        barGroup7,
-      ];
-
+      for(int i = 0; i < list.length; i++) {
+        list[i].forEach((element) {
+          if (maps[i].containsKey(element.getSymptom())) {
+            var temp = maps[i][element.getSymptom()];
+            temp++;
+            maps[i][element.getSymptom()] = temp;
+          }
+          else {
+            maps[i][element.getSymptom()] = 1;
+          }
+        });
+      }
       setState(() {
-        rawBarGroups = items;
-
-        showingBarGroups = rawBarGroups;
+        symptomMaps = maps;
       });
     }
   }
+
 }
