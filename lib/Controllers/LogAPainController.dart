@@ -6,6 +6,11 @@ void submitPressed(BuildContext context,String name, int intensity, int duration
   if(MediaQuery.of(context).viewInsets.bottom != 0){
     FocusScope.of(context).unfocus();
   }
+  print("Inensity: "+intensity.toString());
+  print("Dur: "+duration.toString());
+  print("loc: "+location);
+  print("inter: "+intervention);
+  print("com: "+comments);
 
   LoggedSymptom ls = LoggedSymptom(
       name: name,

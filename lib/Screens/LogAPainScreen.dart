@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tracker/Classes/SymptomClass.dart';
-import 'package:tracker/Classes/TrackingClass.dart';
+
 import 'package:tracker/Controllers/LogAPainController.dart';
 import 'package:tracker/DataAccess.dart';
 import 'package:tracker/colors.dart';
@@ -17,9 +17,12 @@ class _LogPainState extends State<LogPain> {
   Symptom symptom;
   double _durationController;
   double _intensityController;
-  TextEditingController _locationController;
-  TextEditingController _interventionController;
-  TextEditingController _commentController;
+  // TextEditingController _locationController;
+  // TextEditingController _interventionController;
+  // TextEditingController _commentController;
+  String _locationController;
+  String _interventionController;
+  String _commentController;
 
 
   @override
@@ -28,6 +31,9 @@ class _LogPainState extends State<LogPain> {
     String name = Provider.of<UserInfo>(context, listen: false).getSymptom();
     _intensityController = 0;
     _durationController = 0;
+    _locationController = "";
+    _interventionController ="";
+    _commentController = "";
     getSymptom(name);
   }
 
@@ -119,11 +125,16 @@ class _LogPainState extends State<LogPain> {
                       children: [
                         Text("Intervention", style: basicText),
                         TextField(
-                          controller: _interventionController,
+                         // controller: _interventionController,
                           //keyboardType: TextInputType.multiline,
                           style: TextStyle(
                             fontSize: 18,
                           ),
+                          onChanged: (value){
+                            setState(() {
+                              _interventionController = value;
+                            });
+                          },
                           //minLines: 6,
                           // maxLines: 10,
                         ),
@@ -137,11 +148,16 @@ class _LogPainState extends State<LogPain> {
                       children: [
                         Text("Location", style: basicText),
                         TextField(
-                          controller: _locationController,
+                          //controller: _locationController,
                           //keyboardType: TextInputType.multiline,
                           style: TextStyle(
                             fontSize: 18,
                           ),
+                          onChanged: (value){
+                            setState(() {
+                              _locationController = value;
+                            });
+                          },
                           minLines: 1,
                           //maxLines: 10,
                         ),
@@ -153,11 +169,16 @@ class _LogPainState extends State<LogPain> {
                     children: [
                       Text('Comments', style: basicText),
                       TextField(
-                        controller: _commentController,
+                       // controller: _commentController,
                         keyboardType: TextInputType.multiline,
                         style: TextStyle(
                           fontSize: 18,
                         ),
+                        onChanged: (value){
+                          setState(() {
+                            _commentController = value;
+                          });
+                        },
                         minLines: 6,
                         maxLines: 10,
                       ),
@@ -171,13 +192,13 @@ class _LogPainState extends State<LogPain> {
                       onPressed: () {
                         String name = Provider.of<UserInfo>(context, listen: false).getSymptom();
                         Provider.of<UserInfo>(context, listen: false).setSymptomName("");
-                        String loc = "";
-                        String inter = "";
-                        String comm = "";
-                        if(_locationController != null){loc = _locationController.text.toString();}
-                        if(_interventionController != null){inter = _interventionController.text.toString();}
-                        if(_commentController != null){comm = _commentController.text.toString();}
-                        submitPressed(context,name,_intensityController.round(),_durationController.round(),loc,inter,comm);
+                        // String loc = "";
+                        // String inter = "";
+                        // String comm = "";
+                        // if(_locationController != null && _locationController.text != ""){loc = _locationController.text.toString();}
+                        // if(_interventionController != null && _interventionController.text != ""){inter = _interventionController.text.toString();}
+                        // if(_commentController != null && _commentController.text != ""){comm = _commentController.text.toString();}
+                        submitPressed(context,name,_intensityController.round(),_durationController.round(),_locationController,_interventionController,_commentController);
                       }),
             ])));
   }
