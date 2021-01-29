@@ -2,7 +2,6 @@ import 'package:sqflite/sqflite.dart';
 import 'package:tracker/Classes/SymptomClass.dart';
 import 'package:tracker/Classes/UserClass.dart';
 import 'package:flutter/foundation.dart';
-//import 'package:provider/provider.dart';
 
 class UserInfo extends ChangeNotifier {
   String _currentSymptomName;
