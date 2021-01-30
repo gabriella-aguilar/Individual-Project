@@ -306,6 +306,23 @@ class DataAccess{
     return temp[0];
   }
 
+  Future<List<LoggedSymptom>> getLoggedBySymptom(String name) async{
+    final Database db = await database;
+    final List<Map<String, dynamic>> maps = await db.query("loggedSymptoms",where: "name = ?",whereArgs: [name]);
+    var temp =  List.generate(maps.length, (i) {
+      return LoggedSymptom(
+          date: maps[i]['date'],
+          comments: maps[i]['comments'],
+          name: maps[i]['name'],
+          intensity: maps[i]['intensity'],
+          duration: maps[i]['duration'],
+          location: maps[i]['location'],
+          intervention: maps[i]['intervention']
+      );
+    });
+    return temp;
+  }
+
   void deleteTracking(String tracking) async{
     //print("Deleting "+tracking);
     final Database db = await database;
