@@ -126,26 +126,32 @@ class _StatsPageState extends State<StatsPage> {
   Widget getGraphCard(Tracking tracking) {
     String name = tracking.getName();
     List<DateTime> days = [
-      DateTime.now().subtract(Duration(days: 7)),
+      //DateTime.now().subtract(Duration(days: 7)),
       DateTime.now().subtract(Duration(days: 6)),
       DateTime.now().subtract(Duration(days: 5)),
       DateTime.now().subtract(Duration(days: 4)),
       DateTime.now().subtract(Duration(days: 3)),
       DateTime.now().subtract(Duration(days: 2)),
       DateTime.now().subtract(Duration(days: 1)),
+      DateTime.now()
     ];
     Map<int,int> countByDay = new Map<int,int>();
-
+    bool tracked = false; //check if tracked during time period
     for(int i = 0; i < days.length; i++){
 
       int count = 0;
+
       _loggedSymptoms.forEach((element) {
         DateTime date = DateTime.parse(element.getDate());
         if(days[i].day == date.day && days[i].month == date.month && days[i].year == date.year && name == element.getSymptom()){
+          tracked = true;
           count++;
         }
       });
       countByDay[i] = count;
+    }
+    if(tracked == false){
+      return Container(height:0);
     }
 
     List<BarChartGroupData> barChartGroupData = new List<BarChartGroupData>();
