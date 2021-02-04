@@ -204,22 +204,19 @@ class _CalendarPageState extends State<CalendarPage>
 
 
   Widget _buildEventList() {
-    return ListView(
-      children: eventsList(),
-      // children: _selectedEvents
-      //     .map((event) => Container(
-      //   decoration: BoxDecoration(
-      //     border: Border.all(width: 0.8),
-      //     borderRadius: BorderRadius.circular(12.0),
-      //   ),
-      //   margin:
-      //   const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
-      //   child: ListTile(
-      //     title: Text(event.toString()),
-      //     onTap: () => print('$event tapped!'),
-      //   ),
-      // ))
-      //     .toList(),
+    if (selectedEvents == null || selectedEvents.isEmpty) {
+      return new Container(height: 0,);
+    }
+    return Container(
+      decoration: BoxDecoration(
+        color: backBlue,
+        border: Border.all(width: 1, color: darkBlueAccent),
+        borderRadius: BorderRadius.circular(12.0),
+      ),
+      margin: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+      child: ListView(
+        children: eventsList(),
+      ),
     );
   }
 
@@ -227,9 +224,7 @@ class _CalendarPageState extends State<CalendarPage>
 
   List<Widget> eventsList() {
     List<Widget> view = new List<Widget>();
-    if (selectedEvents == null || selectedEvents.isEmpty) {
-      return [new Container()];
-    }
+
     for (Object event in selectedEvents) {
       if (event is LoggedSymptom) {
         LoggedSymptom ls = event;
