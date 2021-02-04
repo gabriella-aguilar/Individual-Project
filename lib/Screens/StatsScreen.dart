@@ -17,10 +17,12 @@ class StatsPage extends StatefulWidget{
 class _StatsPageState extends State<StatsPage> {
   List<Tracking> _trackingList;
   List<LoggedSymptom> _loggedSymptoms;
+  double _size;
 
   @override
   void initState() {
     super.initState();
+    _size = 7;
     _trackingList = new List<Tracking>();
     _loggedSymptoms = new List<LoggedSymptom>();
     _setUp();
@@ -93,6 +95,24 @@ class _StatsPageState extends State<StatsPage> {
       body: ListView(
         padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 12),
         children: [
+          Row(
+            children: [
+              Text("Days Graphed: ",style: basicText,),
+              Slider(
+                  value: _size,
+                  activeColor: darkBlueAccent,
+                  inactiveColor: newBlue,
+                  min: 7,
+                  max: 14,
+                  divisions: 14,
+                  label: _size.round().toString(),
+                  onChanged: (value){
+                setState(() {
+                  _size = value;
+                });
+              })
+            ],
+          ),
           getCardColumn()
         ],
       ),
@@ -125,16 +145,21 @@ class _StatsPageState extends State<StatsPage> {
 
   Widget getGraphCard(Tracking tracking) {
     String name = tracking.getName();
-    List<DateTime> days = [
-      //DateTime.now().subtract(Duration(days: 7)),
-      DateTime.now().subtract(Duration(days: 6)),
-      DateTime.now().subtract(Duration(days: 5)),
-      DateTime.now().subtract(Duration(days: 4)),
-      DateTime.now().subtract(Duration(days: 3)),
-      DateTime.now().subtract(Duration(days: 2)),
-      DateTime.now().subtract(Duration(days: 1)),
-      DateTime.now()
-    ];
+    List<DateTime> days = new List<DateTime>();
+    for(int i = _size.toInt()-1; i > 0; i--){
+      days.add(DateTime.now().subtract(Duration(days: i)));
+    }
+    days.add(DateTime.now());
+    // [
+    //   //DateTime.now().subtract(Duration(days: 7)),
+    //   DateTime.now().subtract(Duration(days: 6)),
+    //   DateTime.now().subtract(Duration(days: 5)),
+    //   DateTime.now().subtract(Duration(days: 4)),
+    //   DateTime.now().subtract(Duration(days: 3)),
+    //   DateTime.now().subtract(Duration(days: 2)),
+    //   DateTime.now().subtract(Duration(days: 1)),
+    //   DateTime.now()
+    // ];
     Map<int,int> countByDay = new Map<int,int>();
     bool tracked = false; //check if tracked during time period
     for(int i = 0; i < days.length; i++){
