@@ -413,5 +413,33 @@ class DataAccess{
 
   }
 
+  Future<Map<DateTime,List<Comments>>> getCommentsForCalendar() async{
+    final Database db = await database;
+    List<Comments> comments = await getAllComments();
+    if(comments.isEmpty || comments == null){
+      return null;
+    }
+    Map<DateTime,List<Comments>> map = new Map();
+    for(Comments comment in comments){
+      DateTime date = DateTime.parse(comment.getDate());
+      bool found = false;
+      map.forEach((key, value) {
+        if(key.day == date.day && key.month == date.month && key.year == date.year){
+          found = true;
+          List<Comments> cur = map[key];
+          cur.add(comment);
+          map[key] = cur;
+        }
+      });
+
+      if(!found){
+        map[date] = [comment];
+      }
+    }
+
+    return map;
+
+  }
+
 }
 

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:tracker/Classes/ActivityClass.dart';
+import 'package:tracker/Classes/CommentsClass.dart';
 import 'package:tracker/Classes/LoggedSymptom.dart';
 import 'package:tracker/Classes/MealClass.dart';
 import 'package:tracker/Controllers/CalendarController.dart';
@@ -16,14 +17,7 @@ import 'StatsScreen.dart';
 import 'package:tracker/Screens/ViewMealScreen.dart';
 import 'package:tracker/Screens/ViewExerciseScreen.dart';
 
-// Example holidays
-final Map<DateTime, List> _holidays = {
-  DateTime(2020, 1, 1): ['New Year\'s Day'],
-  DateTime(2020, 1, 6): ['Epiphany'],
-  DateTime(2020, 2, 14): ['Valentine\'s Day'],
-  DateTime(2020, 4, 21): ['Easter Sunday'],
-  DateTime(2020, 4, 22): ['Easter Monday'],
-};
+
 
 //TODO: Subtitles for Logged Symptoms aren't efficient
 
@@ -170,7 +164,6 @@ class _CalendarPageState extends State<CalendarPage>
     return TableCalendar(
       calendarController: _calendarController,
       events: events,
-      holidays: _holidays,
       startingDayOfWeek: StartingDayOfWeek.monday,
       calendarStyle: CalendarStyle(
         selectedColor: darkBlueAccent,
@@ -305,6 +298,30 @@ class _CalendarPageState extends State<CalendarPage>
           ),
         );
         view.add(c);
+      } else if(event is Comments){
+        Comments ls = event;
+        Container c = Container(
+          decoration: BoxDecoration(
+            border: Border.all(width: 1, color: darkBlueAccent),
+            borderRadius: BorderRadius.circular(12.0),
+          ),
+          margin: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+          child: ListTile(
+            title: Text(
+              ls.getComment(),
+              style: basicText,
+            ),
+            trailing: Text(ls.getDate().substring(0,16)),
+            onTap: (){
+              Provider.of<UserInfo>(context, listen: false).setDate(ls.getDate());
+              // Navigator.push(
+              //   context,
+              //   PageRouteBuilder(pageBuilder: (_, __, ___) => ViewExerciseScreen()),
+              // );
+            },
+          ),
+        );
+        view.add(c);
       }
     }
     // print("events size: " + events.length.toString());
@@ -322,6 +339,8 @@ class _CalendarPageState extends State<CalendarPage>
     days = await DataAccess.instance.getLoggedForCalendar();
     meals = await DataAccess.instance.getMealsForCalendar();
     activities = await DataAccess.instance.getActivitiesForCalendar();
+    comments = await DataAccess.instance.getCommentsForCalendar();
+
     setState(() {
       if (days.isEmpty || days == null) {
         print("logged in Empty or null");
@@ -383,6 +402,29 @@ class _CalendarPageState extends State<CalendarPage>
           //activities[key].forEach((row) => print("Activity: " + row.getTitle()));
         });
       }
+
+      if (comments != null && comments.isNotEmpty) {
+        comments.forEach((key, value) {
+          bool found = false;
+          events.forEach((k, v) {
+            if (key.day == k.day &&
+                key.month == k.month &&
+                key.year == k.year) {
+              found = true;
+              List cur =  new List();
+              cur.addAll(events[k]);
+              cur.addAll(value);
+              events[k] = cur;
+            }
+          });
+
+          if (!found) {
+            events[key] = value;
+          }
+          //activities[key].forEach((row) => print("Activity: " + row.getTitle()));
+        });
+      }
+
 
       if (events.isNotEmpty && events != null) {
         events.forEach((key, value) {
