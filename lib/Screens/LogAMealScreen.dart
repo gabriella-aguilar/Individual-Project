@@ -17,13 +17,12 @@ class _LogMealState extends State<LogMeal> {
   bool _sugarController = false;
   bool _meatController = false;
   bool _dairyController = false;
+  String sDate = dateFormat(DateTime.now());
   Widget build(BuildContext context) {
-    var sDate = '';
-    sDate = DateTime.now().day.toString() +
-        ' - ' +
-        DateTime.now().month.toString() +
-        ' - ' +
-        DateTime.now().year.toString();
+
+
+
+
     return Scaffold(
         backgroundColor: backBlue,
         appBar: AppBar(

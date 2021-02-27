@@ -12,3 +12,17 @@ const basicText = TextStyle(
   color: darkBlueAccent
 );
 
+const errorText = TextStyle(
+    fontSize: 18,
+    color: Colors.red,
+    fontWeight: FontWeight.bold
+);
+
+String dateFormat(DateTime d) {
+  String sDate = d.day.toString() +
+      '-' +
+      d.month.toString() +
+      '-' +
+      d.year.toString();
+  return sDate;
+}

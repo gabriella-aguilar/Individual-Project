@@ -15,7 +15,7 @@ class _LogCommentState extends State<LogComment> {
 
   Widget build(BuildContext context) {
 
-    sDate = dateNow.day.toString() + ' - ' + dateNow.month.toString() + ' - ' + dateNow.year.toString();
+    sDate = dateFormat(DateTime.now());
     return Scaffold(
         appBar: AppBar(
           leading: Builder(

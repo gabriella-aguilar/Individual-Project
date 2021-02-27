@@ -23,7 +23,7 @@ class _LogPainState extends State<LogPain> {
   String _locationController;
   String _interventionController;
   String _commentController;
-
+  String sDate;
 
   @override
   void initState() {
@@ -34,6 +34,7 @@ class _LogPainState extends State<LogPain> {
     _locationController = "";
     _interventionController ="";
     _commentController = "";
+    sDate = dateFormat(DateTime.now());
     getSymptom(name);
   }
 
@@ -184,22 +185,31 @@ class _LogPainState extends State<LogPain> {
                       ),
                     ],
                   ),
-                  RaisedButton(
-                      elevation: 8.0,
-                      child: Text('Submit'),
-                      textColor: backBlue,
-                      color: newBlue,
-                      onPressed: () {
-                        String name = Provider.of<UserInfo>(context, listen: false).getSymptom();
-                        Provider.of<UserInfo>(context, listen: false).setSymptomName("");
-                        // String loc = "";
-                        // String inter = "";
-                        // String comm = "";
-                        // if(_locationController != null && _locationController.text != ""){loc = _locationController.text.toString();}
-                        // if(_interventionController != null && _interventionController.text != ""){inter = _interventionController.text.toString();}
-                        // if(_commentController != null && _commentController.text != ""){comm = _commentController.text.toString();}
-                        submitPressed(context,name,_intensityController.round(),_durationController.round(),_locationController,_interventionController,_commentController);
-                      }),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        sDate,
+                        style: TextStyle(fontSize: 14),
+                      ),
+                      RaisedButton(
+                          elevation: 8.0,
+                          child: Text('Submit'),
+                          textColor: backBlue,
+                          color: newBlue,
+                          onPressed: () {
+                            String name = Provider.of<UserInfo>(context, listen: false).getSymptom();
+                            Provider.of<UserInfo>(context, listen: false).setSymptomName("");
+                            // String loc = "";
+                            // String inter = "";
+                            // String comm = "";
+                            // if(_locationController != null && _locationController.text != ""){loc = _locationController.text.toString();}
+                            // if(_interventionController != null && _interventionController.text != ""){inter = _interventionController.text.toString();}
+                            // if(_commentController != null && _commentController.text != ""){comm = _commentController.text.toString();}
+                            submitPressed(context,name,_intensityController.round(),_durationController.round(),_locationController,_interventionController,_commentController);
+                          }),
+                    ],
+                  ),
             ])));
   }
 

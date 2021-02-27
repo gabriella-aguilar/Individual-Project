@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:tracker/Classes/LoggedSymptom.dart';
 import 'package:tracker/Context.dart';
 import 'package:tracker/colors.dart';
 import 'package:tracker/Classes/SymptomClass.dart';
@@ -11,6 +12,7 @@ import 'package:tracker/Classes/UserClass.dart';
 import 'package:tracker/Classes/TrackingClass.dart';
 import 'package:tracker/Screens/EditSymptomsScreen.dart';
 import 'package:tracker/DataAccess.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 //TO DO: Symptoms editing add to the list for some reason
 class ProfilePage extends StatefulWidget {
@@ -20,7 +22,10 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   List<Tracking> _symptomController;
+  bool _error;
+
   void initState(){
+    _error = false;
     super.initState();
     _setUp();
   }
@@ -141,10 +146,119 @@ class _ProfilePageState extends State<ProfilePage> {
                   //Navigator.pop(context);
                   _editS(context);
                 }),
+            SizedBox(
+              height: 10,
+            ),
+            RaisedButton(
+                elevation: 8.0,
+                child: Text('Export'),
+                textColor: backBlue,
+                color: newBlue,
+                onPressed: () {
+                  _showPasswordPopUp();
+                }),
           ]),
     );
   }
 
+  _showPasswordPopUp() async {
+    String _password = "";
+    await showDialog<String>(
+      context: context,
+      child: new AlertDialog(
+        contentPadding: const EdgeInsets.all(16.0),
+        content: Column(
+          children: [
+            Text(_error ? "Incorrect Password" : "", style: errorText,),
+            TextField(
+              autofocus: true,
+              decoration: new InputDecoration(
+                  labelText: 'Enter you export password:',),
+              onChanged: (value){
+                setState(() {
+                  _password = value;
+                });
+              },
+            ),
+          ],
+        ),
+        actions: <Widget>[
+          new FlatButton(
+              child: const Text('CANCEL'),
+              onPressed: () {
+                setState(() {
+                  _error = false;
+                });
+                Navigator.pop(context);
+              }),
+          new FlatButton(
+              child: const Text('EXPORT'),
+              onPressed: () {
+                checkPass(_password);
+              })
+        ],
+      ),
+    );
+  }
+
+  checkPass(String p) async{
+    String pass = await DataAccess.instance.getPassword();
+    if(p == pass){
+      Navigator.pop(context);
+      setState(() {
+        _error = false;
+      });
+      _export();
+    }
+    else{
+      setState(() {
+        _error = true;
+      });
+    }
+  }
+
+  Widget _getErrorText(){
+    if(_error){
+      return Text("Wrong Password",style: errorText,);
+    }
+    return Container();
+  }
+
+  _export() async {
+    List<LoggedSymptom> logged = await DataAccess.instance.getAllLoggedSymptoms();
+    String toMailId = '';
+    String subject = 'Symptom Tracker Export';
+    String body = '';
+
+    logged.forEach((element) {
+      DateTime date = DateTime.parse(element.getDate());
+      body += "\n" + dateFormat(date) + " " + element.getSymptom();
+      if(element.getLocation() != ""){
+        body += "\nLocation: " + element.getLocation();
+      }
+      if(element.getIntervention() != ""){
+        body += "\nIntervention: " + element.getIntervention();
+      }
+      if(element.getIntensity() != 0){
+        body += "\nIntensity: " + element.getIntensity().toString();
+      }
+      if(element.getDuration() != 0){
+        body += "\nDuration: " + element.getDuration().toString();
+      }
+      if(element.getComment() != ""){
+        body += "\nComments: " + element.getComment();
+      }
+      body += "\n---------------------";
+    });
+
+    var url = 'mailto:$toMailId?subject=$subject&body=$body';
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+
+  }
 
   String _symptomDisplay(List<Tracking> sy) {
     String syms = "";

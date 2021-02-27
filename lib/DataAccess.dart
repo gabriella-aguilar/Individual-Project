@@ -41,17 +41,37 @@ class DataAccess{
 
   Future _create(Database db, int version) async {
 
-        db.execute("CREATE TABLE loggedSymptoms(date TEXT PRIMARY KEY, name TEXT, comments TEXT, intensity INTEGER, location TEXT, duration INTEGER, intervention TEXT)");
-        db.execute("CREATE TABLE meals(date TEXT PRIMARY KEY, name TEXT, gluten INTEGER, alcohol INTEGER, sugar INTEGER, meat INTEGER, dairy INTEGER)");
-        db.execute("CREATE TABLE exercise(date TEXT PRIMARY KEY, title TEXT, duration INTEGER, comments TEXT)");
-        db.execute("CREATE TABLE symptoms(name PRIMARY KEY, intensity INTEGER, location INTEGER, duration INTEGER, intervention INTEGER)");
-        db.execute("CREATE TABLE tracking(name PRIMARY KEY)");
-        db.execute("CREATE TABLE comments(date TEXT PRIMARY KEY, comment TEXT)");
+        db.execute("CREATE TABLE IF NOT EXISTS loggedSymptoms(date TEXT PRIMARY KEY, name TEXT, comments TEXT, intensity INTEGER, location TEXT, duration INTEGER, intervention TEXT)");
+        db.execute("CREATE TABLE IF NOT EXISTS meals(date TEXT PRIMARY KEY, name TEXT, gluten INTEGER, alcohol INTEGER, sugar INTEGER, meat INTEGER, dairy INTEGER)");
+        db.execute("CREATE TABLE IF NOT EXISTS exercise(date TEXT PRIMARY KEY, title TEXT, duration INTEGER, comments TEXT)");
+        db.execute("CREATE TABLE IF NOT EXISTS symptoms(name PRIMARY KEY, intensity INTEGER, location INTEGER, duration INTEGER, intervention INTEGER)");
+        db.execute("CREATE TABLE IF NOT EXISTS tracking(name PRIMARY KEY)");
+        db.execute("CREATE TABLE IF NOT EXISTS comments(date TEXT PRIMARY KEY, comment TEXT)");
+        db.execute("CREATE TABLE IF NOT EXISTS password(pass TEXT PRIMARY KEY)");
       // populateSymptoms();
 
   }
 
 
+  insertPassword(String p) async{
+    final Database db =await database;
+    db.rawInsert("INSERT INTO password (pass) VALUES (?);",[p]);
+  }
+
+  Future<String> getPassword() async{
+    final Database db =await database;
+    final List<Map<String, dynamic>> maps = await db.query('password');
+    // return List.generate(maps.length, (i) {
+    //   return Symptom(
+    //       name: maps[i]['name'],
+    //       intensity: maps[i]['intensity'],
+    //       duration: maps[i]['duration'],
+    //       location: maps[i]['location'],
+    //       intervention: maps[i]['intervention']
+    //   );
+    // });
+    return maps[0]['pass'];
+  }
 
   Future<void> insertMeal(Meal meal) async {
     final Database db =await database;
@@ -138,10 +158,7 @@ class DataAccess{
     db.rawInsert( "INSERT INTO symptoms(name,intensity,location,duration,intervention) VALUES ('Stomach Cramping',1,0,1,1)");
   }
   
-  void fix() async{
-    final Database db = await database;
-    db.rawUpdate("UPDATE symptoms SET location = 0 WHERE name = Nausea");
-  }
+
 
   Future<List<Activity>> getAllExercise() async {
     final Database db = await database;

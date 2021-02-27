@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tracker/Classes/TrackingClass.dart';
+import 'package:tracker/Screens/CreatePasswordScreen.dart';
 import 'package:tracker/colors.dart';
 import 'package:tracker/Screens/CustomSymptomScreen.dart';
 import 'package:tracker/Screens/HomePageScreen.dart';
@@ -80,7 +81,7 @@ class _SymptomPickerPageState extends State<SymptomPickerPage> {
                 checkOnInserts();
                 Navigator.push(context,
                     PageRouteBuilder(
-                        pageBuilder: (_, __, ___) => HomePage()));
+                        pageBuilder: (_, __, ___) => CreatePasswordScreen()));
               },
             ),
           ]),

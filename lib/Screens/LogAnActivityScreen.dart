@@ -19,12 +19,7 @@ class _LogActivityState extends State<LogActivity> {
   double _currentSliderValue = 0;
 
   Widget build(BuildContext context) {
-    var sDate = '';
-    sDate = dateNow.day.toString() +
-        ' - ' +
-        dateNow.month.toString() +
-        ' - ' +
-        dateNow.year.toString();
+    var sDate = dateFormat(DateTime.now());
     return Scaffold(
         appBar: AppBar(
           leading: Builder(
