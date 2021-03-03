@@ -9,10 +9,8 @@ class UserInfo extends ChangeNotifier {
   User _currentUser;
   Database _database;
   bool _loggedIn = false;
-  List<Symptom> _tracking; //ToDo: Tracking is not logged in
 
-  List<Symptom> getSymptoms(){return _tracking;}
-  void setSymptoms(List<Symptom> s){this._tracking = s;}
+
 
   void setDate(String date){this._currentLoggedDate = date;}
   String getLoggedDate(){return this._currentLoggedDate;}

@@ -92,6 +92,7 @@ class _CalendarPageState extends State<CalendarPage>
           'Calendar Page',
           style: TextStyle(color: backBlue),
         ),
+        centerTitle: true,
       ),
       backgroundColor: backBlue,
       bottomNavigationBar: BottomAppBar(

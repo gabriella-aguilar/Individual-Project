@@ -53,11 +53,19 @@ class _ViewExerciseScreenState extends State<ViewExerciseScreen> {
         backgroundColor: newBlue,
       ),
       body: ListView(
-        children:
-
-        details(),
-
-
+          padding: EdgeInsets.symmetric(horizontal: 24.0, vertical: 24),
+        children:[
+          Container(
+            decoration: BoxDecoration(
+              border: Border.all(width: 1, color: darkBlueAccent),
+              borderRadius: BorderRadius.circular(12.0),
+            ),
+            padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 15),
+            child: Column(
+              children: details(),
+            ),
+          )
+        ]
       ),
     );
   }

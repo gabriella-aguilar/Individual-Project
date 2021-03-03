@@ -34,6 +34,7 @@ class _StatsPageState extends State<StatsPage> {
       backgroundColor: backBlue,
       appBar: AppBar(
         automaticallyImplyLeading: false,
+        centerTitle: true,
         backgroundColor: newBlue,
         title: Text(
           'Stats Page',

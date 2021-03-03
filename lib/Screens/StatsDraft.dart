@@ -37,6 +37,7 @@ class _StatsPageState extends State<StatsPage> {
     return Scaffold(
         backgroundColor: backBlue,
         appBar: AppBar(
+          centerTitle: true,
           leading: Builder(
             builder: (BuildContext context) {
               // return IconButton(

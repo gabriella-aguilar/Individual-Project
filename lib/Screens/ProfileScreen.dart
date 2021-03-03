@@ -64,6 +64,7 @@ class _ProfilePageState extends State<ProfilePage> {
           'Profile Page',
           style: TextStyle(color: backBlue),
         ),
+        centerTitle: true,
       ),
       bottomNavigationBar: BottomAppBar(
         color: newBlue,

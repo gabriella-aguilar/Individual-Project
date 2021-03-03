@@ -35,6 +35,7 @@ class HomePage extends StatelessWidget {
 
         },
       ),
+      centerTitle: true,
       backgroundColor: newBlue,
       title: Text(
         'Home Page',
