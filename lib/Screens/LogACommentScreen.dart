@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:tracker/Classes/CommentsClass.dart';
 import 'package:tracker/colors.dart';
-import 'package:tracker/Controllers/LogACommentController.dart';
+
+
+import '../DataAccess.dart';
 class LogComment extends StatefulWidget {
   LogComment({Key key}) : super(key: key);
 
@@ -12,6 +15,20 @@ class _LogCommentState extends State<LogComment> {
   final _commentController = TextEditingController();
   final dateNow = new DateTime.now();
   var sDate = '';
+
+  void commentSubmitted(BuildContext context,DateTime date, String comment){
+    if(MediaQuery.of(context).viewInsets.bottom != 0){
+      FocusScope.of(context).unfocus();
+    }
+
+    Comments c = new Comments(
+        date: DateTime.now().toString(),
+        comment: comment
+    );
+
+    DataAccess.instance.insertComment(c);
+    Navigator.pop(context);
+  }
 
   Widget build(BuildContext context) {
 

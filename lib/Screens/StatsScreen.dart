@@ -151,16 +151,7 @@ class _StatsPageState extends State<StatsPage> {
       days.add(DateTime.now().subtract(Duration(days: i)));
     }
     days.add(DateTime.now());
-    // [
-    //   //DateTime.now().subtract(Duration(days: 7)),
-    //   DateTime.now().subtract(Duration(days: 6)),
-    //   DateTime.now().subtract(Duration(days: 5)),
-    //   DateTime.now().subtract(Duration(days: 4)),
-    //   DateTime.now().subtract(Duration(days: 3)),
-    //   DateTime.now().subtract(Duration(days: 2)),
-    //   DateTime.now().subtract(Duration(days: 1)),
-    //   DateTime.now()
-    // ];
+
     Map<int,int> countByDay = new Map<int,int>();
     bool tracked = false; //check if tracked during time period
     for(int i = 0; i < days.length; i++){
@@ -176,7 +167,7 @@ class _StatsPageState extends State<StatsPage> {
       });
       countByDay[i] = count;
     }
-    if(tracked == false){
+    if(!tracked){
       return Container(height:0);
     }
 

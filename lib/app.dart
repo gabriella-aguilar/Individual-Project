@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:tracker/DataAccess.dart';
 import 'colors.dart';
 import 'Screens/LoginScreen.dart';
-import 'package:tracker/Screens/HomePageScreen.dart';
+
 
 class MyApp extends StatefulWidget {
   @override

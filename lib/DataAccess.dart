@@ -376,7 +376,6 @@ class DataAccess{
   }
 
   Future<Map<DateTime,List<Meal>>> getMealsForCalendar() async{
-    final Database db = await database;
     List<Meal> logged = await getAllMeals();
     if(logged.isEmpty || logged == null){
       return null;
@@ -403,7 +402,6 @@ class DataAccess{
   }
 
   Future<Map<DateTime,List<Activity>>> getActivitiesForCalendar() async{
-    final Database db = await database;
     List<Activity> logged = await getAllExercise();
     if(logged.isEmpty || logged == null){
       return null;
@@ -431,7 +429,6 @@ class DataAccess{
   }
 
   Future<Map<DateTime,List<Comments>>> getCommentsForCalendar() async{
-    final Database db = await database;
     List<Comments> comments = await getAllComments();
     if(comments.isEmpty || comments == null){
       return null;

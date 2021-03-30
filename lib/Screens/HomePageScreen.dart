@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:tracker/Screens/SymptomSelectionScreen.dart';
 import 'package:tracker/colors.dart';
 import 'package:tracker/Screens/LogAMealScreen.dart';
@@ -8,8 +7,6 @@ import 'package:tracker/Screens/LogACommentScreen.dart';
 import 'package:tracker/Screens/ProfileScreen.dart';
 import 'package:tracker/Screens/StatsScreen.dart';
 import 'package:tracker/Screens/CalendarScreen.dart';
-
-import '../Context.dart';
 
 class HomePage extends StatelessWidget {
   @override
@@ -23,14 +20,6 @@ class HomePage extends StatelessWidget {
     AppBar a = AppBar(
       leading: Builder(
         builder: (BuildContext context) {
-          // return IconButton(
-          //   icon: const Icon(Icons.arrow_back,color: backBlue,),
-          //   onPressed: () {
-          //     Provider.of<UserInfo>(context, listen: false).setloggedIn(false);
-          //     Navigator.pop(context);
-          //     },
-          //
-          // );
           return Container();
 
         },
@@ -47,9 +36,6 @@ class HomePage extends StatelessWidget {
     double heightAB = a.preferredSize.height * 2;
     final double height = MediaQuery.of(context).size.height - heightAB ;
     final double cHeight = height * 0.25 - 5;
-    // print("HeightAB: ${heightAB}");
-    // print("Height: ${height}");
-    // print("cHeight: ${cHeight}");
     BottomAppBar b = BottomAppBar (
 
       color: newBlue,
@@ -65,7 +51,7 @@ class HomePage extends StatelessWidget {
               size: 35,
               color: backBlue,
             ),
-            onPressed: () {},
+            onPressed: null,
           ),
           FlatButton(
             child: Icon(Icons.calendar_today, size: 35, color: darkBlueAccent),

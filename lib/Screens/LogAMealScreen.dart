@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:tracker/colors.dart';
 import 'package:tracker/Classes/MealClass.dart';
-import 'package:tracker/Controllers/LogAMealController.dart';
-
-import '../Context.dart';
+import '../DataAccess.dart';
 class LogMeal extends StatefulWidget {
   @override
   _LogMealState createState() => _LogMealState();
@@ -18,11 +15,28 @@ class _LogMealState extends State<LogMeal> {
   bool _meatController = false;
   bool _dairyController = false;
   String sDate = dateFormat(DateTime.now());
+
+
+  void mealSubmitted() async{
+    if(MediaQuery.of(context).viewInsets.bottom != 0){
+      FocusScope.of(context).unfocus();
+    }
+
+    Meal m = new Meal(
+        date: DateTime.now().toString(),
+        name: _nameController.text,
+        gluten: _glutenController ? 1 : 0,
+        alcohol: _alcoholController ? 1 : 0,
+        sugar: _sugarController ? 1 : 0,
+        meat: _meatController ? 1 : 0,
+        dairy: _dairyController ? 1 : 0
+    );
+
+    DataAccess.instance.insertMeal(m);
+    Navigator.pop(context);
+  }
+
   Widget build(BuildContext context) {
-
-
-
-
     return Scaffold(
         backgroundColor: backBlue,
         appBar: AppBar(
@@ -151,7 +165,7 @@ class _LogMealState extends State<LogMeal> {
                       color: newBlue,
                       onPressed: () {
 
-                        mealSubmitted(context,_nameController.text,_glutenController,_alcoholController,_sugarController,_meatController,_dairyController);
+                        mealSubmitted();
 
                       }),
                   //SizedBox(width: 10,)

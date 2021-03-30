@@ -3,10 +3,7 @@ import 'package:tracker/Classes/TrackingClass.dart';
 import 'package:tracker/Screens/CreatePasswordScreen.dart';
 import 'package:tracker/colors.dart';
 import 'package:tracker/Screens/CustomSymptomScreen.dart';
-import 'package:tracker/Screens/HomePageScreen.dart';
 import 'package:tracker/Classes/SymptomClass.dart';
-import 'package:tracker/Controllers/SymptomPickerController.dart';
-
 import '../DataAccess.dart';
 
 class SymptomPickerPage extends StatefulWidget {

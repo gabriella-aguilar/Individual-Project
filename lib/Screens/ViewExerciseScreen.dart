@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tracker/Classes/ActivityClass.dart';
-import 'package:tracker/Classes/MealClass.dart';
 import 'package:tracker/Context.dart';
 import 'package:tracker/DataAccess.dart';
 import '../colors.dart';

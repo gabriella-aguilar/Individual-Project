@@ -1,5 +1,4 @@
 import 'package:sqflite/sqflite.dart';
-import 'package:tracker/Classes/SymptomClass.dart';
 import 'package:tracker/Classes/UserClass.dart';
 import 'package:flutter/foundation.dart';
 

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:tracker/Classes/LoggedSymptom.dart';
 import 'package:tracker/Classes/SymptomClass.dart';
-
-import 'package:tracker/Controllers/LogAPainController.dart';
 import 'package:tracker/DataAccess.dart';
 import 'package:tracker/colors.dart';
 import 'package:provider/provider.dart';
@@ -17,13 +16,29 @@ class _LogPainState extends State<LogPain> {
   Symptom symptom;
   double _durationController;
   double _intensityController;
-  // TextEditingController _locationController;
-  // TextEditingController _interventionController;
-  // TextEditingController _commentController;
   String _locationController;
   String _interventionController;
   String _commentController;
   String sDate;
+
+
+  void submitPressed(){
+    if(MediaQuery.of(context).viewInsets.bottom != 0){
+      FocusScope.of(context).unfocus();
+    }
+    String name = Provider.of<UserInfo>(context, listen: false).getSymptom();
+    Provider.of<UserInfo>(context, listen: false).setSymptomName("");
+    LoggedSymptom ls = LoggedSymptom(
+        name: name,
+        date: DateTime.now().toString(),
+        intensity: _intensityController.round(),
+        duration: _durationController.round(),
+        location: _locationController,
+        intervention: _interventionController,
+        comments: _commentController);
+    DataAccess.instance.insertLogged(ls);
+    Navigator.pop(context);
+  }
 
   @override
   void initState() {
@@ -198,15 +213,9 @@ class _LogPainState extends State<LogPain> {
                           textColor: backBlue,
                           color: newBlue,
                           onPressed: () {
-                            String name = Provider.of<UserInfo>(context, listen: false).getSymptom();
-                            Provider.of<UserInfo>(context, listen: false).setSymptomName("");
-                            // String loc = "";
-                            // String inter = "";
-                            // String comm = "";
-                            // if(_locationController != null && _locationController.text != ""){loc = _locationController.text.toString();}
-                            // if(_interventionController != null && _interventionController.text != ""){inter = _interventionController.text.toString();}
-                            // if(_commentController != null && _commentController.text != ""){comm = _commentController.text.toString();}
-                            submitPressed(context,name,_intensityController.round(),_durationController.round(),_locationController,_interventionController,_commentController);
+
+
+                            submitPressed();
                           }),
                     ],
                   ),

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:tracker/Controllers/LogActivityController.dart';
+import 'package:tracker/Classes/ActivityClass.dart';
 import 'package:tracker/colors.dart';
+
+import '../DataAccess.dart';
 
 
 
@@ -17,6 +19,23 @@ class _LogActivityState extends State<LogActivity> {
   final dateNow = new DateTime.now();
 
   double _currentSliderValue = 0;
+
+  void submitPressed(BuildContext context,String title,int slider, String comment){
+    if(MediaQuery.of(context).viewInsets.bottom != 0){
+      FocusScope.of(context).unfocus();
+    }
+    print("ACTIVITY SUBMIT PRESSED");
+    Activity a = new Activity(
+        date: DateTime.now().toString(),
+        title: title,
+        duration: slider,
+        comments: comment
+    );
+
+    DataAccess.instance.insertExercise(a);
+    Navigator.pop(context);
+  }
+
 
   Widget build(BuildContext context) {
     var sDate = dateFormat(DateTime.now());

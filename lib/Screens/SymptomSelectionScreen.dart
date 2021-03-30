@@ -3,8 +3,6 @@ import 'package:tracker/Classes/TrackingClass.dart';
 import 'package:tracker/colors.dart';
 import 'package:tracker/DataAccess.dart';
 import 'package:provider/provider.dart';
-import 'package:tracker/Classes/SymptomClass.dart';
-import 'package:tracker/Controllers/SymptomSelectionController.dart';
 import 'package:tracker/Screens/LogAPainScreen.dart';
 
 import '../Context.dart';

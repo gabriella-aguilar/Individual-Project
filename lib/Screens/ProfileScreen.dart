@@ -1,20 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:tracker/Classes/LoggedSymptom.dart';
-import 'package:tracker/Context.dart';
 import 'package:tracker/colors.dart';
-import 'package:tracker/Classes/SymptomClass.dart';
 import 'package:tracker/Screens/HomePageScreen.dart';
 import 'package:tracker/Screens/StatsScreen.dart';
 import 'package:tracker/Screens/CalendarScreen.dart';
-import 'package:tracker/Screens/EditDetailsScreen.dart';
-import 'package:tracker/Classes/UserClass.dart';
 import 'package:tracker/Classes/TrackingClass.dart';
 import 'package:tracker/Screens/EditSymptomsScreen.dart';
 import 'package:tracker/DataAccess.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-//TO DO: Symptoms editing add to the list for some reason
+
 class ProfilePage extends StatefulWidget {
   @override
   _ProfilePageState createState() => _ProfilePageState();
@@ -45,17 +40,6 @@ class _ProfilePageState extends State<ProfilePage> {
       appBar: AppBar(
         leading: Builder(
           builder: (BuildContext context) {
-            // return IconButton(
-            //   icon: const Icon(
-            //     Icons.arrow_back,
-            //     color: backBlue,
-            //   ),
-            //   onPressed: () {
-            //     Provider.of<UserInfo>(context, listen: false)
-            //         .setloggedIn(false);
-            //     Navigator.pop(context);
-            //   },
-            // );
             return Container();
           },
         ),
@@ -218,12 +202,6 @@ class _ProfilePageState extends State<ProfilePage> {
     }
   }
 
-  Widget _getErrorText(){
-    if(_error){
-      return Text("Wrong Password",style: errorText,);
-    }
-    return Container();
-  }
 
   _export() async {
     List<LoggedSymptom> logged = await DataAccess.instance.getAllLoggedSymptoms();

@@ -4,7 +4,7 @@ import 'package:tracker/colors.dart';
 import 'package:tracker/Screens/CustomSymptomScreen.dart';
 import 'package:tracker/Screens/ProfileScreen.dart';
 import 'package:tracker/Classes/SymptomClass.dart';
-import 'package:tracker/Controllers/EditSymptomsController.dart';
+
 
 import '../DataAccess.dart';
 
@@ -18,6 +18,8 @@ class _EditSymptomsPageState extends State<EditSymptomsPage> {
   List<Symptom> symptoms =  new List<Symptom>();
   List<Symptom> tracking;
   List<Tracking> preTracking;
+
+
 
 
   @override

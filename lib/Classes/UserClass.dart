@@ -1,5 +1,4 @@
 import 'package:tracker/Classes/ActivityClass.dart';
-import 'package:tracker/Classes/DailySymptoms.dart';
 import 'package:tracker/Classes/LoggedSymptom.dart';
 import 'package:tracker/Classes/MealClass.dart';
 import 'package:tracker/Classes/SymptomClass.dart';

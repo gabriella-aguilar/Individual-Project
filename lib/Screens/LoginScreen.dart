@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 
 import 'package:tracker/Screens/SymptomPickerScreen.dart';
-import 'package:tracker/Controllers/LoginController.dart';
+
 import 'package:tracker/colors.dart';
-import 'package:tracker/Screens/HomePageScreen.dart';
+
+import '../DataAccess.dart';
+import 'HomePageScreen.dart';
 
 
 class LoginPage extends StatefulWidget {
@@ -13,6 +15,18 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
 
+  initialChecks(BuildContext context) async {
+    List list = await DataAccess.instance.getAllTracking();
+    if(list.isNotEmpty && list != null){
+      Navigator.pop(context);
+      Navigator.push(
+        context,
+        PageRouteBuilder(
+            pageBuilder: (_, __, ___) => HomePage()),
+      );
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -21,8 +35,7 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    final _usernameController = TextEditingController();
-    final _passwordController = TextEditingController();
+
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -69,55 +82,6 @@ class _LoginPageState extends State<LoginPage> {
                     );
                   },
                 ),
-                //SizedBox(height: 120.0),
-                // Column(
-                //   children: [
-                //     TextField(
-                //       controller: _usernameController,
-                //       decoration: InputDecoration(
-                //         labelText: 'Username',
-                //       ),
-                //       cursorColor: darkBlueAccent,
-                //     ),
-                //     //SizedBox(height: 12.0),
-                //     TextField(
-                //       controller: _passwordController,
-                //       decoration: InputDecoration(
-                //         labelText: 'Password',
-                //       ),
-                //       cursorColor: darkBlueAccent,
-                //       obscureText: true,
-                //     ),
-                //     ButtonBar(
-                //       children: <Widget>[
-                //         FlatButton(
-                //           child: Text(
-                //             'Forgot Password',
-                //             style: TextStyle(color: newBlue),
-                //           ),
-                //           onPressed: () {
-                //             forgotPasswordPressed(context);
-                //           },
-                //         ),
-                //         FlatButton(
-                //             onPressed: () {
-                //               signupPressed(context);
-                //             },
-                //             child:
-                //             Text('Sign Up', style: TextStyle(color: newBlue))),
-                //         RaisedButton(
-                //           elevation: 8.0,
-                //           child: Text('Next'),
-                //           textColor: Colors.white,
-                //           color: newBlue,
-                //           onPressed: () {
-                //             login(context,_usernameController.text, _passwordController.text);
-                //           },
-                //         ),
-                //       ],
-                //     ),
-                //   ],
-                // )
               ],
             )
           ],

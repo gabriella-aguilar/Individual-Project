@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:intl/date_symbol_data_local.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:tracker/Classes/ActivityClass.dart';
 import 'package:tracker/Classes/CommentsClass.dart';
 import 'package:tracker/Classes/LoggedSymptom.dart';
 import 'package:tracker/Classes/MealClass.dart';
-import 'package:tracker/Controllers/CalendarController.dart';
 import 'package:tracker/Screens/ViewLoggedSymptomScreen.dart';
 import 'package:provider/provider.dart';
 import 'package:tracker/Context.dart';
@@ -31,6 +29,12 @@ class CalendarPage extends StatefulWidget {
 class _CalendarPageState extends State<CalendarPage>
     with TickerProviderStateMixin {
   Map<DateTime, List> events;
+  Map<DateTime,List<LoggedSymptom>> days;
+  Map<DateTime,List<Meal>> meals;
+  Map<DateTime,List<Activity>> activities;
+  Map<DateTime,List<Comments>> comments;
+  List selectedEvents;
+
   //List _selectedEvents;
   AnimationController _animationController;
   CalendarController _calendarController;
@@ -77,7 +81,9 @@ class _CalendarPageState extends State<CalendarPage>
     print('CALLBACK: _onCalendarCreated');
   }
 
+  // ignore: long-method
   @override
+  // ignore: long-method
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -86,6 +92,7 @@ class _CalendarPageState extends State<CalendarPage>
 
             return Container();
           },
+
         ),
         backgroundColor: newBlue,
         title: Text(
