@@ -140,7 +140,8 @@ class _ProfilePageState extends State<ProfilePage> {
                 textColor: backBlue,
                 color: newBlue,
                 onPressed: () {
-                  _showPasswordPopUp();
+                  //_showPasswordPopUp();
+                  _export();
                 }),
           ]),
     );

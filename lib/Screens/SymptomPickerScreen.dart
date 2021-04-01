@@ -5,6 +5,7 @@ import 'package:tracker/colors.dart';
 import 'package:tracker/Screens/CustomSymptomScreen.dart';
 import 'package:tracker/Classes/SymptomClass.dart';
 import '../DataAccess.dart';
+import 'HomePageScreen.dart';
 
 class SymptomPickerPage extends StatefulWidget {
   @override
@@ -78,7 +79,7 @@ class _SymptomPickerPageState extends State<SymptomPickerPage> {
                 checkOnInserts();
                 Navigator.push(context,
                     PageRouteBuilder(
-                        pageBuilder: (_, __, ___) => CreatePasswordScreen()));
+                        pageBuilder: (_, __, ___) => HomePage()));
               },
             ),
           ]),
