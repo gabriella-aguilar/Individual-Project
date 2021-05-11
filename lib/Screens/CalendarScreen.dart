@@ -15,7 +15,6 @@ import 'StatsScreen.dart';
 import 'package:tracker/Screens/ViewMealScreen.dart';
 import 'package:tracker/Screens/ViewExerciseScreen.dart';
 
-//TODO: Subtitles for Logged Symptoms aren't efficient
 
 class CalendarPage extends StatefulWidget {
   CalendarPage({Key key}) : super(key: key);

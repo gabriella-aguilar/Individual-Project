@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tracker/Classes/TrackingClass.dart';
-import 'package:tracker/Screens/CreatePasswordScreen.dart';
+
 import 'package:tracker/colors.dart';
 import 'package:tracker/Screens/CustomSymptomScreen.dart';
 import 'package:tracker/Classes/SymptomClass.dart';

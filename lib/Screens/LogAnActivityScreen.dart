@@ -96,7 +96,7 @@ class _LogActivityState extends State<LogActivity> {
                     });
                   },
                 ),
-                //ToDo:slider still doesn't move
+
                 SizedBox(
                   height: 10,
                 ),
