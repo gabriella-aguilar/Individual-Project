@@ -67,6 +67,7 @@ class _ViewLoggedSymptomScreenState extends State<ViewLoggedSymptomScreen> {
               ),
               padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 15),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: details(),
               ),
             )

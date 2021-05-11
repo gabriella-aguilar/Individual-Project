@@ -7,6 +7,8 @@ const darkBlueAccent2 = Colors.black;
 const backBlue = Colors.white;
 const backBlue2 = const Color(4293516493);
 
+
+
 const basicText = TextStyle(
   fontSize: 18,
   color: darkBlueAccent
@@ -24,5 +26,21 @@ String dateFormat(DateTime d) {
       d.month.toString() +
       '-' +
       d.year.toString();
+  return sDate;
+}
+
+String fullDateFormat(DateTime d){
+  String sDate = d.day.toString() +
+      '-' +
+      d.month.toString() +
+      '-' +
+      d.year.toString() +
+      ' ' +
+      d.hour.toString() +
+      ':' ;
+  if(d.minute < 10){
+    sDate += '0';
+  }
+  sDate += d.minute.toString();
   return sDate;
 }

@@ -17,21 +17,16 @@ class DataAccess{
 
   DataAccess._privateConstructor();
   static final DataAccess instance = DataAccess._privateConstructor();
-
   static Database _database;
   Future<Database> get database async {
     if (_database != null) return _database;
-
     _database = await _initDatabase();
-   // _create(_database, _version);
     populateSymptoms();
-
     return _database;
   }
 
   _initDatabase () async{
     WidgetsFlutterBinding.ensureInitialized();
-
     Directory documentsDirectory = await getApplicationDocumentsDirectory();
     String path = join(documentsDirectory.path, "tracking.db");
     return await openDatabase(path,
@@ -40,38 +35,34 @@ class DataAccess{
   }
 
   Future _create(Database db, int version) async {
-
         db.execute("CREATE TABLE IF NOT EXISTS loggedSymptoms(date TEXT PRIMARY KEY, name TEXT, comments TEXT, intensity INTEGER, location TEXT, duration INTEGER, intervention TEXT)");
         db.execute("CREATE TABLE IF NOT EXISTS meals(date TEXT PRIMARY KEY, name TEXT, gluten INTEGER, alcohol INTEGER, sugar INTEGER, meat INTEGER, dairy INTEGER)");
         db.execute("CREATE TABLE IF NOT EXISTS exercise(date TEXT PRIMARY KEY, title TEXT, duration INTEGER, comments TEXT)");
         db.execute("CREATE TABLE IF NOT EXISTS symptoms(name PRIMARY KEY, intensity INTEGER, location INTEGER, duration INTEGER, intervention INTEGER)");
         db.execute("CREATE TABLE IF NOT EXISTS tracking(name PRIMARY KEY)");
         db.execute("CREATE TABLE IF NOT EXISTS comments(date TEXT PRIMARY KEY, comment TEXT)");
-        db.execute("CREATE TABLE IF NOT EXISTS password(pass TEXT PRIMARY KEY)");
-      // populateSymptoms();
-
   }
 
 
-  insertPassword(String p) async{
-    final Database db =await database;
-    db.rawInsert("INSERT INTO password (pass) VALUES (?);",[p]);
-  }
+  // insertPassword(String p) async{
+  //   final Database db =await database;
+  //   db.rawInsert("INSERT INTO password (pass) VALUES (?);",[p]);
+  // }
 
-  Future<String> getPassword() async{
-    final Database db =await database;
-    final List<Map<String, dynamic>> maps = await db.query('password');
-    // return List.generate(maps.length, (i) {
-    //   return Symptom(
-    //       name: maps[i]['name'],
-    //       intensity: maps[i]['intensity'],
-    //       duration: maps[i]['duration'],
-    //       location: maps[i]['location'],
-    //       intervention: maps[i]['intervention']
-    //   );
-    // });
-    return maps[0]['pass'];
-  }
+  // Future<String> getPassword() async{
+  //   final Database db =await database;
+  //   final List<Map<String, dynamic>> maps = await db.query('password');
+  //   // return List.generate(maps.length, (i) {
+  //   //   return Symptom(
+  //   //       name: maps[i]['name'],
+  //   //       intensity: maps[i]['intensity'],
+  //   //       duration: maps[i]['duration'],
+  //   //       location: maps[i]['location'],
+  //   //       intervention: maps[i]['intervention']
+  //   //   );
+  //   // });
+  //   return maps[0]['pass'];
+  // }
 
   Future<void> insertMeal(Meal meal) async {
     final Database db =await database;
@@ -263,7 +254,6 @@ class DataAccess{
 
   Future<List<Symptom>> getSpecificSymptom(String name) async {
     final Database db = await database;
-   // final List<Map<String, dynamic>> maps =  await db.rawQuery('SELECT * FROM Symptom WHERE name=?',[name]);
     final List<Map<String, dynamic>> maps = await db.query("symptoms",where: "name = ?",whereArgs: [name]);
     return List.generate(maps.length, (i) {
       return Symptom(
@@ -396,9 +386,7 @@ class DataAccess{
         map[date] = [loggedMeal];
       }
     }
-
     return map;
-
   }
 
   Future<Map<DateTime,List<Activity>>> getActivitiesForCalendar() async{

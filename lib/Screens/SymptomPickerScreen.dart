@@ -118,8 +118,6 @@ class _SymptomPickerPageState extends State<SymptomPickerPage> {
       });
       cust = null;
     }
-
-
   }
 
 

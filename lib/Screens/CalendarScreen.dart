@@ -15,8 +15,6 @@ import 'StatsScreen.dart';
 import 'package:tracker/Screens/ViewMealScreen.dart';
 import 'package:tracker/Screens/ViewExerciseScreen.dart';
 
-
-
 //TODO: Subtitles for Logged Symptoms aren't efficient
 
 class CalendarPage extends StatefulWidget {
@@ -29,10 +27,10 @@ class CalendarPage extends StatefulWidget {
 class _CalendarPageState extends State<CalendarPage>
     with TickerProviderStateMixin {
   Map<DateTime, List> events;
-  Map<DateTime,List<LoggedSymptom>> days;
-  Map<DateTime,List<Meal>> meals;
-  Map<DateTime,List<Activity>> activities;
-  Map<DateTime,List<Comments>> comments;
+  Map<DateTime, List<LoggedSymptom>> days;
+  Map<DateTime, List<Meal>> meals;
+  Map<DateTime, List<Activity>> activities;
+  Map<DateTime, List<Comments>> comments;
   List selectedEvents;
 
   //List _selectedEvents;
@@ -43,7 +41,6 @@ class _CalendarPageState extends State<CalendarPage>
   void initState() {
     print("inside initstate calendar");
     super.initState();
-
 
     setUpCalendar();
 
@@ -89,10 +86,8 @@ class _CalendarPageState extends State<CalendarPage>
       appBar: AppBar(
         leading: Builder(
           builder: (BuildContext context) {
-
             return Container();
           },
-
         ),
         backgroundColor: newBlue,
         title: Text(
@@ -138,7 +133,8 @@ class _CalendarPageState extends State<CalendarPage>
               },
             ),
             FlatButton(
-              child: Icon(Icons.account_circle, size: 35, color: darkBlueAccent),
+              child:
+                  Icon(Icons.account_circle, size: 35, color: darkBlueAccent),
               onPressed: () {
                 Navigator.pop(context);
                 Navigator.push(
@@ -150,24 +146,18 @@ class _CalendarPageState extends State<CalendarPage>
           ],
         ),
       ),
-
       body: Column(
         mainAxisSize: MainAxisSize.max,
         children: <Widget>[
-
           _buildTableCalendar(),
-
           const SizedBox(height: 8.0),
-
           const SizedBox(height: 8.0),
           Expanded(child: _buildEventList()),
-
         ],
       ),
     );
   }
 
-  // Simple TableCalendar configuration (using Styles)
   Widget _buildTableCalendar() {
     return TableCalendar(
       calendarController: _calendarController,
@@ -200,13 +190,11 @@ class _CalendarPageState extends State<CalendarPage>
 
   // More advanced TableCalendar configuration (using Builders & Styles)
 
-
-
-
-
   Widget _buildEventList() {
     if (selectedEvents == null || selectedEvents.isEmpty) {
-      return new Container(height: 0,);
+      return new Container(
+        height: 0,
+      );
     }
     return Container(
       decoration: BoxDecoration(
@@ -221,16 +209,13 @@ class _CalendarPageState extends State<CalendarPage>
     );
   }
 
-
-
   List<Widget> eventsList() {
     List<Widget> view = new List<Widget>();
-
     for (Object event in selectedEvents) {
       if (event is LoggedSymptom) {
         LoggedSymptom ls = event;
         String subtitle = ls.getComment();
-        if(ls.getSymptom() == "Joint Pain"){
+        if (ls.getSymptom() == "Joint Pain") {
           subtitle = ls.getLocation() + " " + subtitle;
         }
         Container c = Container(
@@ -245,12 +230,14 @@ class _CalendarPageState extends State<CalendarPage>
               style: basicText,
             ),
             subtitle: Text(subtitle),
-            trailing: Text(ls.getDate().substring(0,16)),
-            onTap: (){
-              Provider.of<UserInfo>(context, listen: false).setDate(ls.getDate());
+            trailing: Text(ls.getDate().substring(0, 16)),
+            onTap: () {
+              Provider.of<UserInfo>(context, listen: false)
+                  .setDate(ls.getDate());
               Navigator.push(
                 context,
-                PageRouteBuilder(pageBuilder: (_, __, ___) => ViewLoggedSymptomScreen()),
+                PageRouteBuilder(
+                    pageBuilder: (_, __, ___) => ViewLoggedSymptomScreen()),
               );
             },
           ),
@@ -270,9 +257,10 @@ class _CalendarPageState extends State<CalendarPage>
               style: basicText,
             ),
             //subtitle: Text(ls.g),
-            trailing: Text(ls.getDate().substring(0,16)),
-            onTap: (){
-              Provider.of<UserInfo>(context, listen: false).setDate(ls.getDate());
+            trailing: Text(ls.getDate().substring(0, 16)),
+            onTap: () {
+              Provider.of<UserInfo>(context, listen: false)
+                  .setDate(ls.getDate());
               Navigator.push(
                 context,
                 PageRouteBuilder(pageBuilder: (_, __, ___) => ViewMealScreen()),
@@ -295,18 +283,20 @@ class _CalendarPageState extends State<CalendarPage>
               style: basicText,
             ),
             subtitle: Text(ls.getComments()),
-            trailing: Text(ls.getDate().substring(0,16)),
-            onTap: (){
-              Provider.of<UserInfo>(context, listen: false).setDate(ls.getDate());
+            trailing: Text(ls.getDate().substring(0, 16)),
+            onTap: () {
+              Provider.of<UserInfo>(context, listen: false)
+                  .setDate(ls.getDate());
               Navigator.push(
                 context,
-                PageRouteBuilder(pageBuilder: (_, __, ___) => ViewExerciseScreen()),
+                PageRouteBuilder(
+                    pageBuilder: (_, __, ___) => ViewExerciseScreen()),
               );
             },
           ),
         );
         view.add(c);
-      } else if(event is Comments){
+      } else if (event is Comments) {
         Comments ls = event;
         Container c = Container(
           decoration: BoxDecoration(
@@ -319,9 +309,10 @@ class _CalendarPageState extends State<CalendarPage>
               ls.getComment(),
               style: basicText,
             ),
-            trailing: Text(ls.getDate().substring(0,16)),
-            onTap: (){
-              Provider.of<UserInfo>(context, listen: false).setDate(ls.getDate());
+            trailing: Text(ls.getDate().substring(0, 16)),
+            onTap: () {
+              Provider.of<UserInfo>(context, listen: false)
+                  .setDate(ls.getDate());
               // Navigator.push(
               //   context,
               //   PageRouteBuilder(pageBuilder: (_, __, ___) => ViewExerciseScreen()),
@@ -332,14 +323,12 @@ class _CalendarPageState extends State<CalendarPage>
         view.add(c);
       }
     }
-    // print("events size: " + events.length.toString());
-    // // print("events size" + events.length.toString());
-    // print("view size: " + view.length.toString());
+
     return view;
   }
 
   void setUpCalendar() async {
-   // print("INSIDE SET UP");
+    // print("INSIDE SET UP");
 
     events = new Map<DateTime, List>();
     final _selectedDay = DateTime.now();
@@ -377,11 +366,9 @@ class _CalendarPageState extends State<CalendarPage>
               events[k] = cur;
             }
           });
-
           if (!found) {
             events[key] = value;
           }
-          //meals[key].forEach((row) => print("Meal: " + row.getName()));
         });
       }
 
@@ -397,7 +384,7 @@ class _CalendarPageState extends State<CalendarPage>
                 key.month == k.month &&
                 key.year == k.year) {
               found = true;
-              List cur =  new List();
+              List cur = new List();
               cur.addAll(events[k]);
               cur.addAll(value);
               events[k] = cur;
@@ -419,7 +406,7 @@ class _CalendarPageState extends State<CalendarPage>
                 key.month == k.month &&
                 key.year == k.year) {
               found = true;
-              List cur =  new List();
+              List cur = new List();
               cur.addAll(events[k]);
               cur.addAll(value);
               events[k] = cur;
@@ -432,7 +419,6 @@ class _CalendarPageState extends State<CalendarPage>
           //activities[key].forEach((row) => print("Activity: " + row.getTitle()));
         });
       }
-
 
       if (events.isNotEmpty && events != null) {
         events.forEach((key, value) {

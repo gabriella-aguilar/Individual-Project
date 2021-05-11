@@ -61,6 +61,7 @@ class _ViewExerciseScreenState extends State<ViewExerciseScreen> {
             ),
             padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 15),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: details(),
             ),
           )

@@ -24,14 +24,13 @@ class _LogActivityState extends State<LogActivity> {
     if(MediaQuery.of(context).viewInsets.bottom != 0){
       FocusScope.of(context).unfocus();
     }
-    print("ACTIVITY SUBMIT PRESSED");
+    //print("ACTIVITY SUBMIT PRESSED");
     Activity a = new Activity(
         date: DateTime.now().toString(),
         title: title,
         duration: slider,
         comments: comment
     );
-
     DataAccess.instance.insertExercise(a);
     Navigator.pop(context);
   }
@@ -89,7 +88,7 @@ class _LogActivityState extends State<LogActivity> {
                   inactiveColor: newBlue,
                   min: 0,
                   max: 120,
-                  divisions: 5,
+                  divisions: 1,
                   label: _currentSliderValue.round().toString() + ' minutes',
                   onChanged: (double value) {
                     setState(() {

@@ -82,10 +82,7 @@ class _LogPainState extends State<LogPain> {
             child: ListView(
                 padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10),
                 children: [
-                  // Text("Duration "+ symptom.getDuration().toString()),
-                  // Text("Intensity "+ symptom.getIntensity().toString()),
-                  // Text("Intervention "+ symptom.getIntervention().toString()),
-                  // Text("Location "+ symptom.getLocation().toString()),
+
                   Container(
                     height: symptom.getDuration() == 1 ? 50 : 0,
                     child: Row(

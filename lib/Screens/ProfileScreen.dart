@@ -38,11 +38,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
     return Scaffold(
       appBar: AppBar(
-        leading: Builder(
-          builder: (BuildContext context) {
-            return Container();
-          },
-        ),
+        automaticallyImplyLeading: false,
         backgroundColor: newBlue,
         title: Text(
           'Profile Page',
@@ -188,19 +184,20 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   checkPass(String p) async{
-    String pass = await DataAccess.instance.getPassword();
-    if(p == pass){
-      Navigator.pop(context);
-      setState(() {
-        _error = false;
-      });
-      _export();
-    }
-    else{
-      setState(() {
-        _error = true;
-      });
-    }
+    // String pass = await DataAccess.instance.getPassword();
+    // if(p == pass){
+    //   Navigator.pop(context);
+    //   setState(() {
+    //     _error = false;
+    //   });
+    //   _export();
+    // }
+    // else{
+    //   setState(() {
+    //     _error = true;
+    //   });
+    // }
+    _export();
   }
 
 
@@ -212,7 +209,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
     logged.forEach((element) {
       DateTime date = DateTime.parse(element.getDate());
-      body += "\n" + dateFormat(date) + " " + element.getSymptom();
+      body += "\n" + fullDateFormat(date) + " " + element.getSymptom();
       if(element.getLocation() != ""){
         body += "\nLocation: " + element.getLocation();
       }
