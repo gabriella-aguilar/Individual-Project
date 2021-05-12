@@ -88,7 +88,7 @@ class _LogActivityState extends State<LogActivity> {
                   inactiveColor: newBlue,
                   min: 0,
                   max: 120,
-                  divisions: 1,
+                  divisions: 120,
                   label: _currentSliderValue.round().toString() + ' minutes',
                   onChanged: (double value) {
                     setState(() {
